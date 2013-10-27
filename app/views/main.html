@@ -1,26 +1,28 @@
-<div class="home jumbotron">
+<div class="view overview">
 	<div class="container">
-		<h1>Sweetp Dashboard</h1>
+		<div class="jumbotron">
+			<h1>Sweetp Dashboard</h1>
+		</div>
 	</div>
-</div>
 
-<div class="mainNav container">
-	<ul class="nav nav-pills">
-		<li class="active"><a href="#">Projects</a></li>
-		<li><a href="#">Settings</a></li>
-	</ul>
-</div>
+	<div class="mainNav container">
+		<ul class="nav nav-pills">
+			<li class="active"><a href="#">Projects</a></li>
+			<li><a href="#">Settings</a></li>
+		</ul>
+	</div>
 
-<div class="projects container">
-	<div ng-repeat="project in projects" class="project">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<a href="">{{project.name}}</a>
-				</h3>
-			</div>
-			<div class="panel-body">
-				Location: <pre class="inline">{{project.dir}}</pre>
+	<div class="projects container">
+		<div ng-repeat="project in projects" class="project">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a href="">{{project.name}}</a>
+					</h3>
+				</div>
+				<div class="panel-body">
+					Location: <pre class="inline">{{project.dir}}</pre>
+				</div>
 			</div>
 		</div>
 	</div>

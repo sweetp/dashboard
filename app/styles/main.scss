@@ -3,12 +3,34 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import "bootstrap-sass/lib/bootstrap";
 
-.home.jumbotron {
-	margin-top:30px;
+// colors
+$dark-gray:$gray-dark !default;
+$white:#fff;
+
+// stuff
+$margin-between:30px;
+
+@mixin light-on-dark() {
+	background-color:$dark-gray;
+	color:$white;
 }
 
-.mainNav {
-	margin-bottom:30px;
+.view.overview {
+	.jumbotron {
+		margin-top:$margin-between;
+	}
+
+	.mainNav {
+		margin-bottom:$margin-between;
+	}
+}
+
+.view.project {
+	.header {
+		@include light-on-dark();
+		padding:3px 0px;
+		margin-bottom:10px;
+	}
 }
 
 pre.inline {
