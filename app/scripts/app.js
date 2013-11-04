@@ -3,7 +3,7 @@
 angular.module('dashboardApp', [])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/project/test', {
+      .when('/project/:name', {
         templateUrl: 'views/project.html',
         controller: 'ProjectMainCtrl'
       })

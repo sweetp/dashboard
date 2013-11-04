@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .controller('ProjectMainCtrl', function($scope) {
+    .controller('ProjectMainCtrl', function($scope, $route, $routeParams) {
         $scope.branchName = 'develop';
+
+		// TODO fetch by name
 		$scope.project = {
-            "name": "test",
+            "name": $routeParams.name,
             "git": {
                 "dir": ".git"
             },
