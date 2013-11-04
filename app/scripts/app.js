@@ -3,11 +3,15 @@
 angular.module('dashboardApp', [])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/project/test', {
+        templateUrl: 'views/project.html',
+        controller: 'ProjectMainCtrl'
+      })
+      .when('/overview', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/overview'
       });
   });

@@ -3,8 +3,41 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import "bootstrap-sass/lib/bootstrap";
 
-html, body {
-	margin: 20px;
+// colors
+$dark-gray:$gray-dark !default;
+$white:#fff;
+
+// stuff
+$margin-between:30px;
+
+@mixin light-on-dark() {
+	background-color:$dark-gray;
+	color:$white;
+}
+
+.view.overview {
+	.jumbotron {
+		margin-top:$margin-between;
+	}
+
+	.mainNav {
+		margin-bottom:$margin-between;
+	}
+}
+
+.view.project {
+	.header {
+		@include light-on-dark();
+		padding:3px 0px;
+		margin-bottom:10px;
+	}
+}
+
+pre.inline {
+	display:inline-block;
+	padding:0px 2px;
+	margin:0;
+	border-radius:2px;
 }
 
 body {
