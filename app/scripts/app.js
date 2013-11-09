@@ -8,8 +8,8 @@ angular.module('dashboardApp', [])
         controller: 'ProjectMainCtrl'
       })
       .when('/overview', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/overview.html',
+        controller: 'OverviewCtrl'
       })
       .otherwise({
         redirectTo: '/overview'

@@ -40,6 +40,11 @@ pre.inline {
 	border-radius:2px;
 }
 
+a {
+	// needed because we use click handlers for navigation instead of href
+	cursor:pointer
+}
+
 body {
 	background: #fafafa;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

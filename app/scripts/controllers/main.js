@@ -1,18 +1,13 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .controller('MainCtrl', function($scope) {
-		$scope.projects = [
-			{
-				"name": "taginator",
-				"git": {
-					"dir": ".git"
-				},
-				"dir": "\/home\/foo\/repos\/taginator"
-			},
-			{
-				"name": "password-manager-test",
-				"dir": "\/home\/foo\/repos\/sweetp-code\/services\/password-manager\/sweetptest"
-			}
-		];
+	.controller('MainCtrl', function($scope, $location) {
+	/**
+	 * Go to a location.
+	 *
+	 * @param {String} to go to
+	 */
+	$scope.go = function(to) {
+		$location.path(to);
+	};
 });
