@@ -18,6 +18,11 @@ $margin-between:30px;
 .view.overview {
 	.jumbotron {
 		margin-top:$margin-between;
+
+		h1 {
+			text-align:center;
+			margin:0;
+		}
 	}
 
 	.mainNav {
