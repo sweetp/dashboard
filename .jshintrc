@@ -8,7 +8,12 @@
         "define",
         "require",
         "angular",
-		"Show"
+		"Show",
+        "describe",
+        "beforeEach",
+        "it",
+        "expect",
+        "inject"
     ],
 
     "debug":false,
