@@ -16,6 +16,7 @@ Chrome app for sweetp.
     *   `grunt compass` or
     *   `grunt server` or
     *   `grunt watch`
+*   run tests → see 'karma' tasks of gruntfile
 
 # TODO
 
