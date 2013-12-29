@@ -11,6 +11,7 @@
         "chrome",
         "describe",
         "beforeEach",
+        "afterEach",
         "it",
         "expect",
         "inject",

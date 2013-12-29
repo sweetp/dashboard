@@ -1,20 +1,17 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .controller('OverviewCtrl', function($scope, AppSettings, $log) {
-	$scope.projects = [
-		{
-			"name": "taginator",
-			"git": {
-				"dir": ".git"
-			},
-			"dir": "\/home\/foo\/repos\/taginator"
-		},
-		{
-			"name": "password-manager-test",
-			"dir": "\/home\/foo\/repos\/sweetp-code\/services\/password-manager\/sweetptest"
+    .controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
+
+	// load projects to display
+	Sweetp.loadProjects(function (err, projects) {
+		if (err) {
+			throw new Error("Could't set loaded projects.");
 		}
-	];
+
+		$scope.projects = projects;
+	});
+
 	// Settings
 
     // load saved settings or default values

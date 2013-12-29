@@ -9,35 +9,40 @@ describe('Service: AppSettings', function () {
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function (AppSettings) {
         s = AppSettings;
+
+		// mock chrome storage API
+		(function () {
+			/* jshint -W020 */
+			chrome = {
+				runtime:{
+					lastError:null
+				},
+				storage:{
+					local:{
+						store:{},
+						get:function (key, cb) {
+							var data;
+
+							data = {};
+							if (this.store[key]) {
+								data[key] = this.store[key];
+							}
+							cb(data);
+						},
+						set:function (store, cb) {
+							this.store = store;
+							cb();
+						}
+					}
+				}
+			};
+		})();
+
 	}));
 
-    // mock chrome storage API
-    (function () {
-        /* jshint -W020 */
-        chrome = {
-            runtime:{
-                lastError:null
-            },
-            storage:{
-                local:{
-                    store:{},
-                    get:function (key, cb) {
-                        var data;
-
-                        data = {};
-                        if (this.store[key]) {
-                            data[key] = this.store[key];
-                        }
-                        cb(data);
-                    },
-                    set:function (store, cb) {
-                        this.store = store;
-                        cb();
-                    }
-                }
-            }
-        };
-    })();
+	afterEach(function() {
+		chrome = undefined;
+	});
 
 	it('loads saved or default settings.', function () {
 		var counter, loadedData;
