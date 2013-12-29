@@ -8,12 +8,14 @@
         "define",
         "require",
         "angular",
-		"Show",
+        "chrome",
         "describe",
         "beforeEach",
         "it",
         "expect",
-        "inject"
+        "inject",
+        "runs",
+        "waitsFor"
     ],
 
     "debug":false,
