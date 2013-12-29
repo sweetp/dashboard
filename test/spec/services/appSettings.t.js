@@ -15,11 +15,20 @@ describe('Service: AppSettings', function () {
     (function () {
         /* jshint -W020 */
         chrome = {
+            runtime:{
+                lastError:null
+            },
             storage:{
                 local:{
                     store:{},
                     get:function (key, cb) {
-                        cb(this.store[key]);
+                        var data;
+
+                        data = {};
+                        if (this.store[key]) {
+                            data[key] = this.store[key];
+                        }
+                        cb(data);
                     },
                     set:function (store, cb) {
                         this.store = store;
@@ -34,7 +43,7 @@ describe('Service: AppSettings', function () {
 		var counter, loadedData;
 
         // loads default
-        s.load(function (err, data) {
+        s.load(function (data) {
             loadedData = data;
         });
 
@@ -52,10 +61,7 @@ describe('Service: AppSettings', function () {
             counter = 0;
             s.save({
                 serverUrl:"foo"
-            }, function (err) {
-                if (err) {
-                    throw new Error(err);
-                }
+            }, function () {
                 counter++;
             });
 
@@ -66,7 +72,7 @@ describe('Service: AppSettings', function () {
             expect(counter).toBe(1);
 
             // loads changed settings
-            s.load(function (err, data) {
+            s.load(function (data) {
                 loadedData = data;
             });
         });
