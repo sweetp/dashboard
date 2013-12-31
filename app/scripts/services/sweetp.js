@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dashboardApp').factory('Sweetp', function($http, AppSettings) {
+angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
     var me;
 
 	me = {

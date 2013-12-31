@@ -8,7 +8,7 @@ describe('Service: Sweetp', function () {
 
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function ($injector, Sweetp, AppSettings) {
-        s = Sweetp;
+		s = Sweetp;
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
 				serverUrl:"http://localhost/"

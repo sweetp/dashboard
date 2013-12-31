@@ -1,16 +1,22 @@
 'use strict';
 
-angular.module('dashboardApp')
-    .controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
-
+angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
 	// load projects to display
-	Sweetp.loadProjects(function (err, projects) {
-		if (err) {
-			throw new Error("Could't set loaded projects.");
-		}
+	$scope.projectsLoaded = false;
 
-		$scope.projects = projects;
-	});
+	$scope.reloadProjects = function () {
+		$scope.projectsLoaded = false;
+		Sweetp.loadProjects(function (err, projects) {
+			if (err) {
+				$scope.projectsLoaded = true;
+				throw new Error(err);
+			}
+
+			$scope.projects = projects;
+			$scope.projectsLoaded = true;
+		});
+	};
+	$scope.reloadProjects();
 
 	// Settings
 
