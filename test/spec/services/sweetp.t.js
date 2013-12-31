@@ -9,16 +9,17 @@ describe('Service: Sweetp', function () {
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function (Sweetp, AppSettings) {
         s = Sweetp;
-		AppSettings.load = function (cb) {
+		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
 				serverUrl:"http://localhost/"
 			});
-		};
+		});
 	}));
 
-	afterEach(function() {
+	afterEach(inject(function(AppSettings) {
 		s.config = null;
-	});
+		AppSettings.load.restore();
+	}));
 
 	it('config is null when not loaded', function () {
 		expect(s.config).toEqual(null);

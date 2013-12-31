@@ -45,7 +45,7 @@ describe('Service: AppSettings', function () {
 	});
 
 	it('loads saved or default settings.', function () {
-		var counter, loadedData;
+		var loadedData, saveSpy;
 
         // loads default
         s.load(function (data) {
@@ -63,18 +63,16 @@ describe('Service: AppSettings', function () {
             loadedData = undefined;
 
             // save something
-            counter = 0;
+			saveSpy = sinon.spy();
             s.save({
                 serverUrl:"foo"
-            }, function () {
-                counter++;
-            });
+            }, saveSpy);
 
         });
 
         runs(function () {
             // callback of 'save' call was called
-            expect(counter).toBe(1);
+            expect(saveSpy).toHaveBeenCalledOnce();
 
             // loads changed settings
             s.load(function (data) {
