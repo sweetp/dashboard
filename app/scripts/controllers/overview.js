@@ -5,7 +5,11 @@ angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSe
 	$scope.projectsLoaded = false;
 
 	$scope.reloadProjects = function () {
+		// reset
 		$scope.projectsLoaded = false;
+		$scope.projects = null;
+
+		// load
 		Sweetp.loadProjects(function (err, projects) {
 			if (err) {
 				$scope.projectsLoaded = true;
@@ -37,5 +41,10 @@ angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSe
             $log.info('... succeeded!');
         });
 	};
+
+	// reload projects when settings change
+	AppSettings.on('save', function () {
+		$scope.reloadProjects();
+	});
 });
 

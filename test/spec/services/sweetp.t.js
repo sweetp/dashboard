@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Service: Sweetp', function () {
-	var s;
+	var s, appSettingsService;
 
 	// load the controller's module
 	beforeEach(module('dashboardApp'));
@@ -9,6 +9,7 @@ describe('Service: Sweetp', function () {
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function ($injector, Sweetp, AppSettings) {
 		s = Sweetp;
+		appSettingsService = AppSettings;
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
 				serverUrl:"http://localhost/"
@@ -60,6 +61,24 @@ describe('Service: Sweetp', function () {
 			expect(spy).toHaveBeenCalledOnce();
 		});
 
+	});
+
+	it("resets config when settings are saved.", function () {
+		expect(s.config).toEqual(null);
+
+		s.updateConfig({
+			serverUrl:'foo/'
+		});
+
+		expect(s.config).toEqual({
+			urls:{
+				projectConfigs:'foo/configs'
+			}
+		});
+
+		appSettingsService.fireEvent('save');
+
+		expect(s.config).toEqual(null);
 	});
 
 	describe('loads project configs from sweetp server,', function () {

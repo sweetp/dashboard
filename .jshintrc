@@ -5,6 +5,8 @@
     "browser":true,
     "node":true,
     "predef":[
+		"_",
+		"stampit",
         "define",
         "require",
         "angular",

@@ -35,6 +35,11 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
         }
     };
 
+	AppSettings.on('save', function () {
+		// reset config so it gets updated on next 'get' operation
+		me.config = null;
+	});
+
 	return me;
 });
 
