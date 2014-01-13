@@ -24,6 +24,12 @@ $margin-between:30px;
 			margin:0;
 		}
 	}
+
+	h2 {
+		.refresh {
+			float:right;
+		}
+	}
 }
 
 .view.project {
