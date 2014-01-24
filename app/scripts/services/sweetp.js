@@ -4,6 +4,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
     var me;
 
 	me = {
+		projectConfigs:null,
 		updateConfig:function (settings) {
 			me.config = {
 				urls:{
@@ -25,6 +26,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 			me.getConfig(function (err, config) {
 				$http.get(config.urls.projectConfigs)
 					.success(function (data) {
+						me.projectConfigs = data;
 						return cb(null, data, status);
 					})
 					.error(function (data, status) {
@@ -32,7 +34,25 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 					})
 				;
 			});
-        }
+        },
+
+		areProjectsLoaded:function () {
+			return me.projectConfigs !== null;
+		},
+
+		isProjectLoaded:function (name) {
+			return me.areProjectsLoaded() &&
+				me.projectConfigs[name] !== null &&
+				me.projectConfigs[name] !== undefined;
+		},
+
+		getProjectConfig:function (name) {
+			if (!me.isProjectLoaded(name)) {
+				return null;
+			}
+
+			return me.projectConfigs[name];
+		}
     };
 
 	AppSettings.on('save', function () {
