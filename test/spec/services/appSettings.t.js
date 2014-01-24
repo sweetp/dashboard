@@ -9,38 +9,43 @@ describe('Service: AppSettings', function () {
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function (AppSettings) {
         s = AppSettings;
+
+		// mock chrome storage API
+		(function () {
+			/* jshint -W020 */
+			chrome = {
+				runtime:{
+					lastError:null
+				},
+				storage:{
+					local:{
+						store:{},
+						get:function (key, cb) {
+							var data;
+
+							data = {};
+							if (this.store[key]) {
+								data[key] = this.store[key];
+							}
+							cb(data);
+						},
+						set:function (store, cb) {
+							this.store = store;
+							cb();
+						}
+					}
+				}
+			};
+		})();
+
 	}));
 
-    // mock chrome storage API
-    (function () {
-        /* jshint -W020 */
-        chrome = {
-            runtime:{
-                lastError:null
-            },
-            storage:{
-                local:{
-                    store:{},
-                    get:function (key, cb) {
-                        var data;
-
-                        data = {};
-                        if (this.store[key]) {
-                            data[key] = this.store[key];
-                        }
-                        cb(data);
-                    },
-                    set:function (store, cb) {
-                        this.store = store;
-                        cb();
-                    }
-                }
-            }
-        };
-    })();
+	afterEach(function() {
+		chrome = undefined;
+	});
 
 	it('loads saved or default settings.', function () {
-		var counter, loadedData;
+		var loadedData, saveSpy;
 
         // loads default
         s.load(function (data) {
@@ -58,18 +63,16 @@ describe('Service: AppSettings', function () {
             loadedData = undefined;
 
             // save something
-            counter = 0;
+			saveSpy = sinon.spy();
             s.save({
                 serverUrl:"foo"
-            }, function () {
-                counter++;
-            });
+            }, saveSpy);
 
         });
 
         runs(function () {
             // callback of 'save' call was called
-            expect(counter).toBe(1);
+            expect(saveSpy).toHaveBeenCalledOnce();
 
             // loads changed settings
             s.load(function (data) {

@@ -6,19 +6,31 @@
 	</div>
 
 	<div class="projects container">
-		<h2>Projects</h2>
-		<div ng-repeat="project in projects" class="project">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						<a ng-click="go('project/' + project.name)">{{project.name}}</a>
-					</h3>
-				</div>
-				<div class="panel-body">
-					Location: <pre class="inline">{{project.dir}}</pre>
+		<h2>
+			<span>Projects</span>
+			<button type="button" class="refresh btn btn-sm btn-default" ng-disabled="!projectsLoaded" ng-click="reloadProjects()">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
+		</h2>
+
+		<div ng-cloak ng-show="projectsLoaded">
+			<div ng-repeat="project in projects" class="project">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<a ng-click="go('project/' + project.name)">{{project.name}}</a>
+						</h3>
+					</div>
+					<div class="panel-body">
+						Location: <pre class="inline">{{project.dir}}</pre>
+					</div>
 				</div>
 			</div>
+			<div ng-hide="projects" class="alert alert-danger">
+				Tried to load project configs from sweetp server, but an error occured.
+			</div>
 		</div>
+
 	</div>
 
 	<div class="container">
@@ -32,7 +44,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-default" data-ng-click="saveSettings()">Save</button>
+					<button class="btn btn-default" ng-click="saveSettings()">Save</button>
 				</div>
 			</div>
 		</form>

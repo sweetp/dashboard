@@ -1,20 +1,27 @@
 'use strict';
 
-angular.module('dashboardApp')
-    .controller('OverviewCtrl', function($scope, AppSettings, $log) {
-	$scope.projects = [
-		{
-			"name": "taginator",
-			"git": {
-				"dir": ".git"
-			},
-			"dir": "\/home\/foo\/repos\/taginator"
-		},
-		{
-			"name": "password-manager-test",
-			"dir": "\/home\/foo\/repos\/sweetp-code\/services\/password-manager\/sweetptest"
-		}
-	];
+angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
+	// load projects to display
+	$scope.projectsLoaded = false;
+
+	$scope.reloadProjects = function () {
+		// reset
+		$scope.projectsLoaded = false;
+		$scope.projects = null;
+
+		// load
+		Sweetp.loadProjects(function (err, projects) {
+			if (err) {
+				$scope.projectsLoaded = true;
+				throw new Error(err);
+			}
+
+			$scope.projects = projects;
+			$scope.projectsLoaded = true;
+		});
+	};
+	$scope.reloadProjects();
+
 	// Settings
 
     // load saved settings or default values
@@ -34,5 +41,10 @@ angular.module('dashboardApp')
             $log.info('... succeeded!');
         });
 	};
+
+	// reload projects when settings change
+	AppSettings.on('save', function () {
+		$scope.reloadProjects();
+	});
 });
 
