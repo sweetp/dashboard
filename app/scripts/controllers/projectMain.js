@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .controller('ProjectMainCtrl', function($scope, $route, $routeParams) {
-        $scope.branchName = 'develop';
+    .controller('ProjectMainCtrl', function($scope, $route, $routeParams, Sweetp) {
+		var projectName;
 
-		// TODO fetch by name
-		$scope.project = {
-            "name": $routeParams.name,
-            "git": {
-                "dir": ".git"
-            },
-            "dir": "\/home\/foo\/repos\/taginator"
-        };
+		projectName = $routeParams.name;
+
+		if (Sweetp.isProjectLoaded(projectName)) {
+			$scope.project = Sweetp.getProjectConfig(projectName);
+		} else {
+			Sweetp.loadProjects(function () {
+				$scope.project = Sweetp.getProjectConfig(projectName);
+			});
+		}
 });

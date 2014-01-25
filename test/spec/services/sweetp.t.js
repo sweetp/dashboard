@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Service: Sweetp', function () {
-	var s, appSettingsService;
+	var s, appSettingsService, $httpBackend, fakeConfigs;
 
 	// load the controller's module
 	beforeEach(module('dashboardApp'));
@@ -15,11 +15,24 @@ describe('Service: Sweetp', function () {
 				serverUrl:"http://localhost/"
 			});
 		});
+
+		// Set up the mock http service responses
+		$httpBackend = $injector.get('$httpBackend');
+		// setup fake backend to respond with example configs
+		fakeConfigs = {
+			foo:{
+				name:'foo',
+				dir:'bar'
+			}
+		};
+		$httpBackend.when('GET', 'http://localhost/configs').respond(fakeConfigs, {});
 	}));
 
 	afterEach(inject(function(AppSettings) {
 		s.config = null;
 		AppSettings.load.restore();
+		$httpBackend.verifyNoOutstandingExpectation();
+		$httpBackend.verifyNoOutstandingRequest();
 	}));
 
 	it('config is null when not loaded', function () {
@@ -81,30 +94,31 @@ describe('Service: Sweetp', function () {
 		expect(s.config).toEqual(null);
 	});
 
-	describe('loads project configs from sweetp server,', function () {
-		var $httpBackend, fakeConfigs;
+	it("loads project configs from sweetp server, when config isn't set and after config was build from settings.", function () {
+		var loadedConfigs;
 
-		beforeEach(inject(function ($injector) {
-			// Set up the mock http service responses
-			$httpBackend = $injector.get('$httpBackend');
+		$httpBackend.expectGET('http://localhost/configs');
 
-			// setup fake backend to respond with example configs
-			fakeConfigs = {
-				foo:{
-					name:'foo',
-					dir:'bar'
-				}
-			};
-			$httpBackend.when('GET', 'http://localhost/configs').respond(fakeConfigs, {});
-		}));
+		// call method under test
+		s.loadProjects(function(err, configs) {
+			expect(err).toEqual(null);
+			loadedConfigs = configs;
+		});
 
-		afterEach(inject(function() {
-			$httpBackend.verifyNoOutstandingExpectation();
-			$httpBackend.verifyNoOutstandingRequest();
-		}));
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
 
-		it("when config isn't set and after config was loaded build from settings.", function () {
-			var loadedConfigs;
+		// wait for configs loaded
+		waitsFor(function () {
+			return loadedConfigs !== undefined;
+		});
+
+		runs(function() {
+			expect(loadedConfigs).toEqual(fakeConfigs);
+			loadedConfigs = undefined;
+
+			// try the same again when config was already loaded
+			expect(s.config).not.toEqual(null);
 
 			$httpBackend.expectGET('http://localhost/configs');
 
@@ -117,42 +131,95 @@ describe('Service: Sweetp', function () {
 			// mark XHR call as fullfilled
 			$httpBackend.flush();
 
-			// wait for configs loaded
-			waitsFor(function () {
-				return loadedConfigs !== undefined;
-			});
-
-			runs(function() {
-				expect(loadedConfigs).toEqual(fakeConfigs);
-				loadedConfigs = undefined;
-
-				// try the same again when config was already loaded
-				expect(s.config).not.toEqual(null);
-
-				$httpBackend.expectGET('http://localhost/configs');
-
-				// call method under test
-				s.loadProjects(function(err, configs) {
-					expect(err).toEqual(null);
-					loadedConfigs = configs;
-				});
-
-				// mark XHR call as fullfilled
-				$httpBackend.flush();
-
-			});
-
-			// wait for configs loaded
-			waitsFor(function () {
-				return loadedConfigs !== undefined;
-			});
-
-			runs(function() {
-				expect(loadedConfigs).toEqual(fakeConfigs);
-			});
-
 		});
 
+		// wait for configs loaded
+		waitsFor(function () {
+			return loadedConfigs !== undefined;
+		});
+
+		runs(function() {
+			expect(loadedConfigs).toEqual(fakeConfigs);
+		});
+	});
+
+	it("has a method to check whether projects are loaded already.", function () {
+		var loadedConfigs;
+
+		expect(s.areProjectsLoaded()).toBe(false);
+
+		$httpBackend.expectGET('http://localhost/configs');
+
+		// call method under test
+		s.loadProjects(function(err, configs) {
+			expect(err).toEqual(null);
+			loadedConfigs = configs;
+		});
+
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
+
+		// wait for configs loaded
+		waitsFor(function () {
+			return loadedConfigs !== undefined;
+		});
+
+		runs(function() {
+			expect(s.areProjectsLoaded()).toBe(true);
+		});
+	});
+
+	it('has a method to check whether a project is loaded already.', function () {
+		var loadedConfigs;
+
+		expect(s.isProjectLoaded('foo')).toBe(false);
+
+		$httpBackend.expectGET('http://localhost/configs');
+
+		// call method under test
+		s.loadProjects(function(err, configs) {
+			expect(err).toEqual(null);
+			loadedConfigs = configs;
+		});
+
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
+
+		// wait for configs loaded
+		waitsFor(function () {
+			return loadedConfigs !== undefined;
+		});
+
+		runs(function() {
+			expect(s.isProjectLoaded('foo')).toBe(true);
+		});
+	});
+
+	it('can give project config for project name.', function () {
+		var loadedConfigs;
+
+		expect(s.getProjectConfig('foo')).toBe(null);
+
+		$httpBackend.expectGET('http://localhost/configs');
+
+		// call method under test
+		s.loadProjects(function(err, configs) {
+			expect(err).toEqual(null);
+			loadedConfigs = configs;
+		});
+
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
+
+		// wait for configs loaded
+		waitsFor(function () {
+			return loadedConfigs !== undefined;
+		});
+
+		runs(function() {
+			expect(s.getProjectConfig('foo')).not.toBe(null);
+			expect(s.getProjectConfig('foo').dir).toBe('bar');
+		});
 	});
 });
 
