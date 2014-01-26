@@ -58,7 +58,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 			return me.projectConfigs[name];
 		},
 
-		callService:function (callback, path, params) {
+		callService:function (projectName, path, params, callback) {
 			var url, httpConfig;
 
 			me.getConfig(function (err, config) {
@@ -66,7 +66,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 					return callback(err);
 				}
 
-				url = config.urls.services + path;
+				url = config.urls.services + projectName + '/' + path;
 				httpConfig = {
 					params:params
 				};

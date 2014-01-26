@@ -13,4 +13,16 @@ angular.module('dashboardApp')
 				$scope.project = Sweetp.getProjectConfig(projectName);
 			});
 		}
+
+		$scope.refresh = function () {
+			Sweetp.callService($scope.project.name, 'scm/branch/name', null, function (err, data)  {
+				if (err) {
+					// TODO handle error
+					throw new Error(err);
+				}
+
+				$scope.branchName = data.service;
+			});
+		};
+		$scope.refresh();
 });
