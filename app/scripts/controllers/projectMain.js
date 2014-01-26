@@ -23,6 +23,19 @@ angular.module('dashboardApp')
 
 				$scope.branchName = data.service;
 			});
+
+			Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data)  {
+				if (err) {
+					// TODO handle error
+					throw new Error(err);
+				}
+
+				$scope.log = _.take(data.service, 5).map(function(entry) {
+					entry.shortName = entry.name.substr(0, 5);
+					entry.shortMessage = entry.shortMessage.trim();
+					return entry;
+				});
+			});
 		};
 		$scope.refresh();
 });

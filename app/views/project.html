@@ -6,8 +6,19 @@
     </div>
 
 	<div class="container widgets">
+
 		<div class="widget">
 			Current Branch: {{branchName}}
 		</div>
+
+		<div class="widget">
+			Last 5 commits in branch:
+			<ul>
+				<li ng-repeat="entry in log">
+					<code>{{entry.shortName}}</code> {{entry.shortMessage}}
+				</li>
+			</ul>
+		</div>
+
 	</div>
 </div>
