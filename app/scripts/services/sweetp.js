@@ -8,7 +8,8 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 		updateConfig:function (settings) {
 			me.config = {
 				urls:{
-					projectConfigs:settings.serverUrl + 'configs'
+					projectConfigs:settings.serverUrl + 'configs',
+					services:settings.serverUrl + 'services/'
 				}
 			};
 		},
@@ -22,15 +23,18 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 				cb(null, me.config);
 			});
 		},
-        loadProjects:function (cb) {
+        loadProjects:function (callback) {
 			me.getConfig(function (err, config) {
+				if (err) {
+					return callback(err);
+				}
 				$http.get(config.urls.projectConfigs)
 					.success(function (data) {
 						me.projectConfigs = data;
-						return cb(null, data, status);
+						return callback(null, data, status);
 					})
 					.error(function (data, status) {
-						return cb("Tried to load project configs from sweetp server, but an error occured.", data, status);
+						return callback("Tried to load project configs from sweetp server, but an error occured.", data, status);
 					})
 				;
 			});
@@ -52,6 +56,30 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 			}
 
 			return me.projectConfigs[name];
+		},
+
+		callService:function (callback, path, params) {
+			var url, httpConfig;
+
+			me.getConfig(function (err, config) {
+				if (err) {
+					return callback(err);
+				}
+
+				url = config.urls.services + path;
+				httpConfig = {
+					params:params
+				};
+
+				$http.get(url, httpConfig)
+					.success(function (data) {
+						return callback(null, data, status);
+					})
+					.error(function (data, status) {
+						return callback("Tried to call service on sweetp server, but an error occured.", data, status);
+					})
+				;
+			});
 		}
     };
 

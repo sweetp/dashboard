@@ -18,6 +18,7 @@ describe('Service: Sweetp', function () {
 
 		// Set up the mock http service responses
 		$httpBackend = $injector.get('$httpBackend');
+
 		// setup fake backend to respond with example configs
 		fakeConfigs = {
 			foo:{
