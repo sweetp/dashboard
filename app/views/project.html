@@ -10,18 +10,18 @@
 
 	<div class="container widgets">
 
-		<div class="widget">
+		<spd-widget>
 			Current Branch: {{branchName}}
-		</div>
+		</spd-widget>
 
-		<div class="widget">
+		<spd-widget>
 			Last 5 commits in branch:
 			<ul>
 				<li ng-repeat="entry in log">
 					<code>{{entry.shortName}}</code> {{entry.shortMessage}}
 				</li>
 			</ul>
-		</div>
+		</spd-widget>
 
 	</div>
 </div>
