@@ -2,9 +2,12 @@
 
 angular.module('dashboardApp')
     .controller('ProjectMainCtrl', function($scope, $route, $routeParams, Sweetp) {
-		var projectName;
+		var projectName, finishWidget;
 
 		projectName = $routeParams.name;
+		$scope.widgetsLoaded = false;
+		$scope.counter = 0;
+		$scope.widgetCount = 2;
 
 		if (Sweetp.isProjectLoaded(projectName)) {
 			$scope.project = Sweetp.getProjectConfig(projectName);
@@ -14,7 +17,19 @@ angular.module('dashboardApp')
 			});
 		}
 
+		finishWidget = function () {
+			$scope.counter++;
+
+			if ($scope.counter >= $scope.widgetCount) {
+				$scope.widgetsLoaded = true;
+			}
+		};
+
 		$scope.refresh = function () {
+			$scope.widgetsLoaded = false;
+			$scope.counter = 0;
+
+			$scope.branchName = '';
 			Sweetp.callService($scope.project.name, 'scm/branch/name', null, function (err, data)  {
 				if (err) {
 					// TODO handle error
@@ -22,8 +37,10 @@ angular.module('dashboardApp')
 				}
 
 				$scope.branchName = data.service;
+				finishWidget();
 			});
 
+			$scope.log = [];
 			Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data)  {
 				if (err) {
 					// TODO handle error
@@ -35,6 +52,7 @@ angular.module('dashboardApp')
 					entry.shortMessage = entry.shortMessage.trim();
 					return entry;
 				});
+				finishWidget();
 			});
 		};
 		$scope.refresh();
