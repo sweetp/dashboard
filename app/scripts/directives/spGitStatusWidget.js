@@ -13,11 +13,12 @@ angular.module('dashboardApp')
 				$scope.branchName = '';
 				Sweetp.callService($scope.project.name, 'scm/branch/name', null, function (err, data)  {
 					if (err) {
-						// TODO handle error
+						// TODO show error flash message, not in widget. Errors during loading should be very rare so we need no markup for this
 						throw new Error(err);
 					}
 
 					$scope.branchName = data.service;
+					$scope.$emit('widgetLoaded');
 				});
 			};
 

@@ -12,7 +12,7 @@ angular.module('dashboardApp')
 				$scope.log = [];
 				Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data)  {
 					if (err) {
-						// TODO handle error
+						// TODO show error flash message, not in widget. Errors during loading should be very rare so we need no markup for this
 						throw new Error(err);
 					}
 
@@ -21,6 +21,7 @@ angular.module('dashboardApp')
 						entry.shortMessage = entry.shortMessage.trim();
 						return entry;
 					});
+					$scope.$emit('widgetLoaded');
 				});
 			};
 
