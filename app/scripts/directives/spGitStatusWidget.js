@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .directive('spdGitStatusWidget', function() {
+    .directive('spGitStatusWidget', function() {
     return {
         restrict: 'E',
 		scope: {
 			project: '='
 		},
-        template: '<spd-widget>Current Branch: {{branchName}}</spd-widget>',
+        template: '<sp-widget>Current Branch: {{branchName}}</sp-widget>',
 		controller: function ($scope, Sweetp) {
 			$scope.reload = function () {
 				$scope.branchName = '';

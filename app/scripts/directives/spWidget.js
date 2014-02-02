@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .directive('spdWidget', function() {
+    .directive('spWidget', function() {
     return {
+		scope:{},
         restrict: 'E',
 		transclude: true,
         template: '<div class="widget" ng-transclude></div>'

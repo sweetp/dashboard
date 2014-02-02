@@ -10,16 +10,8 @@
 
 	<div class="container widgets">
 
-		<spd-git-status-widget project="project" />
-
-		<spd-widget>
-			Last 5 commits in branch:
-			<ul>
-				<li ng-repeat="entry in log">
-					<code>{{entry.shortName}}</code> {{entry.shortMessage}}
-				</li>
-			</ul>
-		</spd-widget>
+		<sp-git-status-widget project="project"></sp-git-status-widget>
+		<sp-git-recent-commits-widget project="project"></sp-git-recent-commits-widget>
 
 	</div>
 </div>
