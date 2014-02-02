@@ -27,33 +27,27 @@ angular.module('dashboardApp')
 
 		$scope.refresh = function () {
 			$scope.widgetsLoaded = false;
-			$scope.counter = 0;
+			$scope.counter = 2;
 
-			$scope.branchName = '';
-			Sweetp.callService($scope.project.name, 'scm/branch/name', null, function (err, data)  {
-				if (err) {
-					// TODO handle error
-					throw new Error(err);
-				}
+			$scope.widgetsLoaded = true;
+			$scope.$broadcast('reloadWidget');
 
-				$scope.branchName = data.service;
-				finishWidget();
-			});
-
-			$scope.log = [];
-			Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data)  {
-				if (err) {
-					// TODO handle error
-					throw new Error(err);
-				}
-
-				$scope.log = _.take(data.service, 5).map(function(entry) {
-					entry.shortName = entry.name.substr(0, 5);
-					entry.shortMessage = entry.shortMessage.trim();
-					return entry;
-				});
-				finishWidget();
-			});
+/*
+ *            $scope.log = [];
+ *            Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data)  {
+ *                if (err) {
+ *                    // TODO handle error
+ *                    throw new Error(err);
+ *                }
+ *
+ *                $scope.log = _.take(data.service, 5).map(function(entry) {
+ *                    entry.shortName = entry.name.substr(0, 5);
+ *                    entry.shortMessage = entry.shortMessage.trim();
+ *                    return entry;
+ *                });
+ *                finishWidget();
+ *            });
+ */
 		};
 		$scope.refresh();
 });
