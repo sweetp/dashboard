@@ -61,6 +61,16 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 		callService:function (projectName, path, params, callback) {
 			var url, httpConfig;
 
+			if (!projectName) {
+				callback("Can't call service without project name!");
+				return;
+			}
+
+			if (!path) {
+				callback("Can't call service without path to service!");
+				return;
+			}
+
 			me.getConfig(function (err, config) {
 				if (err) {
 					return callback(err);
@@ -72,7 +82,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 				};
 
 				$http.get(url, httpConfig)
-					.success(function (data) {
+					.success(function (data, status) {
 						return callback(null, data, status);
 					})
 					.error(function (data, status) {
