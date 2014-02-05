@@ -10,16 +10,6 @@ angular.module('dashboardApp')
 		$scope.widgetCount = 2;
 
 		$scope.project = Sweetp.getProjectConfig(projectName);
-		// TODO reenable when we have this case
-		/*
-		 *if (Sweetp.isProjectLoaded(projectName)) {
-		 *    $scope.project = Sweetp.getProjectConfig(projectName);
-		 *} else {
-		 *    Sweetp.loadProjects(function () {
-		 *        $scope.project = Sweetp.getProjectConfig(projectName);
-		 *    });
-		 *}
-		 */
 
 		$scope.$on('widgetLoaded', function () {
 			$scope.counter++;

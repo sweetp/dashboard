@@ -50,7 +50,8 @@ describe('Service: Sweetp', function () {
 
 		expect(s.config).toEqual({
 			urls:{
-				projectConfigs:'foo/configs'
+				projectConfigs:'foo/configs',
+				services:'foo/services/'
 			}
 		});
 	});
@@ -69,7 +70,8 @@ describe('Service: Sweetp', function () {
 		runs(function() {
 			expect(s.config).toEqual({
 				urls:{
-					projectConfigs:'http://localhost/configs'
+					projectConfigs:'http://localhost/configs',
+					services:'http://localhost/services/'
 				}
 			});
 			expect(spy).toHaveBeenCalledOnce();
@@ -86,7 +88,8 @@ describe('Service: Sweetp', function () {
 
 		expect(s.config).toEqual({
 			urls:{
-				projectConfigs:'foo/configs'
+				projectConfigs:'foo/configs',
+				services:'foo/services/'
 			}
 		});
 

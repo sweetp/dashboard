@@ -46,34 +46,5 @@ describe('Controller: ProjectMain', function () {
 			sweetpService.getProjectConfig.restore();
 		});
 	});
-
-	it('loads projects when project config not loaded already.', function () {
-		var c;
-
-		runs(function () {
-			sinon.stub(sweetpService, 'isProjectLoaded').returns(false);
-			sinon.stub(sweetpService, 'loadProjects', function (cb) {
-				return cb();
-			});
-			sinon.stub(sweetpService, 'getProjectConfig').returns({
-				name:'foo'
-			});
-			c = createController();
-		});
-
-		waitsFor(function () {
-			return $scope.project;
-		});
-
-		runs(function () {
-			expect($scope.project.name).toBe('foo');
-			expect(sweetpService.loadProjects).toHaveBeenCalledOnce();
-
-			// reset
-			sweetpService.loadProjects.restore();
-			sweetpService.isProjectLoaded.restore();
-			sweetpService.getProjectConfig.restore();
-		});
-	});
 });
 
