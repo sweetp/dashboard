@@ -7,14 +7,18 @@ angular.module('dashboardApp')
 		scope: {
 			project: '='
 		},
-        template: '<sp-widget>Current Branch: {{branchName}}</sp-widget>',
-		controller: function ($scope, Sweetp) {
+        templateUrl: 'templates/spGitStatusWidget.html',
+		controller: function ($scope, $log, Sweetp) {
+			$scope.errors = null;
 			$scope.reload = function () {
 				$scope.branchName = '';
-				Sweetp.callService($scope.project.name, 'scm/branch/name', null, function (err, data)  {
+				Sweetp.callService($scope.project.name, 'scm/branch/name', null, function (err, data, status)  {
 					if (err) {
-						// TODO show error flash message, not in widget. Errors during loading should be very rare so we need no markup for this
-						throw new Error(err);
+						$scope.errors = [
+							err,
+							"Service message: " + data.service
+						];
+						$log.error(err, data, status);
 					}
 
 					$scope.branchName = data.service;

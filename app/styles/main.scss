@@ -7,7 +7,18 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 $dark-gray:$gray-dark !default;
 $white:#fff;
 
+// directives
+.sp-error-list {
+	.error-list-item {
+		color:$state-danger-text;
+	}
+}
+
 // stuff
+.error-text {
+	color:$state-danger-text;
+}
+
 $margin-between:30px;
 
 @mixin light-on-dark() {

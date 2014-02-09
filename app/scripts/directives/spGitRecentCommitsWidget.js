@@ -7,13 +7,17 @@ angular.module('dashboardApp')
 		scope: {
 			project: '='
 		},
-		controller: function ($scope, Sweetp) {
+		controller: function ($scope, $log, Sweetp) {
+			$scope.errors = null;
 			$scope.reload = function () {
 				$scope.log = [];
-				Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data)  {
+				Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data, status)  {
 					if (err) {
-						// TODO show error flash message, not in widget. Errors during loading should be very rare so we need no markup for this
-						throw new Error(err);
+						$scope.errors = [
+							err,
+							"Service message: " + data.service
+						];
+						$log.error(err, data, status);
 					}
 
 					$scope.log = _.take(data.service, 5).map(function(entry) {
@@ -28,15 +32,7 @@ angular.module('dashboardApp')
 			$scope.$on('reloadWidget', $scope.reload);
 			$scope.reload();
 		},
-        template:
-			'<sp-widget>' +
-			'	Last 5 commits in branch:' +
-			'	<ul>' +
-			'		<li ng-repeat="entry in log">' +
-			'			<code>{{entry.shortName}}</code> {{entry.shortMessage}}' +
-			'		</li>' +
-			'	</ul>' +
-			'</sp-widget>'
+        templateUrl: 'templates/spGitRecentCommitsWidget.html'
     };
 });
 
