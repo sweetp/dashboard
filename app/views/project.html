@@ -9,6 +9,7 @@
     </div>
 
 	<div class="container widgets">
+		<button class="btn btn-primary" ng-click="openCommitWindow()">Make Commit</button>
 
 		<sp-git-status-widget ng-if="project.git" project="project"></sp-git-status-widget>
 		<sp-git-recent-commits-widget ng-if="project.git" project="project"></sp-git-recent-commits-widget>

@@ -25,4 +25,15 @@ angular.module('dashboardApp')
 
 			$scope.$broadcast('reloadWidget');
 		};
+
+		$scope.openCommitWindow = function () {
+			chrome.app.window.create('windows/commit.html', {
+				bounds: {
+					left: 60,
+					top: 60,
+					width: 400,
+					height: 600
+				}
+			});
+		};
 });
