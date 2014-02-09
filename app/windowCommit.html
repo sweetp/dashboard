@@ -12,7 +12,11 @@
     <!-- endbuild -->
 </head>
 <body ng-controller="WindowCommitCtrl" ng-app="dashboardApp" ng-csp>
-	<div>Test: {{test}}</div>
+	<div class="container">
+		<sp-git-status-widget project="project"></sp-git-status-widget>
+		<sp-git-recent-commits-widget max-commit-count="5" project="project"></sp-git-recent-commits-widget>
+	</div>
+
     <script src="bower_components/lodash/dist/lodash.js"></script>
     <script src="bower_components/stampit/dist/stampit.js"></script>
     <script src="bower_components/angular/angular.js"></script>

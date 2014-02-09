@@ -12,7 +12,7 @@
 		<button class="btn btn-primary" ng-click="openCommitWindow()">Make Commit</button>
 
 		<sp-git-status-widget ng-if="project.git" project="project"></sp-git-status-widget>
-		<sp-git-recent-commits-widget ng-if="project.git" project="project"></sp-git-recent-commits-widget>
+		<sp-git-recent-commits-widget ng-if="project.git" max-commit-count="15" project="project"></sp-git-recent-commits-widget>
 
 		<p class="alert alert-warning" ng-if="!project.git">
 			Git is not configured for this project. At the moment there exist

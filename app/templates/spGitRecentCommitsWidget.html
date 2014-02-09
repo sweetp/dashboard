@@ -1,5 +1,5 @@
 <sp-widget>
-	Last 5 commits in branch:
+	Last {{maxCommitCount}} commits in branch:
 	<span ng-switch on="errors">
 		<ul ng-switch-when="null">
 			<li ng-repeat="entry in log">
