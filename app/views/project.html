@@ -10,8 +10,13 @@
 
 	<div class="container widgets">
 
-		<sp-git-status-widget project="project"></sp-git-status-widget>
-		<sp-git-recent-commits-widget project="project"></sp-git-recent-commits-widget>
+		<sp-git-status-widget ng-if="project.git" project="project"></sp-git-status-widget>
+		<sp-git-recent-commits-widget ng-if="project.git" project="project"></sp-git-recent-commits-widget>
 
+		<p class="alert alert-warning" ng-if="!project.git">
+			Git is not configured for this project. At the moment there exist
+			only widgets for Git so here is nothing yet to show.
+		</p>
 	</div>
+
 </div>
