@@ -1,15 +1,22 @@
 <div class="project view">
     <div class="header">
         <div class="container">
+			<button type="button" class="refresh btn btn-xs btn-default" ng-disabled="!widgetsLoaded" ng-click="reload()">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
             <a ng-click="go('#')">Sweetp Dashboard</a> - Project: {{project.name}}
         </div>
     </div>
 
-	<!--
-       -<div class="container widgets">
-       -    <div class="widget">
-       -        Current Branch: {{branchName}}
-       -    </div>
-       -</div>
-	   -->
+	<div class="container widgets">
+
+		<sp-git-status-widget ng-if="project.git" project="project"></sp-git-status-widget>
+		<sp-git-recent-commits-widget ng-if="project.git" project="project"></sp-git-recent-commits-widget>
+
+		<p class="alert alert-warning" ng-if="!project.git">
+			Git is not configured for this project. At the moment there exist
+			only widgets for Git so here is nothing yet to show.
+		</p>
+	</div>
+
 </div>

@@ -18,6 +18,7 @@ describe('Service: Sweetp', function () {
 
 		// Set up the mock http service responses
 		$httpBackend = $injector.get('$httpBackend');
+
 		// setup fake backend to respond with example configs
 		fakeConfigs = {
 			foo:{
@@ -49,7 +50,8 @@ describe('Service: Sweetp', function () {
 
 		expect(s.config).toEqual({
 			urls:{
-				projectConfigs:'foo/configs'
+				projectConfigs:'foo/configs',
+				services:'foo/services/'
 			}
 		});
 	});
@@ -68,7 +70,8 @@ describe('Service: Sweetp', function () {
 		runs(function() {
 			expect(s.config).toEqual({
 				urls:{
-					projectConfigs:'http://localhost/configs'
+					projectConfigs:'http://localhost/configs',
+					services:'http://localhost/services/'
 				}
 			});
 			expect(spy).toHaveBeenCalledOnce();
@@ -85,7 +88,8 @@ describe('Service: Sweetp', function () {
 
 		expect(s.config).toEqual({
 			urls:{
-				projectConfigs:'foo/configs'
+				projectConfigs:'foo/configs',
+				services:'foo/services/'
 			}
 		});
 
@@ -219,6 +223,112 @@ describe('Service: Sweetp', function () {
 		runs(function() {
 			expect(s.getProjectConfig('foo')).not.toBe(null);
 			expect(s.getProjectConfig('foo').dir).toBe('bar');
+		});
+	});
+
+	it("can call a service, but not without project name.", function () {
+		var error, data, status;
+
+		s.callService(null, null, null, function (err, d, s) {
+			error = err;
+			data = d;
+			status = s;
+		});
+
+		waitsFor(function () {
+			return error !== undefined;
+		});
+
+		runs(function () {
+			expect(error).toContain("project name");
+			expect(data).toBeUndefined();
+			expect(status).toBeUndefined();
+		});
+	});
+
+	it("can call a service, but not without path to service.", function () {
+		var error, data, status;
+
+		s.callService('projectName', null, null, function (err, d, s) {
+			error = err;
+			data = d;
+			status = s;
+		});
+
+		waitsFor(function () {
+			return error !== undefined;
+		});
+
+		runs(function () {
+			expect(error).toContain("path");
+			expect(data).toBeUndefined();
+			expect(status).toBeUndefined();
+		});
+	});
+
+	it("handles server errors during service call.", function () {
+		var data, status, fakeData;
+
+		fakeData = {
+			target:'/services/projectName/service/path',
+			query: null,
+			service: 'error message from service'
+		};
+
+		$httpBackend.expectGET('http://localhost/services/projectName/service/path')
+			.respond(500, fakeData);
+
+		// call method under test
+		s.callService('projectName', 'service/path', null, function(err, d, s) {
+			data = d;
+			status = s;
+			expect(err).contains("error occured");
+		});
+
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
+
+		// wait for configs loaded
+		waitsFor(function () {
+			return data !== undefined;
+		});
+
+		runs(function() {
+			expect(data).toEqual(fakeData);
+			expect(status).toEqual(500);
+		});
+	});
+
+	it("can call a service.", function () {
+		var data, status, fakeData;
+
+		fakeData = {
+			target:'/services/projectName/service/path',
+			query: null,
+			service: 'output'
+		};
+
+		$httpBackend.expectGET('http://localhost/services/projectName/service/path')
+			.respond(200, fakeData);
+
+		// call method under test
+		s.callService('projectName', 'service/path', null, function(err, d, s) {
+			expect(err).toEqual(null);
+			data = d;
+			status = s;
+		});
+
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
+
+		// wait for configs loaded
+		waitsFor(function () {
+			return data !== undefined;
+		});
+
+		runs(function() {
+			expect(data).toEqual(fakeData);
+			expect(status).toEqual(200);
 		});
 	});
 });
