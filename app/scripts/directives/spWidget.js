@@ -7,7 +7,7 @@ angular.module('dashboardApp')
         restrict: 'E',
 		transclude: true,
         template:
-			'<div class="widget">' +
+			'<div class="sp-widget">' +
 				'<ul>' +
 					'<li ng-repeat="error in errors">{{error}}</li>' +
 				'</ul>' +
