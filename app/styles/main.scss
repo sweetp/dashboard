@@ -21,6 +21,14 @@ $white:#fff;
 	}
 }
 
+.sp-commit-widget {
+	textarea.msg {
+		margin: 10px 0px;
+		// 3 lines
+		height: 75px;
+	}
+}
+
 // stuff
 .error-text {
 	color:$state-danger-text;

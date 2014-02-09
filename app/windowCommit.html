@@ -14,6 +14,7 @@
 <body ng-controller="WindowCommitCtrl" ng-app="dashboardApp" ng-csp>
 	<div class="container">
 		<sp-git-status-widget project="project"></sp-git-status-widget>
+		<sp-scm-commit-widget project="project"></sp-scm-commit-widget>
 		<sp-git-recent-commits-widget max-commit-count="5" project="project"></sp-git-recent-commits-widget>
 	</div>
 
@@ -50,7 +51,8 @@
     <script src="scripts/directives/spGitRecentCommitsWidget.js"></script>
     <script src="scripts/directives/spErrorList.js"></script>
     <!-- endbuild -->
-    <!-- build:js({.tmp,app}) scripts/windowCommitCtrls.js -->
+    <!-- build:js({.tmp,app}) scripts/windowCommit.js -->
+    <script src="scripts/directives/spScmCommitWidget.js"></script>
     <script src="scripts/controllers/windowCommitCtrl.js"></script>
     <!-- endbuild -->
 </body>
