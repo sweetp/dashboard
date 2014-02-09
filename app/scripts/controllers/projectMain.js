@@ -27,13 +27,17 @@ angular.module('dashboardApp')
 		};
 
 		$scope.openCommitWindow = function () {
-			chrome.app.window.create('windows/commit.html', {
+			chrome.app.window.create('windowCommit.html', {
+				id:'commit',
 				bounds: {
-					left: 60,
-					top: 60,
 					width: 400,
 					height: 600
 				}
+			}, function (appWindow) {
+				if (!appWindow.contentWindow.sweetpWindowCommunication) {
+					appWindow.contentWindow.sweetpWindowCommunication = {};
+				}
+				appWindow.contentWindow.sweetpWindowCommunication.project = $scope.project;
 			});
 		};
 });
