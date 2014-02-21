@@ -64,48 +64,34 @@ angular.module('dashboardApp')
 				});
 			};
 
-			this.commit = function () {
+			this.metaCommit = function (service, scope) {
 				var params;
 
 				// reset errors before new action
-				this.errors = null;
+				scope.errors = null;
 
 				params = {
-					message:this.commitMessage
+					message:scope.commitMessage
 				};
-				ctrl.addAllFilesSwitch(params, this.useAllFiles);
+				ctrl.addAllFilesSwitch(params, scope.useAllFiles);
 
-				Sweetp.callService(this.project.name, 'scm/commit', params, _.bind(function (err, data, status)  {
+				Sweetp.callService(this.project.name, service, params, _.bind(function (err, data, status)  {
 					if (err) {
-						ctrl.handleServerError(err, data, status, this);
+						ctrl.handleServerError(err, data, status, scope);
 						return;
 					}
 
-					this.commitMessage = '';
+					scope.commitMessage = '';
 					$log.info(data);
-				}, this));
+				}));
+			};
+
+			this.commit = function () {
+				ctrl.metaCommit('scm/commit', this);
 			};
 
 			this.commitWithTicket = function () {
-				var params;
-
-				// reset errors before new action
-				this.errors = null;
-
-				params = {
-					message:this.commitMessage
-				};
-				ctrl.addAllFilesSwitch(params, this.useAllFiles);
-
-				Sweetp.callService(this.project.name, 'scmenhancer/commit/with-ticket', params, _.bind(function (err, data, status)  {
-					if (err) {
-						ctrl.handleServerError(err, data, status, this);
-						return;
-					}
-
-					this.commitMessage = '';
-					$log.info(data);
-				}, this));
+				ctrl.metaCommit('scmenhancer/commit/with-ticket', this);
 			};
 
 			$scope.commit = this.commit;
