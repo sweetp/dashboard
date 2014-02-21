@@ -5,7 +5,8 @@ angular.module('dashboardApp')
     return {
         restrict: 'E',
 		scope: {
-			project: '='
+			project: '=',
+			onSuccess: '&'
 		},
 		controller: function ($scope, $log, Sweetp) {
 			var ctrl;
@@ -41,7 +42,8 @@ angular.module('dashboardApp')
 			};
 
 			this.fixupCommit = function () {
-				var params;
+				var params, scope;
+				scope = this;
 
 				// reset errors before new action
 				this.errors = null;
@@ -57,10 +59,8 @@ angular.module('dashboardApp')
 						return;
 					}
 
-					this.commitMessage = '';
-					$log.info(data);
-					// TODO make notification?!
-					// TODO close window
+					scope.commitMessage = '';
+					scope.onSuccess({data:data});
 				});
 			};
 

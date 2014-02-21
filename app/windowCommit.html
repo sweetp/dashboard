@@ -14,7 +14,7 @@
 <body ng-controller="WindowCommitCtrl" ng-app="dashboardApp" ng-csp>
 	<div class="container">
 		<sp-git-status-widget project="project"></sp-git-status-widget>
-		<sp-scm-commit-widget project="project"></sp-scm-commit-widget>
+		<sp-scm-commit-widget project="project" on-success="onSuccess(data)"></sp-scm-commit-widget>
 		<sp-git-recent-commits-widget max-commit-count="5" project="project"></sp-git-recent-commits-widget>
 	</div>
 
