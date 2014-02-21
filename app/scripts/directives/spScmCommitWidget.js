@@ -57,6 +57,7 @@ angular.module('dashboardApp')
 						return;
 					}
 
+					this.commitMessage = '';
 					$log.info(data);
 					// TODO make notification?!
 					// TODO close window
@@ -80,12 +81,36 @@ angular.module('dashboardApp')
 						return;
 					}
 
+					this.commitMessage = '';
+					$log.info(data);
+				}, this));
+			};
+
+			this.commitWithTicket = function () {
+				var params;
+
+				// reset errors before new action
+				this.errors = null;
+
+				params = {
+					message:this.commitMessage
+				};
+				ctrl.addAllFilesSwitch(params, this.useAllFiles);
+
+				Sweetp.callService(this.project.name, 'scmenhancer/commit/with-ticket', params, _.bind(function (err, data, status)  {
+					if (err) {
+						ctrl.handleServerError(err, data, status, this);
+						return;
+					}
+
+					this.commitMessage = '';
 					$log.info(data);
 				}, this));
 			};
 
 			$scope.commit = this.commit;
 			$scope.fixupCommit = this.fixupCommit;
+			$scope.commitWithTicket = this.commitWithTicket;
 		},
         templateUrl: 'templates/spScmCommitWidget.html'
     };
