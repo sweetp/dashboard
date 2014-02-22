@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .controller('WindowCommitCtrl', function($scope, $window) {
+    .controller('WindowCommitCtrl', function($scope, $window, $log) {
 		$scope.project = $window.sweetpWindowCommunication.project;
 		$scope.onSuccess = function (data) {
-			console.log('success: ', data);
+			$log.debug('success: ', data.service);
+
 			// TODO close window
 		};
 });

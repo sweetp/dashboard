@@ -9,6 +9,7 @@
     },
     "permissions": [
         "storage",
-		"*://localhost/*"
+		"*://localhost/*",
+		"notifications"
     ]
 }

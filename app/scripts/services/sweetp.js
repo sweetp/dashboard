@@ -1,38 +1,28 @@
 'use strict';
 
-angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
-    var me;
+angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings, AsyncConfig) {
+    var Sweetp, instance;
 
-	me = {
-		projectConfigs:null,
+	Sweetp = stampit({
 		updateConfig:function (settings) {
-			me.config = {
+			this.config = {
 				urls:{
 					projectConfigs:settings.serverUrl + 'configs',
 					services:settings.serverUrl + 'services/'
 				}
 			};
 		},
-		getConfig:function (cb) {
-			if (me.config) {
-				return cb(null, me.config);
-			}
 
-			AppSettings.load(function (settings) {
-				me.updateConfig(settings);
-				cb(null, me.config);
-			});
-		},
         loadProjects:function (callback) {
-			me.getConfig(function (err, config) {
+			this.withConfig(function (err, config) {
 				if (err) {
 					return callback(err);
 				}
 				$http.get(config.urls.projectConfigs)
-					.success(function (data) {
-						me.projectConfigs = data;
+					.success(_.bind(function (data) {
+						this.projectConfigs = data;
 						return callback(null, data, status);
-					})
+					}, this))
 					.error(function (data, status) {
 						return callback("Tried to load project configs from sweetp server, but an error occured.", data, status);
 					})
@@ -41,21 +31,21 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
         },
 
 		areProjectsLoaded:function () {
-			return me.projectConfigs !== null;
+			return this.projectConfigs !== null;
 		},
 
 		isProjectLoaded:function (name) {
-			return me.areProjectsLoaded() &&
-				me.projectConfigs[name] !== null &&
-				me.projectConfigs[name] !== undefined;
+			return this.areProjectsLoaded() &&
+				this.projectConfigs[name] !== null &&
+				this.projectConfigs[name] !== undefined;
 		},
 
 		getProjectConfig:function (name) {
-			if (!me.isProjectLoaded(name)) {
+			if (!this.isProjectLoaded(name)) {
 				return null;
 			}
 
-			return me.projectConfigs[name];
+			return this.projectConfigs[name];
 		},
 
 		callService:function (projectName, path, params, callback) {
@@ -71,7 +61,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 				return;
 			}
 
-			me.getConfig(function (err, config) {
+			this.getConfig(_.bind(function (err, config) {
 				if (err) {
 					return callback(err);
 				}
@@ -89,15 +79,16 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings) {
 						return callback("Tried to call service on sweetp server, but an error occured.", data, status);
 					})
 				;
-			});
+			}, this));
 		}
-    };
+    });
 
-	AppSettings.on('save', function () {
-		// reset config so it gets updated on next 'get' operation
-		me.config = null;
+	Sweetp.state({
+		projectConfigs:null
 	});
 
-	return me;
+	instance = stampit.compose(AsyncConfig, Sweetp).create();
+
+	return instance;
 });
 

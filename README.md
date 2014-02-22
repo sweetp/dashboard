@@ -18,14 +18,6 @@ Chrome app for sweetp.
     *   `grunt watch`
 *   run tests → see 'karma' tasks of gruntfile
 
-# TODO
+# Mentions
 
-* generall
-    * add CSS class for templates like 'home', 'settings', ...
-    * add settings page to set sweetp server port
-* overview
-    * put jumbotron and nav into own layout and set it for projects overview
-      and settings page
-    * get active nav item from hash
-    * list optional project properties dynamically
-    * get projects of service and read it from file system
+* [Knob Icons by iTweek](http://itweek.deviantart.com/art/Knob-Buttons-Toolbar-icons-73463960 )

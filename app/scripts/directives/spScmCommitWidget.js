@@ -8,13 +8,43 @@ angular.module('dashboardApp')
 			project: '=',
 			onSuccess: '&'
 		},
-		controller: function ($scope, $log, Sweetp) {
+		controller: function ($scope, $log, Sweetp, Notifications) {
 			var ctrl;
 
 			ctrl = this;
 			$scope.errors = null;
 			$scope.useAllFiles = 'true';
 			$scope.commitMessage = '';
+
+			this.createSuccessNotification = function (data) {
+				var message, icon, problems;
+
+				icon = Notifications.icons.success;
+				problems = [];
+
+				if (data.service.match(/nothing to commit/) ||
+					data.service.match(/nothing added to commit but/)) {
+					problems.push("Nothing to commit.");
+					icon = Notifications.icons.info;
+				}
+
+				if (data.service.match(/untracked files/)) {
+					problems.push("Untracked files.");
+					icon = Notifications.icons.warning;
+				}
+
+				if (problems.length) {
+					message = problems.join(' ');
+				} else {
+					message = "Sucessfull commitet your changes.";
+				}
+
+				Notifications.createBasicNotification({
+					title:'Commit',
+					message:message,
+					iconUrl:icon
+				});
+			};
 
 			this.handleServerError = function (err, data, status, scope) {
 				scope.errors = [
@@ -31,6 +61,7 @@ angular.module('dashboardApp')
 						return;
 					}
 
+					ctrl.createSuccessNotification(data);
 					callback(null, data);
 				});
 			};
@@ -82,7 +113,7 @@ angular.module('dashboardApp')
 					}
 
 					scope.commitMessage = '';
-					$log.info(data);
+					ctrl.createSuccessNotification(data);
 				}));
 			};
 

@@ -14,10 +14,12 @@ angular.module('dashboardApp').factory('AppSettings', function(Observable) {
                     throw new Error(chrome.runtime.lastError.message);
                 }
 
+				// set defaults
                 if (!data || !data[key]) {
                     data = {};
                     data[key] = {
-                        serverUrl:"http://localhost:7777/"
+                        serverUrl:"http://localhost:7777/",
+						standardNotificationDismissDelay:3000
                     };
                 }
 
