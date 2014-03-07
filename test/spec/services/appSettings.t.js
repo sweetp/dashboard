@@ -58,7 +58,8 @@ describe('Service: AppSettings', function () {
 
         runs(function () {
             expect(loadedData).toEqual({
-                serverUrl:"http://localhost:7777/"
+                serverUrl:"http://localhost:7777/",
+				standardNotificationDismissDelay:3000
             });
             loadedData = undefined;
 

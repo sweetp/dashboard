@@ -14,6 +14,21 @@ $white:#fff;
 	}
 }
 
+.sp-git-recent-commits-widget {
+	ul {
+		list-style-type:none;
+		padding-left:0;
+	}
+}
+
+.sp-commit-widget {
+	textarea.msg {
+		margin: 10px 0px;
+		// 3 lines
+		height: 75px;
+	}
+}
+
 // stuff
 .error-text {
 	color:$state-danger-text;

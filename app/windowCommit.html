@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Sweetp Dashboard</title>
+    <title>Sweetp Dashboard: Commit Window</title>
     <meta name="description" content="Sweetp Dashboard">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -11,9 +11,13 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-controller="MainCtrl" ng-app="dashboardApp" ng-csp>
-    <!-- Add your site or application content here -->
-    <div ng-view=""></div>
+<body ng-controller="WindowCommitCtrl" ng-app="dashboardApp" ng-csp>
+	<div class="container">
+		<sp-git-status-widget project="project"></sp-git-status-widget>
+		<sp-scm-commit-widget project="project" on-success="onSuccess(data)"></sp-scm-commit-widget>
+		<sp-git-recent-commits-widget max-commit-count="5" project="project"></sp-git-recent-commits-widget>
+	</div>
+
     <script src="bower_components/lodash/dist/lodash.js"></script>
     <script src="bower_components/stampit/dist/stampit.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -49,10 +53,10 @@
     <script src="scripts/directives/spGitRecentCommitsWidget.js"></script>
     <script src="scripts/directives/spErrorList.js"></script>
     <!-- endbuild -->
-    <!-- build:js({.tmp,app}) scripts/windowMainCtrls.js -->
-    <script src="scripts/controllers/main.js"></script>
-    <script src="scripts/controllers/overview.js"></script>
-    <script src="scripts/controllers/projectMain.js"></script>
+    <!-- build:js({.tmp,app}) scripts/windowCommit.js -->
+    <script src="scripts/directives/spScmCommitWidget.js"></script>
+    <script src="scripts/controllers/windowCommitCtrl.js"></script>
     <!-- endbuild -->
 </body>
 </html>
+

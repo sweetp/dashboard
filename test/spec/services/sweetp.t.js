@@ -56,48 +56,6 @@ describe('Service: Sweetp', function () {
 		});
 	});
 
-	it('loads config on "get" when config not loaded already.', function () {
-		var spy;
-		expect(s.config).toEqual(null);
-
-		spy = sinon.spy();
-		s.getConfig(spy);
-
-		waitsFor(function () {
-			return s.config !== null;
-		});
-
-		runs(function() {
-			expect(s.config).toEqual({
-				urls:{
-					projectConfigs:'http://localhost/configs',
-					services:'http://localhost/services/'
-				}
-			});
-			expect(spy).toHaveBeenCalledOnce();
-		});
-
-	});
-
-	it("resets config when settings are saved.", function () {
-		expect(s.config).toEqual(null);
-
-		s.updateConfig({
-			serverUrl:'foo/'
-		});
-
-		expect(s.config).toEqual({
-			urls:{
-				projectConfigs:'foo/configs',
-				services:'foo/services/'
-			}
-		});
-
-		appSettingsService.fireEvent('save');
-
-		expect(s.config).toEqual(null);
-	});
-
 	it("loads project configs from sweetp server, when config isn't set and after config was build from settings.", function () {
 		var loadedConfigs;
 
