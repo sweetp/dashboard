@@ -106,7 +106,7 @@ angular.module('dashboardApp')
 				};
 				ctrl.addAllFilesSwitch(params, scope.useAllFiles);
 
-				Sweetp.callService(this.project.name, service, params, _.bind(function (err, data, status)  {
+				Sweetp.callService(scope.project.name, service, params, function (err, data, status)  {
 					if (err) {
 						ctrl.handleServerError(err, data, status, scope);
 						return;
@@ -114,7 +114,8 @@ angular.module('dashboardApp')
 
 					scope.commitMessage = '';
 					ctrl.createSuccessNotification(data);
-				}));
+					scope.onSuccess({data:data});
+				});
 			};
 
 			this.commit = function () {

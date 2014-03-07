@@ -6,6 +6,7 @@ angular.module('dashboardApp')
 		$scope.onSuccess = function (data) {
 			$log.debug('success: ', data.service);
 
-			// TODO close window
+			// close window
+			chrome.app.window.current().close();
 		};
 });
