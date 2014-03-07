@@ -6,5 +6,12 @@ chrome.app.runtime.onLaunched.addListener(function() {
             width: 800,
             height: 600
         }
-    });
+    }, function (mainWindow) {
+		// close all windows when main window gets closed
+		mainWindow.onClosed.addListener(function () {
+			chrome.app.window.getAll().forEach(function(win) {
+				win.close();
+			});
+		});
+	});
 });
