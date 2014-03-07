@@ -1,4 +1,7 @@
+/* jshint -W079 */
 'use strict';
+
+var chrome;
 
 describe('Service: AppSettings', function () {
 	var s;
@@ -41,7 +44,11 @@ describe('Service: AppSettings', function () {
 	}));
 
 	afterEach(function() {
-		chrome = undefined;
+		// remove mocked api
+		(function () {
+			/* jshint -W020 */
+			chrome = undefined;
+		})();
 	});
 
 	it('loads saved or default settings.', function () {

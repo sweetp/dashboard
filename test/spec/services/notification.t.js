@@ -1,4 +1,7 @@
+/* jshint -W079 */
 'use strict';
+
+var chrome;
 
 describe('Service: Notifications', function () {
 	var s, appSettingsService;
