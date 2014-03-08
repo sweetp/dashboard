@@ -16,7 +16,7 @@ angular.module('dashboardApp')
 			$scope.useAllFiles = 'true';
 			$scope.commitMessage = '';
 
-			this.createSuccessNotification = function (data) {
+			this.createSuccessNotification = function (data, callback) {
 				var message, icon, problems;
 
 				icon = Notifications.icons.success;
@@ -43,7 +43,7 @@ angular.module('dashboardApp')
 					title:'Commit',
 					message:message,
 					iconUrl:icon
-				});
+				}, callback);
 			};
 
 			this.handleServerError = function (err, data, status, scope) {
@@ -61,8 +61,9 @@ angular.module('dashboardApp')
 						return;
 					}
 
-					ctrl.createSuccessNotification(data);
-					callback(null, data);
+					ctrl.createSuccessNotification(data, function () {
+						callback(null, data);
+					});
 				});
 			};
 
@@ -113,8 +114,9 @@ angular.module('dashboardApp')
 					}
 
 					scope.commitMessage = '';
-					ctrl.createSuccessNotification(data);
-					scope.onSuccess({data:data});
+					ctrl.createSuccessNotification(data, function () {
+						scope.onSuccess({data:data});
+					});
 				});
 			};
 

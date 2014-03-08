@@ -53,12 +53,20 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 				// create notification and show it
 				chrome.notifications.create(this.getNextId(), options, function (id) {
 					if (dismissDelay > 0) {
-						setTimeout(function () {
-							chrome.notifications.clear(id, function () {});
-						}, dismissDelay);
-					}
-
-					if (cb) {
+						// register dismiss handler
+						chrome.runtime.sendMessage({
+							name:'notification-dismiss',
+							delay:dismissDelay,
+							notificationId:id
+						}, function () {
+							// call callbacke when handler was registered
+							if (cb) {
+								cb(null, id);
+							}
+						});
+					} else if (cb) {
+						// just call callback when it was provided now, after
+						// notification was created
 						cb(null, id);
 					}
 				});
