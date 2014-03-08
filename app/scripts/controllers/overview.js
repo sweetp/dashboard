@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
+	var onSettingsSaved;
+
 	// load projects to display
 	$scope.projectsLoaded = false;
 
@@ -43,8 +45,13 @@ angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSe
 	};
 
 	// reload projects when settings change
-	AppSettings.on('save', function () {
+	onSettingsSaved = function () {
 		$scope.reloadProjects();
+	};
+
+	AppSettings.on('save', onSettingsSaved);
+	$scope.$on('$destroy', function () {
+		AppSettings.un('save', onSettingsSaved);
 	});
 });
 
