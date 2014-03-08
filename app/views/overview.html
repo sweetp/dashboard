@@ -35,24 +35,26 @@
 
 	<div class="container">
 		<h2>Settings</h2>
-		<form name="settingsForm" class="form-horizontal" role="form">
-			<div class="form-group">
+		<form name="settingsForm" class="form-horizontal" role="form" novalidate>
+			<div class="form-group" ng-class="{ 'has-error' : settingsForm.serverUrl.$invalid && !settingsForm.serverUrl.$pristine }">
 				<label class="col-sm-3 control-label">Sweetp Server URL</label>
 				<div class="col-sm-9">
-					<input ng-model="settings.serverUrl" class="form-control" type="url" placeholder="Enter url with trailing slash" required>
+					<input ng-model="settings.serverUrl" name="serverUrl" class="form-control" type="url" placeholder="Enter url with trailing slash" required>
+					<p ng-show="settingsForm.serverUrl.$invalid && !settingsForm.serverUrl.$pristine" class="help-block">Enter valid url.</p>
 				</div>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" ng-class="{ 'has-error' : settingsForm.standardNotificationDismissDelay.$invalid && !settingsForm.standardNotificationDismissDelay.$pristine }">
 				<label class="col-sm-3 control-label">Notification Dismiss Delay (in ms)</label>
 				<div class="col-sm-9">
-					<input ng-model="settings.standardNotificationDismissDelay" class="form-control" type="number" required>
+					<input ng-model="settings.standardNotificationDismissDelay" name="standardNotificationDismissDelay" class="form-control" type="number" required>
+					<p ng-show="settingsForm.standardNotificationDismissDelay.$invalid && !settingsForm.standardNotificationDismissDelay.$pristine" class="help-block">Enter valid number.</p>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
-					<button class="btn btn-default" ng-click="saveSettings()">Save</button>
+					<button class="btn btn-default" ng-disabled="settingsForm.$invalid" ng-click="saveSettings()">Save</button>
 				</div>
 			</div>
 		</form>
