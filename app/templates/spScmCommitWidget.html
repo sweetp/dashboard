@@ -1,4 +1,5 @@
 <sp-widget class="sp-commit-widget">
+	<textarea class="msg form-control" ng-model="commitMessage"></textarea>
 	<div class="radio">
 		<label>
 			<input type="radio" ng-model="useAllFiles" value="true">Use all tracked files
@@ -9,7 +10,6 @@
 			<input type="radio" ng-model="useAllFiles" value="false">Use staged files only
 		</label>
 	</div>
-	<textarea class="msg form-control" ng-model="commitMessage"></textarea>
 	<button class="btn" ng-class="{'btn-primary':commitMessage, 'btn-default':!commitMessage}" ng-click="commit()" ng-disabled="!commitMessage">Commit</button>
 	<button class="btn btn-default" ng-click="commitWithTicket()" ng-disabled="!commitMessage">Commit With Ticket</button>
 
