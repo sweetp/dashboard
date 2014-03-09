@@ -9,11 +9,19 @@ angular.module('dashboardApp')
 			maxCommitCount: '@'
 		},
 		controller: function ($scope, $log, Sweetp) {
+			var params, limit;
+
 			$scope.errors = null;
+			params = {};
+
+			if ($scope.maxCommitCount) {
+				limit = _.parseInt($scope.maxCommitCount);
+				params.limit = limit;
+			}
 
 			$scope.reload = function () {
 				$scope.log = [];
-				Sweetp.callService($scope.project.name, 'scm/log', null, function (err, data, status)  {
+				Sweetp.callService($scope.project.name, 'scm/log', params, function (err, data, status)  {
 					if (err) {
 						$scope.errors = [
 							err,
@@ -22,7 +30,7 @@ angular.module('dashboardApp')
 						$log.error(err, data, status);
 					}
 
-					$scope.log = _.take(data.service, _.parseInt($scope.maxCommitCount)).map(function(entry) {
+					$scope.log = _.map(data.service, function(entry) {
 						entry.shortName = entry.name.substr(0, 5);
 						entry.shortMessage = entry.shortMessage.trim();
 						return entry;
