@@ -13,7 +13,7 @@ angular.module('dashboardApp')
 			$scope.reload = function () {
 				$scope.stagingText = '';
 				Sweetp.callService($scope.project.name, 'scm/status', null, function (err, data, status)  {
-					var lines, lineCount;
+					var lines, lineCount, aheadOfLineIndex;
 
 					if (err) {
 						$scope.errors = [
@@ -24,6 +24,17 @@ angular.module('dashboardApp')
 					}
 
 					lines = data.service.split("\n");
+
+					// don't show this line, we have a beatuifull widget for this
+					aheadOfLineIndex = _.findIndex(lines, function (line) {
+						return line.match(/Your branch is ahead of/);
+					});
+
+					if (aheadOfLineIndex >= 0) {
+						lines.splice(aheadOfLineIndex, 2);
+					}
+
+					// save line count
 					lineCount = lines.length;
 
 					// remove first line, branch name info isn't necessary here
