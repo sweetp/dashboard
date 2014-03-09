@@ -13,6 +13,8 @@ angular.module('dashboardApp')
 			$scope.reload = function () {
 				$scope.stagingText = '';
 				Sweetp.callService($scope.project.name, 'scm/status', null, function (err, data, status)  {
+					var lines, lineCount;
+
 					if (err) {
 						$scope.errors = [
 							err,
@@ -21,8 +23,11 @@ angular.module('dashboardApp')
 						$log.error(err, data, status);
 					}
 
+					lines = data.service.split("\n");
+					lineCount = lines.length;
+
 					// remove first line, branch name info isn't necessary here
-					$scope.stagingText = data.service.split("\n").slice(1).join("\n");
+					$scope.stagingText = _(lines).take(lineCount - 1).rest().values().join('\n');
 					$scope.$emit('widgetLoaded');
 				});
 			};
