@@ -29,6 +29,16 @@ $white:#fff;
 	}
 }
 
+// app wide reusable classes
+.label-branch {
+	@include label-variant($label-primary-bg);
+
+	// force size where needed
+	&.size-normal {
+		font-size:12px;
+	}
+}
+
 // stuff
 .error-text {
 	color:$state-danger-text;
