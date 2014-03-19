@@ -9,7 +9,7 @@ angular.module('dashboardApp')
 			onSuccess: '&'
 		},
 		controller: function ($scope, $log, Sweetp, Notifications) {
-			var ctrl;
+			var ctrl, listener, myCombos;
 
 			ctrl = this;
 
@@ -136,9 +136,57 @@ angular.module('dashboardApp')
 			$scope.commit = this.commit;
 			$scope.fixupCommit = this.fixupCommit;
 			$scope.commitWithTicket = this.commitWithTicket;
+
+			listener = new window.keypress.Listener();
+			myCombos = [
+				{
+					"keys"          : "ctrl c",
+					"is_exclusive"  : true,
+					"on_keydown"    : ctrl.commit
+				},
+				{
+					"keys"          : "ctrl t",
+					"is_exclusive"  : true,
+					"on_keydown"    : ctrl.commitWithTicket
+				},
+				{
+					"keys"          : "ctrl f",
+					"is_exclusive"  : true,
+					"on_keydown"    : ctrl.fixupCommit
+				},
+				{
+					"keys"          : "ctrl u a",
+					"is_sequence"   : true,
+					"is_exclusive"  : true,
+					"on_keydown"    : function () {
+						$scope.commitParams.useAllFiles = 'true';
+					}
+				},
+				{
+					"keys"          : "ctrl u s",
+					"is_sequence"   : true,
+					"is_exclusive"  : true,
+					"on_keydown"    : function () {
+						$scope.commitParams.useAllFiles = 'false';
+					}
+				}
+			];
+
+			// apply scope changes after event fired
+			myCombos.forEach(function(combo) {
+				var method;
+				if (combo.on_keydown) {
+					method = combo.on_keydown;
+					combo.on_keydown = function () {
+						method();
+						$scope.$apply();
+					};
+				}
+			});
+
+			listener.register_many(myCombos);
 		},
         templateUrl: 'templates/spScmCommitWidget.html'
     };
 });
-
 
