@@ -10,7 +10,7 @@
 
 	<div class="container widgets">
 		<span ng-if="project.git">
-			<button class="btn btn-primary" ng-click="openCommitWindow()" w-mousetrap="{'c':openCommitWindow}" >Commit</button>
+			<button class="btn btn-primary" ng-click="openCommitWindow()" w-mousetrap="{{keys.commit.toString()}}" >Commit</button>
 
 			<sp-git-status-widget project="project"></sp-git-status-widget>
 			<sp-git-recent-commits-widget max-commit-count="15" project="project"></sp-git-recent-commits-widget>

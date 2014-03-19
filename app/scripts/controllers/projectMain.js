@@ -13,6 +13,12 @@ angular.module('dashboardApp')
 			loaded:false
 		};
 
+		$scope.keys = {
+			'commit': {
+				'c':'openCommitWindow'
+			}
+		};
+
 		$scope.project = Sweetp.getProjectConfig(projectName);
 
 		$scope.$on('widgetLoaded', function () {
