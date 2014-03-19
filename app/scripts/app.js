@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dashboardApp', ['ngRoute', 'mgo-mousetrap'])
+angular.module('dashboardApp', ['ngRoute'])
 	.config(function ($routeProvider) {
 		$routeProvider
 			.when('/project/:name', {
