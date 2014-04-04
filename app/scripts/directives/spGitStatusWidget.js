@@ -12,11 +12,16 @@ angular.module('dashboardApp')
 			var setBranchName, checkForRemoteBranch,
 				checkForCommitsAheadOfRemote, finish;
 
-			$scope.errors = null;
+			$scope.state = {
+				errors:null
+			};
+			$scope.state.branchName = null;
+			$scope.state.remoteBranchName = null;
+			$scope.state.commitsAhead = 0;
 
 			setBranchName = function (err, data, status)  {
 				if (err) {
-					$scope.errors = [
+					$scope.state.errors = [
 						err,
 						"Service message: " + data.service
 					];
@@ -42,7 +47,7 @@ angular.module('dashboardApp')
 						// check if branch doesn't exist
 						if (status === 500 && data.service.match(/no ref found/)) {
 							// no remote branch, set local branch name
-							$scope.branchName = branchName;
+							$scope.state.branchName = branchName;
 						} else {
 							// normal error
 							$scope.errors = [
@@ -71,7 +76,7 @@ angular.module('dashboardApp')
 				// get commits between remote and HEAD
 				Sweetp.callService($scope.project.name, 'scm/log', params, function (err, data, status) {
 					if (err) {
-						$scope.errors = [
+						$scope.state.errors = [
 							err,
 							"Service message: " + data.service
 						];
@@ -80,17 +85,17 @@ angular.module('dashboardApp')
 						return;
 					}
 
-					$scope.branchName = branchName;
-					$scope.remoteBranchName = remoteBranchName;
-					$scope.commitsAhead = data.service.length;
+					$scope.state.branchName = branchName;
+					$scope.state.remoteBranchName = remoteBranchName;
+					$scope.state.commitsAhead = data.service.length;
 					finish();
 				});
 			};
 
 			$scope.reload = function () {
-				$scope.branchName = null;
-				$scope.remoteBranchName = null;
-				$scope.commitsAhead = 0;
+				$scope.state.branchName = null;
+				$scope.state.remoteBranchName = null;
+				$scope.state.commitsAhead = 0;
 
 				Sweetp.callService($scope.project.name, 'scm/branch/name', null, setBranchName);
 			};

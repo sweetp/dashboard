@@ -5,16 +5,16 @@
 		</div>
 	</div>
 
-	<div class="projects container">
+	<div class="projects.list container">
 		<h2>
 			<span>Projects</span>
-			<button type="button" class="refresh btn btn-sm btn-default" ng-disabled="!projectsLoaded" ng-click="reloadProjects()">
+			<button type="button" class="refresh btn btn-sm btn-default" ng-disabled="!projects.loaded" ng-click="reloadProjects()">
 				<span class="glyphicon glyphicon-refresh"></span>
 			</button>
 		</h2>
 
-		<div ng-cloak ng-show="projectsLoaded">
-			<div ng-repeat="project in projects" class="project">
+		<div ng-cloak ng-show="projects.loaded">
+			<div ng-repeat="project in projects.list" class="project">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">
@@ -26,7 +26,7 @@
 					</div>
 				</div>
 			</div>
-			<div ng-hide="projects" class="alert alert-danger">
+			<div ng-hide="projects.list" class="alert alert-danger">
 				Tried to load project configs from sweetp server, but an error occured.
 			</div>
 		</div>

@@ -3,23 +3,27 @@
 angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
 	var onSettingsSaved;
 
-	// load projects to display
-	$scope.projectsLoaded = false;
+	// init scope properties
+	$scope.projects = {
+		list:null,
+		loaded:false
+	};
+	$scope.settings = null;
 
 	$scope.reloadProjects = function () {
 		// reset
-		$scope.projectsLoaded = false;
-		$scope.projects = null;
+		$scope.projects.loaded = false;
+		$scope.projects.list = null;
 
 		// load
 		Sweetp.loadProjects(function (err, projects) {
 			if (err) {
-				$scope.projectsLoaded = true;
+				$scope.projects.loaded = true;
 				throw new Error(err);
 			}
 
-			$scope.projects = projects;
-			$scope.projectsLoaded = true;
+			$scope.projects.list = projects;
+			$scope.projects.loaded = true;
 		});
 	};
 	$scope.reloadProjects();

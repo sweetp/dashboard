@@ -35,8 +35,8 @@ describe('Controller: Overview', function () {
 		runs(function () {
 			sinon.stub(sweetpService, 'loadProjects', function (cb) {
 				// scope variables not set yet, test initial values
-				expect($scope.projectsLoaded).toBe(false);
-				expect($scope.projects).toBe(null);
+				expect($scope.projects.loaded).toBe(false);
+				expect($scope.projects.list).toBe(null);
 
 				// call callback to set properties
 				cb(null, [{
@@ -48,11 +48,11 @@ describe('Controller: Overview', function () {
 		});
 
 		waitsFor(function () {
-			return $scope.projectsLoaded === true;
+			return $scope.projects.loaded === true;
 		});
 
 		runs(function () {
-			expect($scope.projects.length).toBe(1);
+			expect($scope.projects.list.length).toBe(1);
 
 			// reset
 			sweetpService.loadProjects.restore();
@@ -67,8 +67,8 @@ describe('Controller: Overview', function () {
 				var msg;
 
 				// scope variables not set yet, test initial values
-				expect($scope.projectsLoaded).toBe(false);
-				expect($scope.projects).toBe(null);
+				expect($scope.projects.loaded).toBe(false);
+				expect($scope.projects.list).toBe(null);
 
 				// call callback with error
 				msg = 'uh oh';
@@ -81,11 +81,11 @@ describe('Controller: Overview', function () {
 		});
 
 		waitsFor(function () {
-			return $scope.projectsLoaded === true;
+			return $scope.projects.loaded === true;
 		});
 
 		runs(function () {
-			expect($scope.projects).toBe(null);
+			expect($scope.projects.list).toBe(null);
 
 			// reset
 			sweetpService.loadProjects.restore();
@@ -107,12 +107,12 @@ describe('Controller: Overview', function () {
 		});
 
 		waitsFor(function () {
-			return $scope.projectsLoaded === true;
+			return $scope.projects.loaded === true;
 		});
 
 		runs(function () {
 			// initial projects loaded
-			expect($scope.projects[0].name).toBe("fooproject");
+			expect($scope.projects.list[0].name).toBe("fooproject");
 
 			// change project name
 			sweetpService.loadProjects.restore();
@@ -129,13 +129,13 @@ describe('Controller: Overview', function () {
 		});
 
 		waitsFor(function () {
-			return $scope.projects &&
-				$scope.projects.length > 1;
+			return $scope.projects.list &&
+				$scope.projects.list.length > 1;
 		});
 
 		runs(function () {
 			// new project loaded
-			expect($scope.projects[0].name).toBe("barproject");
+			expect($scope.projects.list[0].name).toBe("barproject");
 
 			sweetpService.loadProjects.restore();
 		});

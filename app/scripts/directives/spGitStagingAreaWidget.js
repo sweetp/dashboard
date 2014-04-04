@@ -9,14 +9,18 @@ angular.module('dashboardApp')
 		},
         templateUrl: 'templates/spGitStagingAreaWidget.html',
 		controller: function ($scope, $log, Sweetp) {
-			$scope.errors = null;
+			$scope.state = {
+				errors:null,
+				stagingText:null
+			};
+
 			$scope.reload = function () {
-				$scope.stagingText = '';
+				$scope.state.stagingText = '';
 				Sweetp.callService($scope.project.name, 'scm/status', null, function (err, data, status)  {
 					var lines, lineCount, aheadOfLineIndex;
 
 					if (err) {
-						$scope.errors = [
+						$scope.state.errors = [
 							err,
 							"Service message: " + data.service
 						];
@@ -38,7 +42,7 @@ angular.module('dashboardApp')
 					lineCount = lines.length;
 
 					// remove first line, branch name info isn't necessary here
-					$scope.stagingText = _(lines).take(lineCount - 1).rest().values().join('\n');
+					$scope.state.stagingText = _(lines).take(lineCount - 1).rest().values().join('\n');
 					$scope.$emit('widgetLoaded');
 				});
 			};

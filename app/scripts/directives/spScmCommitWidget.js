@@ -12,9 +12,15 @@ angular.module('dashboardApp')
 			var ctrl;
 
 			ctrl = this;
-			$scope.errors = null;
-			$scope.useAllFiles = 'true';
-			$scope.commitMessage = '';
+
+			$scope.state = {
+				errors:null
+			};
+
+			$scope.commitParams = {
+				useAllFiles:'true',
+				message:''
+			};
 
 			this.createSuccessNotification = function (data, callback) {
 				var message, icon, problems;
@@ -46,18 +52,18 @@ angular.module('dashboardApp')
 				}, callback);
 			};
 
-			this.handleServerError = function (err, data, status, scope) {
-				scope.errors = [
+			this.handleServerError = function (err, data, status) {
+				$scope.state.errors = [
 					err,
 					"Service message: " + data.service
 				];
 				$log.error(err, data, status);
 			};
 
-			this.commitAgain = function (project, params, scope, callback) {
+			this.commitAgain = function (project, params, callback) {
 				Sweetp.callService(project.name, 'scmenhancer/commit/again', params, function (err, data, status)  {
 					if (err) {
-						ctrl.handleServerError(err, data, status, scope);
+						ctrl.handleServerError(err, data, status);
 						return;
 					}
 
@@ -67,65 +73,64 @@ angular.module('dashboardApp')
 				});
 			};
 
-			this.addAllFilesSwitch = function (params, useAllFiles) {
-				if (useAllFiles === "true") {
+			this.addAllFilesSwitch = function (params) {
+				if ($scope.commitParams.useAllFiles === "true") {
 					params.switches = ["-a"];
 				}
 			};
 
 			this.fixupCommit = function () {
-				var params, scope;
-				scope = this;
+				var params;
 
 				// reset errors before new action
-				this.errors = null;
+				$scope.state.errors = null;
 
 				params = {
 					command:'fixup'
 				};
-				ctrl.addAllFilesSwitch(params, this.useAllFiles);
+				ctrl.addAllFilesSwitch(params);
 
-				ctrl.commitAgain(this.project, params, this, function (err, data) {
+				ctrl.commitAgain($scope.project, params, function (err, data) {
 					if (err) {
 						$log.error(err);
 						return;
 					}
 
-					scope.commitMessage = '';
-					scope.onSuccess({data:data});
+					$scope.commitParams.message = '';
+					$scope.onSuccess({data:data});
 				});
 			};
 
-			this.metaCommit = function (service, scope) {
+			this.metaCommit = function (service) {
 				var params;
 
 				// reset errors before new action
-				scope.errors = null;
+				$scope.state.errors = null;
 
 				params = {
-					message:scope.commitMessage
+					message:$scope.commitParams.message
 				};
-				ctrl.addAllFilesSwitch(params, scope.useAllFiles);
+				ctrl.addAllFilesSwitch(params);
 
-				Sweetp.callService(scope.project.name, service, params, function (err, data, status)  {
+				Sweetp.callService($scope.project.name, service, params, function (err, data, status)  {
 					if (err) {
-						ctrl.handleServerError(err, data, status, scope);
+						ctrl.handleServerError(err, data, status);
 						return;
 					}
 
-					scope.commitMessage = '';
+					$scope.commitParams.message = '';
 					ctrl.createSuccessNotification(data, function () {
-						scope.onSuccess({data:data});
+						$scope.onSuccess({data:data});
 					});
 				});
 			};
 
 			this.commit = function () {
-				ctrl.metaCommit('scm/commit', this);
+				ctrl.metaCommit('scm/commit');
 			};
 
 			this.commitWithTicket = function () {
-				ctrl.metaCommit('scmenhancer/commit/with-ticket', this);
+				ctrl.metaCommit('scmenhancer/commit/with-ticket');
 			};
 
 			$scope.commit = this.commit;

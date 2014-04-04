@@ -2,26 +2,30 @@
 
 angular.module('dashboardApp')
     .controller('ProjectMainCtrl', function($scope, $route, $routeParams, Sweetp) {
-		var projectName;
+		var projectName, widgetCount, counter;
 
 		projectName = $routeParams.name;
-		$scope.widgetsLoaded = false;
-		$scope.counter = 0;
-		$scope.widgetCount = 2;
+		widgetCount = 2;
+		counter = 0;
+
+		// init scope properties
+		$scope.widgets = {
+			loaded:false
+		};
 
 		$scope.project = Sweetp.getProjectConfig(projectName);
 
 		$scope.$on('widgetLoaded', function () {
-			$scope.counter++;
+			counter++;
 
-			if ($scope.counter >= $scope.widgetCount) {
-				$scope.widgetsLoaded = true;
+			if (counter >= widgetCount) {
+				$scope.widgets.loaded = true;
 			}
 		});
 
 		$scope.reload = function () {
-			$scope.widgetsLoaded = false;
-			$scope.counter = 0;
+			$scope.widgets.loaded = false;
+			counter = 0;
 
 			$scope.$broadcast('reloadWidget');
 		};

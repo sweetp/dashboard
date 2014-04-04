@@ -1,19 +1,19 @@
 <sp-widget class="sp-commit-widget">
-	<textarea class="msg form-control" ng-model="commitMessage"></textarea>
+	<textarea class="msg form-control" ng-model="commitParams.message"></textarea>
 	<div class="radio">
 		<label>
-			<input type="radio" ng-model="useAllFiles" value="true">Use all tracked files
+			<input type="radio" ng-model="commitParams.useAllFiles" value="true">Use all tracked files
 		</label>
 	</div>
 	<div class="radio">
 		<label>
-			<input type="radio" ng-model="useAllFiles" value="false">Use staged files only
+			<input type="radio" ng-model="commitParams.useAllFiles" value="false">Use staged files only
 		</label>
 	</div>
-	<button class="btn" ng-class="{'btn-primary':commitMessage, 'btn-default':!commitMessage}" ng-click="commit()" ng-disabled="!commitMessage">Commit</button>
-	<button class="btn btn-default" ng-click="commitWithTicket()" ng-disabled="!commitMessage">Commit With Ticket</button>
+	<button class="btn" ng-class="{'btn-primary':commitParams.message, 'btn-default':!commitParams.message}" ng-click="commit()" ng-disabled="!commitParams.message">Commit</button>
+	<button class="btn btn-default" ng-click="commitWithTicket()" ng-disabled="!commitParams.message">Commit With Ticket</button>
 
-	<button class="btn" ng-class="{'btn-primary':!commitMessage, 'btn-warning':commitMessage}" ng-click="fixupCommit()" title="A fixup commit has a generated message and doesn't use your message.">Fixup</button>
+	<button class="btn" ng-class="{'btn-primary':!commitParams.message, 'btn-warning':commitParams.message}" ng-click="fixupCommit()" title="A fixup commit has a generated message and doesn't use your message.">Fixup</button>
 
-	<sp-error-list errors="errors"></sp-error-list>
+	<sp-error-list errors="state.errors"></sp-error-list>
 </sp-widget>

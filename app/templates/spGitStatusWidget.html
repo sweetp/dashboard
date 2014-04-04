@@ -1,14 +1,14 @@
 <sp-widget class="sp-git-status-widget">
-	<span ng-switch on="errors">
+	<span ng-switch on="state.errors">
 		<span ng-switch-when="null">
-			On branch <span class="label label-branch size-normal">{{branchName}}</span>
-			<span ng-show="commitsAhead">
+			On branch <span class="label label-branch size-normal">{{state.branchName}}</span>
+			<span ng-show="state.commitsAhead">
 				ahead of remote by
-				<span class="badge">{{commitsAhead}}</span>
-				<ng-pluralize count="commitsAhead" when="{'0': '', 'one': 'commit', 'other': 'commits'}"></ng-pluralize>
+				<span class="badge">{{state.commitsAhead}}</span>
+				<ng-pluralize count="state.commitsAhead" when="{'0': '', 'one': 'commit', 'other': 'commits'}"></ng-pluralize>
 			</span>
 		</span>
 		<span ng-switch-default class="error-text">Unable to show, an error occured:</span>
 	</span>
-	<sp-error-list errors="errors"></sp-error-list>
+	<sp-error-list errors="state.errors"></sp-error-list>
 </sp-widget>

@@ -11,7 +11,11 @@ angular.module('dashboardApp')
 		controller: function ($scope, $log, Sweetp) {
 			var params, limit;
 
-			$scope.errors = null;
+			$scope.state = {
+				errors:null,
+				log:null
+			};
+
 			params = {};
 
 			if ($scope.maxCommitCount) {
@@ -20,17 +24,17 @@ angular.module('dashboardApp')
 			}
 
 			$scope.reload = function () {
-				$scope.log = [];
+				$scope.state.log = [];
 				Sweetp.callService($scope.project.name, 'scm/log', params, function (err, data, status)  {
 					if (err) {
-						$scope.errors = [
+						$scope.state.errors = [
 							err,
 							"Service message: " + data.service
 						];
 						$log.error(err, data, status);
 					}
 
-					$scope.log = _.map(data.service, function(entry) {
+					$scope.state.log = _.map(data.service, function(entry) {
 						entry.shortName = entry.name.substr(0, 5);
 						entry.shortMessage = entry.shortMessage.trim();
 						return entry;
