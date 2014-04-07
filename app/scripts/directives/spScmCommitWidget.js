@@ -8,7 +8,7 @@ angular.module('dashboardApp')
 			project: '=',
 			onSuccess: '&'
 		},
-		controller: function ($scope, $log, Sweetp, Notifications) {
+		controller: function ($scope, $log, Sweetp, Notifications, KeyPress) {
 			var ctrl, listener, myCombos;
 
 			ctrl = this;
@@ -137,7 +137,7 @@ angular.module('dashboardApp')
 			$scope.fixupCommit = this.fixupCommit;
 			$scope.commitWithTicket = this.commitWithTicket;
 
-			listener = new window.keypress.Listener();
+			listener = KeyPress.createListener();
 			myCombos = [
 				{
 					"keys"          : "ctrl c",
@@ -172,18 +172,7 @@ angular.module('dashboardApp')
 				}
 			];
 
-			// apply scope changes after event fired
-			myCombos.forEach(function(combo) {
-				var method;
-				if (combo.on_keydown) {
-					method = combo.on_keydown;
-					combo.on_keydown = function () {
-						method();
-						$scope.$apply();
-					};
-				}
-			});
-
+			KeyPress.applyScopeTo($scope, myCombos);
 			listener.register_many(myCombos);
 		},
         templateUrl: 'templates/spScmCommitWidget.html'
