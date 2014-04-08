@@ -1,7 +1,40 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .directive('spScmCommitWidget', function() {
+	/*
+	 *.config(function (KeyPressProvider) {
+	 *    KeyPressProvider.addCombos({
+	 *        commit:{
+	 *            "description":"Commit",
+	 *            "keys"          : "ctrl c",
+	 *            "is_exclusive"  : true
+	 *        },
+	 *        commitWithTicket:{
+	 *            "description":"Commit with ticket",
+	 *            "keys"          : "ctrl t",
+	 *            "is_exclusive"  : true
+	 *        },
+	 *        fixupCommit:{
+	 *            "description":"Commit fixup",
+	 *            "keys"          : "ctrl f",
+	 *            "is_exclusive"  : true
+	 *        },
+	 *        selectAllFiles:{
+	 *            "description":"Select 'all files' for commit",
+	 *            "keys"          : "ctrl u a",
+	 *            "is_sequence"   : true,
+	 *            "is_exclusive"  : true
+	 *        },
+	 *        selectStagedFiles:{
+	 *            "description":"Select 'only staged files' for commit",
+	 *            "keys"          : "ctrl u s",
+	 *            "is_sequence"   : true,
+	 *            "is_exclusive"  : true
+	 *        }
+	 *    });
+	 *})
+	 */
+	.directive('spScmCommitWidget', function() {
     return {
         restrict: 'E',
 		scope: {
@@ -138,39 +171,27 @@ angular.module('dashboardApp')
 			$scope.commitWithTicket = this.commitWithTicket;
 
 			listener = KeyPress.createListener();
-			myCombos = [
-				{
-					"keys"          : "ctrl c",
-					"is_exclusive"  : true,
+			myCombos = KeyPress.getConfiguredCombos({
+				commit:{
 					"on_keydown"    : ctrl.commit
 				},
-				{
-					"keys"          : "ctrl t",
-					"is_exclusive"  : true,
+				commitWithTicket:{
 					"on_keydown"    : ctrl.commitWithTicket
 				},
-				{
-					"keys"          : "ctrl f",
-					"is_exclusive"  : true,
+				fixupCommit:{
 					"on_keydown"    : ctrl.fixupCommit
 				},
-				{
-					"keys"          : "ctrl u a",
-					"is_sequence"   : true,
-					"is_exclusive"  : true,
+				selectAllFiles:{
 					"on_keydown"    : function () {
 						$scope.commitParams.useAllFiles = 'true';
 					}
 				},
-				{
-					"keys"          : "ctrl u s",
-					"is_sequence"   : true,
-					"is_exclusive"  : true,
+				selectStagedFiles:{
 					"on_keydown"    : function () {
 						$scope.commitParams.useAllFiles = 'false';
 					}
 				}
-			];
+			});
 
 			KeyPress.applyScopeTo($scope, myCombos);
 			listener.register_many(myCombos);
