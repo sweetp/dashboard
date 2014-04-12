@@ -1,14 +1,14 @@
 'use strict';
 
-angular.module('dashboardApp', ['ngRoute'])
+angular.module('dashboardApp', ['ngRoute', 'keyboardShortcuts'])
 	.config(function ($routeProvider) {
 		$routeProvider
 			.when('/project/:name', {
-				templateUrl: 'views/project.html',
+				templateUrl: 'scripts/dashboardApp/views/project/project.view.html',
 				controller: 'ProjectMainCtrl'
 			})
 			.when('/overview', {
-				templateUrl: 'views/overview.html',
+				templateUrl: 'scripts/dashboardApp/views/overview/overview.view.html',
 				controller: 'OverviewCtrl'
 			})
 			.otherwise({

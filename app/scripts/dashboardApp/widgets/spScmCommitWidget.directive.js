@@ -1,39 +1,37 @@
 'use strict';
 
 angular.module('dashboardApp')
-	/*
-	 *.config(function (KeyPressProvider) {
-	 *    KeyPressProvider.addCombos({
-	 *        commit:{
-	 *            "description":"Commit",
-	 *            "keys"          : "ctrl c",
-	 *            "is_exclusive"  : true
-	 *        },
-	 *        commitWithTicket:{
-	 *            "description":"Commit with ticket",
-	 *            "keys"          : "ctrl t",
-	 *            "is_exclusive"  : true
-	 *        },
-	 *        fixupCommit:{
-	 *            "description":"Commit fixup",
-	 *            "keys"          : "ctrl f",
-	 *            "is_exclusive"  : true
-	 *        },
-	 *        selectAllFiles:{
-	 *            "description":"Select 'all files' for commit",
-	 *            "keys"          : "ctrl u a",
-	 *            "is_sequence"   : true,
-	 *            "is_exclusive"  : true
-	 *        },
-	 *        selectStagedFiles:{
-	 *            "description":"Select 'only staged files' for commit",
-	 *            "keys"          : "ctrl u s",
-	 *            "is_sequence"   : true,
-	 *            "is_exclusive"  : true
-	 *        }
-	 *    });
-	 *})
-	 */
+	.config(function (KeyboardShortcutsProvider) {
+		KeyboardShortcutsProvider.addCombos({
+			commit:{
+				"description":"Commit",
+				"keys"          : "ctrl c",
+				"is_exclusive"  : true
+			},
+			commitWithTicket:{
+				"description":"Commit with ticket",
+				"keys"          : "ctrl t",
+				"is_exclusive"  : true
+			},
+			fixupCommit:{
+				"description":"Commit fixup",
+				"keys"          : "ctrl f",
+				"is_exclusive"  : true
+			},
+			selectAllFiles:{
+				"description":"Select 'all files' for commit",
+				"keys"          : "ctrl u a",
+				"is_sequence"   : true,
+				"is_exclusive"  : true
+			},
+			selectStagedFiles:{
+				"description":"Select 'only staged files' for commit",
+				"keys"          : "ctrl u s",
+				"is_sequence"   : true,
+				"is_exclusive"  : true
+			}
+		});
+	})
 	.directive('spScmCommitWidget', function() {
     return {
         restrict: 'E',
@@ -41,7 +39,7 @@ angular.module('dashboardApp')
 			project: '=',
 			onSuccess: '&'
 		},
-		controller: function ($scope, $log, Sweetp, Notifications, KeyPress) {
+		controller: function ($scope, $log, Sweetp, Notifications, KeyboardShortcuts) {
 			var ctrl, listener, myCombos;
 
 			ctrl = this;
@@ -170,8 +168,8 @@ angular.module('dashboardApp')
 			$scope.fixupCommit = this.fixupCommit;
 			$scope.commitWithTicket = this.commitWithTicket;
 
-			listener = KeyPress.createListener();
-			myCombos = KeyPress.getConfiguredCombos({
+			listener = KeyboardShortcuts.createListener();
+			myCombos = KeyboardShortcuts.getConfiguredCombos({
 				commit:{
 					"on_keydown"    : ctrl.commit
 				},
@@ -193,10 +191,10 @@ angular.module('dashboardApp')
 				}
 			});
 
-			KeyPress.applyScopeTo($scope, myCombos);
+			KeyboardShortcuts.applyScopeTo($scope, myCombos);
 			listener.register_many(myCombos);
 		},
-        templateUrl: 'templates/spScmCommitWidget.html'
+        templateUrl: 'scripts/dashboardApp/widgets/spScmCommitWidget.template.html'
     };
 });
 

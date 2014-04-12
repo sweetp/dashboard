@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dashboardApp').provider('KeyPress', function () {
+angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function () {
 	var providedCombosConfig;
 
 	providedCombosConfig = {};
@@ -14,16 +14,16 @@ angular.module('dashboardApp').provider('KeyPress', function () {
 	};
 
 	this.$get = function($window, $log) {
-		var KeyPress, instance, lib;
+		var KeyboardShortcuts, instance, lib;
 
 		lib = $window.keypress;
 
-		KeyPress = stampit().state({
+		KeyboardShortcuts = stampit().state({
 			lib:lib,
 			configuredCombos:providedCombosConfig
 		});
 
-		KeyPress.methods({
+		KeyboardShortcuts.methods({
 			createListener:function () {
 				return new lib.Listener();
 			},
@@ -68,7 +68,7 @@ angular.module('dashboardApp').provider('KeyPress', function () {
 		});
 
 		// build singleton
-		instance = KeyPress.create();
+		instance = KeyboardShortcuts.create();
 
 		return instance;
 	};

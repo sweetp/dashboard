@@ -18,9 +18,7 @@ module.exports = function(config) {
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/bower_components/sinonjs/sinon.js',
       'app/bower_components/jasmine-sinon/lib/jasmine-sinon.js',
-      'app/scripts/**/*.js',
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'app/scripts/**/*.js'
     ],
 
     // list of files / patterns to exclude

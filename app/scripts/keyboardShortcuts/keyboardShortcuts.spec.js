@@ -1,14 +1,14 @@
 'use strict';
 
-describe('Service: KeyPress', function () {
+describe('Service: KeyboardShortcuts', function () {
 	var s;
 
 	// load the controller's module
-	beforeEach(module('dashboardApp'));
+	beforeEach(module('keyboardShortcuts'));
 
 	// Initialize the controller and a mock scope
-	beforeEach(inject(function (KeyPress) {
-        s = KeyPress;
+	beforeEach(inject(function (KeyboardShortcuts) {
+        s = KeyboardShortcuts;
 	}));
 
 	it('can apply scope after event listener was called.', function () {

@@ -46,7 +46,7 @@ angular.module('dashboardApp')
 			$scope.$on('reloadWidget', $scope.reload);
 			$scope.reload();
 		},
-        templateUrl: 'templates/spGitRecentCommitsWidget.html'
+        templateUrl: 'scripts/dashboardApp/widgets/spGitRecentCommitsWidget.template.html'
     };
 });
 

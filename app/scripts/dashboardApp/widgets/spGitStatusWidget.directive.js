@@ -7,7 +7,7 @@ angular.module('dashboardApp')
 		scope: {
 			project: '='
 		},
-        templateUrl: 'templates/spGitStatusWidget.html',
+        templateUrl: 'scripts/dashboardApp/widgets/spGitStatusWidget.template.html',
 		controller: function ($scope, $log, Sweetp) {
 			var setBranchName, checkForRemoteBranch,
 				checkForCommitsAheadOfRemote, finish;
