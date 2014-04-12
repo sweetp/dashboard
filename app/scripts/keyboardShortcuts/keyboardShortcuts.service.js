@@ -14,7 +14,7 @@ angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function (
 	};
 
 	this.$get = function($window, $log) {
-		var KeyboardShortcuts, instance, lib;
+		var KeyboardShortcuts, lib;
 
 		lib = $window.keypress;
 
@@ -68,9 +68,7 @@ angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function (
 		});
 
 		// build singleton
-		instance = KeyboardShortcuts.create();
-
-		return instance;
+		return KeyboardShortcuts;
 	};
 });
 

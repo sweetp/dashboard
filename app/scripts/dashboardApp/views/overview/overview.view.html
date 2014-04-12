@@ -36,6 +36,16 @@
 	<div class="container">
 		<h2>Settings</h2>
 		<form name="settingsForm" class="form-horizontal" role="form" novalidate>
+			<h3>Keyboard Shortcuts</h3>
+			<div class="alert alert-info">
+				Restart to apply changes.
+			</div>
+			<sp-keyboard-shortcuts-settings settings="settings.keyboardShortcuts"></sp-keyboard-shortcuts-settings>
+
+			<h3>App</h3>
+			<div class="alert alert-info">
+				Changes only appy to new windows, except this one.
+			</div>
 			<div class="form-group" ng-class="{ 'has-error' : settingsForm.serverUrl.$invalid && !settingsForm.serverUrl.$pristine }">
 				<label class="col-sm-3 control-label">Sweetp Server URL</label>
 				<div class="col-sm-9">
@@ -54,7 +64,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
-					<button class="btn btn-default" ng-disabled="settingsForm.$invalid" ng-click="saveSettings()">Save</button>
+					<button class="btn btn-default" ng-disabled="settingsForm.$invalid" ng-click="saveSettings()">Save All Settings</button>
 				</div>
 			</div>
 		</form>

@@ -39,8 +39,8 @@ angular.module('dashboardApp')
 			project: '=',
 			onSuccess: '&'
 		},
-		controller: function ($scope, $log, Sweetp, Notifications, KeyboardShortcuts) {
-			var ctrl, listener, myCombos;
+		controller: function ($scope, $log, Sweetp, Notifications, KeyboardShortcutsFromSettings) {
+			var ctrl;
 
 			ctrl = this;
 
@@ -168,8 +168,7 @@ angular.module('dashboardApp')
 			$scope.fixupCommit = this.fixupCommit;
 			$scope.commitWithTicket = this.commitWithTicket;
 
-			listener = KeyboardShortcuts.createListener();
-			myCombos = KeyboardShortcuts.getConfiguredCombos({
+			KeyboardShortcutsFromSettings.getConfiguredCombosFromSettings({
 				commit:{
 					"on_keydown"    : ctrl.commit
 				},
@@ -189,10 +188,14 @@ angular.module('dashboardApp')
 						$scope.commitParams.useAllFiles = 'false';
 					}
 				}
-			});
+			}, function (combos) {
+				var listener;
 
-			KeyboardShortcuts.applyScopeTo($scope, myCombos);
-			listener.register_many(myCombos);
+				listener = KeyboardShortcutsFromSettings.createListener();
+
+				KeyboardShortcutsFromSettings.applyScopeTo($scope, combos);
+				listener.register_many(combos);
+			});
 		},
         templateUrl: 'scripts/dashboardApp/widgets/spScmCommitWidget.template.html'
     };
