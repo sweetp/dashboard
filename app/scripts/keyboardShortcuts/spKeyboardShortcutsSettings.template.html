@@ -1,24 +1,25 @@
-<div>
-    <div ng-repeat="(key, combo) in settings" class="form-group">
-        <label class="col-sm-3 control-label">{{combo.description}}</label>
-        <div class="col-sm-9">
-            <div class="row">
-                <div class="col-sm-9">
-                    <input ng-model="combo.keys" class="form-control">
-                </div>
-                <div class="col-sm-3">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="combo.is_exclusive">Is Exclusive</input>
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="combo.is_sequence">Is Sequence</input>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div ng-repeat="(sectionKey, section) in settings">
+	<h4>{{sections[sectionKey]}}</h4>
+	<div ng-repeat="(key, combo) in section"class="form-group">
+		<label class="col-sm-3 control-label">{{combo.description}}</label>
+		<div class="col-sm-9">
+			<div class="row">
+				<div class="col-sm-9">
+					<input ng-model="combo.keys" class="form-control">
+				</div>
+				<div class="col-sm-3">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="combo.is_exclusive">Is Exclusive</input>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="combo.is_sequence">Is Sequence</input>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

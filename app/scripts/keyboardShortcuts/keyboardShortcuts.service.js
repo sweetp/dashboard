@@ -1,16 +1,26 @@
 'use strict';
 
 angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function () {
-	var providedCombosConfig;
+	var providedCombosConfig, sectionDescriptions;
 
 	providedCombosConfig = {};
+	sectionDescriptions = {};
 
-	this.addCombos = function (map) {
+	this.addCombos = function (key, description, map) {
 		if (!map) {
 			return;
 		}
 
-		_.assign(providedCombosConfig, map);
+		if (!providedCombosConfig[key]) {
+			// create section
+			providedCombosConfig[key] = {};
+		}
+
+		// save description
+		sectionDescriptions[key] = description;
+
+		// assign combos
+		_.assign(providedCombosConfig[key], map);
 	};
 
 	this.$get = function($window, $log) {
@@ -20,24 +30,26 @@ angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function (
 
 		KeyboardShortcuts = stampit().state({
 			lib:lib,
-			configuredCombos:providedCombosConfig
+			configuredCombos:providedCombosConfig,
+			sectionDescriptions:sectionDescriptions
 		});
 
 		KeyboardShortcuts.methods({
 			createListener:function () {
 				return new lib.Listener();
 			},
-			getConfiguredCombos:function (listener) {
+			getConfiguredCombos:function (sectionKey, listener) {
 				return _(listener)
 					.map(function (configOverride, key) {
 						var config;
 
-						if (!this.configuredCombos[key]) {
+						if (!this.configuredCombos[sectionKey] ||
+							!this.configuredCombos[sectionKey][key]) {
 							$log.error('Keyboard combo found without configuration.', key, this.configuredCombos);
 							return null;
 						}
 
-						config = _.cloneDeep(this.configuredCombos[key]);
+						config = _.cloneDeep(this.configuredCombos[sectionKey][key]);
 						return _.assign(config, configOverride);
 					}, this)
 					.compact()

@@ -8,8 +8,12 @@ angular.module('keyboardShortcuts')
 			settings: '=',
 		},
 		link:function (scope) {
+			var keyboardShortcuts = KeyboardShortcuts.create();
+
+			scope.sections = keyboardShortcuts.sectionDescriptions;
+
 			function applyDefaultSettings () {
-				_.defaults(scope.settings, KeyboardShortcuts.configuredCombos);
+				_.defaults(scope.settings, keyboardShortcuts.configuredCombos);
 			}
 
 			scope.$watch('settings', applyDefaultSettings);

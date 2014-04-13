@@ -2,7 +2,7 @@
 
 angular.module('dashboardApp')
 	.config(function (KeyboardShortcutsProvider) {
-		KeyboardShortcutsProvider.addCombos({
+		KeyboardShortcutsProvider.addCombos('commitWidget', 'Commit Widget', {
 			commit:{
 				"description":"Commit",
 				"keys"          : "ctrl c",
@@ -168,7 +168,7 @@ angular.module('dashboardApp')
 			$scope.fixupCommit = this.fixupCommit;
 			$scope.commitWithTicket = this.commitWithTicket;
 
-			KeyboardShortcutsFromSettings.getConfiguredCombosFromSettings({
+			KeyboardShortcutsFromSettings.getConfiguredCombosFromSettings('commitWidget', {
 				commit:{
 					"on_keydown"    : ctrl.commit
 				},

@@ -15,8 +15,12 @@ angular.module('dashboardApp').factory('AppSettings', function(Observable) {
                 }
 
 				// set defaults
-                if (!data || !data[key]) {
+                if (!data) {
                     data = {};
+				}
+
+				if (!data[key]) {
+					data[key] = {};
 				}
 
 				_.defaults(data[key], {
