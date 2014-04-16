@@ -8,7 +8,7 @@ angular.module('dashboardApp').factory('KeyboardShortcutsFromSettings', function
 			// load settings
 			AppSettings.load(_.bind(function (settings) {
 				// override defaults with shortcuts configs from settings
-				_.assign(this.configuredCombos, settings.keyboardShortcuts);
+				_.merge(this.configuredCombos, settings.keyboardShortcuts);
 
 				// call callback with attached listeners
 				callback(this.getConfiguredCombos(sectionKey, listeners));
