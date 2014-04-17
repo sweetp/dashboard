@@ -4,22 +4,27 @@
 module.exports = function(config) {
   config.set({
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: 'app/',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
     // list of files / patterns to load in the browser
     files: [
-      'app/bower_components/lodash/dist/lodash.js',
-      'app/bower_components/stampit/dist/stampit.js',
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-route/angular-route.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/sinonjs/sinon.js',
-      'app/bower_components/jasmine-sinon/lib/jasmine-sinon.js',
-      'app/scripts/**/*.js'
+      'bower_components/lodash/dist/lodash.js',
+      'bower_components/stampit/dist/stampit.js',
+      'bower_components/angular/angular.js',
+      'bower_components/angular-route/angular-route.js',
+      'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/sinonjs/sinon.js',
+      'bower_components/jasmine-sinon/lib/jasmine-sinon.js',
+      'scripts/**/*.js',
+      'scripts/**/*.template.html'
     ],
+
+	preprocessors:{
+		'scripts/**/*.template.html':'ng-html2js'
+	},
 
     // list of files / patterns to exclude
     exclude: [],
