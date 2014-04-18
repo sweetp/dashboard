@@ -19,34 +19,37 @@
 		<sp-git-recent-commits-widget max-commit-count="5" project="project"></sp-git-recent-commits-widget>
 	</div>
 
-    <script src="bower_components/lodash/dist/lodash.js"></script>
-    <script src="bower_components/stampit/dist/stampit.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="./bower_components/lodash/dist/lodash.js"></script>
+    <script src="./bower_components/stampit/dist/stampit.js"></script>
+    <script src="./bower_components/jquery/jquery.js"></script>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- build:js scripts/plugins.js -->
     <!-- endbuild -->
     <!-- build:js scripts/modules.js -->
-    <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/bootstrap-sass/js/button.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="./bower_components/bootstrap-sass/js/button.js"></script>
+    <script src="./bower_components/angular-resource/angular-resource.js"></script>
+    <script src="./bower_components/angular-route/angular-route.js"></script>
+    <script src="./bower_components/Keypress/keypress.js"></script>
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/services/observable.js"></script>
-    <script src="scripts/services/appSettings.js"></script>
-    <script src="scripts/services/asyncConfig.js"></script>
-    <script src="scripts/services/notifications.js"></script>
-    <script src="scripts/services/sweetp.js"></script>
-    <script src="scripts/directives/spWidget.js"></script>
-    <script src="scripts/directives/spGitStatusWidget.js"></script>
-    <script src="scripts/directives/spGitRecentCommitsWidget.js"></script>
-    <script src="scripts/directives/spGitStagingAreaWidget.js"></script>
-    <script src="scripts/directives/spErrorList.js"></script>
+    <script src="./scripts/keyboardShortcuts/keyboardShortcuts.service.js"></script>
+    <script src="./scripts/dashboardApp/app.js"></script>
+    <script src="./scripts/dashboardApp/common/observable.service.js"></script>
+    <script src="./scripts/dashboardApp/common/appSettings.service.js"></script>
+    <script src="./scripts/dashboardApp/common/asyncConfig.service.js"></script>
+    <script src="./scripts/dashboardApp/common/notifications.service.js"></script>
+    <script src="./scripts/dashboardApp/common/sweetp.service.js"></script>
+    <script src="./scripts/dashboardApp/common/keyboardShortcutsFromSettings.service.js"></script>
+    <script src="./scripts/dashboardApp/common/spErrorList.directive.js"></script>
+    <script src="./scripts/dashboardApp/widgets/spWidget.directive.js"></script>
+    <script src="./scripts/dashboardApp/widgets/spGitStatusWidget.directive.js"></script>
+    <script src="./scripts/dashboardApp/widgets/spGitStagingAreaWidget.directive.js"></script>
+    <script src="./scripts/dashboardApp/widgets/spGitRecentCommitsWidget.directive.js"></script>
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/windowCommit.js -->
-    <script src="scripts/directives/spScmCommitWidget.js"></script>
-    <script src="scripts/controllers/windowCommitCtrl.js"></script>
+    <script src="./scripts/dashboardApp/widgets/spScmCommitWidget.directive.js"></script>
+    <script src="./scripts/dashboardApp/windows/commitWindow.ctrl.js"></script>
     <!-- endbuild -->
 </body>
 </html>

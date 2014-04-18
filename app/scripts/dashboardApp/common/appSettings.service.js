@@ -15,13 +15,19 @@ angular.module('dashboardApp').factory('AppSettings', function(Observable) {
                 }
 
 				// set defaults
-                if (!data || !data[key]) {
+                if (!data) {
                     data = {};
-                    data[key] = {
-                        serverUrl:"http://localhost:7777/",
-						standardNotificationDismissDelay:3000
-                    };
-                }
+				}
+
+				if (!data[key]) {
+					data[key] = {};
+				}
+
+				_.defaults(data[key], {
+					serverUrl:"http://localhost:7777/",
+					standardNotificationDismissDelay:3000,
+					keyboardShortcuts:{}
+				});
 
                 callback(data[key]);
             });

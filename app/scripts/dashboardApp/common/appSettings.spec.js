@@ -66,7 +66,8 @@ describe('Service: AppSettings', function () {
         runs(function () {
             expect(loadedData).toEqual({
                 serverUrl:"http://localhost:7777/",
-				standardNotificationDismissDelay:3000
+				standardNotificationDismissDelay:3000,
+				keyboardShortcuts:{}
             });
             loadedData = undefined;
 
@@ -94,7 +95,9 @@ describe('Service: AppSettings', function () {
 
         runs(function () {
             expect(loadedData).toEqual({
-                serverUrl:"foo"
+                serverUrl:"foo",
+				standardNotificationDismissDelay:3000,
+				keyboardShortcuts:{}
             });
         });
 	});

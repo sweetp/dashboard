@@ -1,14 +1,45 @@
 'use strict';
 
 angular.module('dashboardApp')
-    .directive('spScmCommitWidget', function() {
+	.config(function (KeyboardShortcutsProvider) {
+		KeyboardShortcutsProvider.addCombos('commitWidget', 'Commit Widget', {
+			commit:{
+				"description":"Commit",
+				"keys"          : "ctrl c",
+				"is_exclusive"  : true
+			},
+			commitWithTicket:{
+				"description":"Commit with ticket",
+				"keys"          : "ctrl t",
+				"is_exclusive"  : true
+			},
+			fixupCommit:{
+				"description":"Commit fixup",
+				"keys"          : "ctrl f",
+				"is_exclusive"  : true
+			},
+			selectAllFiles:{
+				"description":"Select 'all files' for commit",
+				"keys"          : "ctrl u a",
+				"is_sequence"   : true,
+				"is_exclusive"  : true
+			},
+			selectStagedFiles:{
+				"description":"Select 'only staged files' for commit",
+				"keys"          : "ctrl u s",
+				"is_sequence"   : true,
+				"is_exclusive"  : true
+			}
+		});
+	})
+	.directive('spScmCommitWidget', function() {
     return {
         restrict: 'E',
 		scope: {
 			project: '=',
 			onSuccess: '&'
 		},
-		controller: function ($scope, $log, Sweetp, Notifications) {
+		controller: function ($scope, $log, Sweetp, Notifications, KeyboardShortcutsFromSettings) {
 			var ctrl;
 
 			ctrl = this;
@@ -136,9 +167,37 @@ angular.module('dashboardApp')
 			$scope.commit = this.commit;
 			$scope.fixupCommit = this.fixupCommit;
 			$scope.commitWithTicket = this.commitWithTicket;
+
+			KeyboardShortcutsFromSettings.getConfiguredCombosFromSettings('commitWidget', {
+				commit:{
+					"on_keydown"    : ctrl.commit
+				},
+				commitWithTicket:{
+					"on_keydown"    : ctrl.commitWithTicket
+				},
+				fixupCommit:{
+					"on_keydown"    : ctrl.fixupCommit
+				},
+				selectAllFiles:{
+					"on_keydown"    : function () {
+						$scope.commitParams.useAllFiles = 'true';
+					}
+				},
+				selectStagedFiles:{
+					"on_keydown"    : function () {
+						$scope.commitParams.useAllFiles = 'false';
+					}
+				}
+			}, function (combos) {
+				var listener;
+
+				listener = KeyboardShortcutsFromSettings.createListener();
+
+				KeyboardShortcutsFromSettings.applyScopeTo($scope, combos);
+				listener.register_many(combos);
+			});
 		},
-        templateUrl: 'templates/spScmCommitWidget.html'
+        templateUrl: 'scripts/dashboardApp/widgets/spScmCommitWidget.template.html'
     };
 });
-
 

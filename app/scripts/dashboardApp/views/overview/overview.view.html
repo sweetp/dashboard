@@ -36,6 +36,40 @@
 	<div class="container">
 		<h2>Settings</h2>
 		<form name="settingsForm" class="form-horizontal" role="form" novalidate>
+			<h3>Keyboard Shortcuts</h3>
+			<div class="alert alert-info">
+				Restart to apply changes.
+			</div>
+			<sp-keyboard-shortcuts-settings settings="settings.keyboardShortcuts">
+				<h4>{{sections[sectionKey]}}</h4>
+				<div ng-repeat="(key, combo) in section"class="form-group">
+					<label class="col-sm-3 control-label">{{combo.description}}</label>
+					<div class="col-sm-9">
+						<div class="row">
+							<div class="col-sm-9">
+								<input ng-model="combo.keys" class="form-control">
+							</div>
+							<div class="col-sm-3">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="combo.is_exclusive">Is Exclusive</input>
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="combo.is_sequence">Is Sequence</input>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</sp-keyboard-shortcuts-settings>
+
+			<h3>App</h3>
+			<div class="alert alert-info">
+				Changes only appy to new windows, except this one.
+			</div>
 			<div class="form-group" ng-class="{ 'has-error' : settingsForm.serverUrl.$invalid && !settingsForm.serverUrl.$pristine }">
 				<label class="col-sm-3 control-label">Sweetp Server URL</label>
 				<div class="col-sm-9">
@@ -54,7 +88,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
-					<button class="btn btn-default" ng-disabled="settingsForm.$invalid" ng-click="saveSettings()">Save</button>
+					<button class="btn btn-default" ng-disabled="settingsForm.$invalid" ng-click="saveSettings()">Save All Settings</button>
 				</div>
 			</div>
 		</form>

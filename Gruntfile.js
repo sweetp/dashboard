@@ -130,8 +130,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js',
-        'test/spec/{,*/}*.js'
+        '<%= yeoman.app %>/scripts/**/*.js',
       ]
     },
     coffee: {
@@ -323,8 +322,13 @@ module.exports = function (grunt) {
 		browsers: ['PhantomJS'],
         singleRun: true
       },
-      unitw: {
+      'unit.w': {
         configFile: 'karma.conf.js',
+		autoWatch:true
+      },
+      'unit.w.p': {
+        configFile: 'karma.conf.js',
+		browsers: ['PhantomJS'],
 		autoWatch:true
       }
     },

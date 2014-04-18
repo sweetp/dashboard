@@ -7,7 +7,7 @@ angular.module('dashboardApp')
 		scope: {
 			project: '='
 		},
-        templateUrl: 'templates/spGitStagingAreaWidget.html',
+        templateUrl: 'scripts/dashboardApp/widgets/spGitStagingAreaWidget.template.html',
 		controller: function ($scope, $log, Sweetp) {
 			$scope.state = {
 				errors:null,

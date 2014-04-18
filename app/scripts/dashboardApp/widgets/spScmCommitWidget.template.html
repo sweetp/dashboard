@@ -2,12 +2,12 @@
 	<textarea class="msg form-control" ng-model="commitParams.message"></textarea>
 	<div class="radio">
 		<label>
-			<input type="radio" ng-model="commitParams.useAllFiles" value="true">Use all tracked files
+			<input class="use-all" type="radio" ng-model="commitParams.useAllFiles" value="true">Use all tracked files
 		</label>
 	</div>
 	<div class="radio">
 		<label>
-			<input type="radio" ng-model="commitParams.useAllFiles" value="false">Use staged files only
+			<input class="use-staged" type="radio" ng-model="commitParams.useAllFiles" value="false">Use staged files only
 		</label>
 	</div>
 	<button class="btn" ng-class="{'btn-primary':commitParams.message, 'btn-default':!commitParams.message}" ng-click="commit()" ng-disabled="!commitParams.message">Commit</button>
