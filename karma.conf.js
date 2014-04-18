@@ -23,8 +23,20 @@ module.exports = function(config) {
     ],
 
 	preprocessors:{
-		'scripts/**/*.template.html':'ng-html2js'
+	  // only test services, controllers and directives are under heavy development
+      'scripts/**/*.service.js':'coverage',
+	  // keyboard shortcuts module is very stable, test all
+      'scripts/keyboardShortcuts/*.directive.js':'coverage',
+      'scripts/keyboardShortcuts/*.crtl.js':'coverage',
+	  'scripts/**/*.template.html':'ng-html2js'
 	},
+
+	coverageReporter:{
+		type:'html',
+		dir:'coverage/'
+	},
+
+	reporters:['progress', 'coverage'],
 
     // list of files / patterns to exclude
     exclude: [],
