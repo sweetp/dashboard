@@ -19,7 +19,7 @@ angular.module('dashboardApp')
 		var projectName, widgetCount, counter;
 
 		projectName = $routeParams.name;
-		widgetCount = 2;
+		widgetCount = 3;
 		counter = 0;
 
 		// init scope properties
