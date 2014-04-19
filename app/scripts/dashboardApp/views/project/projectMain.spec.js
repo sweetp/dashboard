@@ -55,7 +55,7 @@ describe('Controller: ProjectMain', function () {
 			expect(sectionKey).toBe('viewProject');
 
 			// one to start commit
-			expect(config.commit.on_keydown).toBe($scope.openCommitWindow);
+			//expect(config.commit.on_keydown).toBe($scope.openCommitWindow);
 
 			// one to reload widgets
 			expect(config.reload.on_keydown).toBe($scope.reload);

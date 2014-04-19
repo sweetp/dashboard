@@ -3,11 +3,13 @@
 angular.module('dashboardApp')
 	.config(function (KeyboardShortcutsProvider) {
 		KeyboardShortcutsProvider.addCombos('viewProject', 'Project View', {
-			commit:{
-				"description":"Open Commit Window",
-				"keys"          : "ctrl c",
-				"is_exclusive"  : true
-			},
+			/*
+			 *commit:{
+			 *    "description":"Open Commit Window",
+			 *    "keys"          : "ctrl c",
+			 *    "is_exclusive"  : true
+			 *},
+			 */
 			reload:{
 				"description":"Reload",
 				"keys"          : "ctrl r",
@@ -66,9 +68,11 @@ angular.module('dashboardApp')
 		};
 
 		KeyboardShortcutsFromSettings.getConfiguredCombosFromSettings('viewProject', {
-			commit:{
-				"on_keydown"    : $scope.openCommitWindow
-			},
+			/*
+			 *commit:{
+			 *    "on_keydown"    : $scope.openCommitWindow
+			 *},
+			 */
 			reload:{
 				"on_keydown"    : $scope.reload
 			}
