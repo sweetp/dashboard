@@ -44,6 +44,8 @@ angular.module('dashboardApp')
 			$scope.$broadcast('reloadWidget');
 		};
 
+		$scope.onCommitSuccess = $scope.reload;
+
 		$scope.openCommitWindow = function () {
 			chrome.app.window.create('windowCommit.html', {
 				id:'commit',
