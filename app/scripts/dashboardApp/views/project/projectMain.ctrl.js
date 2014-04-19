@@ -17,8 +17,8 @@ angular.module('dashboardApp')
 			}
 		});
 	})
-    .controller('ProjectMainCtrl', function($scope, $route, $routeParams, Sweetp, KeyboardShortcutsFromSettings) {
-		var projectName, widgetCount, counter;
+    .controller('ProjectMainCtrl', function($scope, $route, $routeParams, Sweetp, KeyboardShortcutsFromSettings, $window) {
+		var projectName, widgetCount, counter, reloadWithAppliedScope;
 
 		projectName = $routeParams.name;
 		widgetCount = 3;
@@ -31,6 +31,7 @@ angular.module('dashboardApp')
 
 		$scope.project = Sweetp.getProjectConfig(projectName);
 
+		// reload widgets
 		$scope.$on('widgetLoaded', function () {
 			counter++;
 
@@ -45,8 +46,18 @@ angular.module('dashboardApp')
 
 			$scope.$broadcast('reloadWidget');
 		};
+		reloadWithAppliedScope = function () {
+			$scope.$apply($scope.reload);
+		};
 
+		// reload widgets on successfull commit
 		$scope.onCommitSuccess = $scope.reload;
+
+		// reload widgets on focus
+		$window.addEventListener('focus', reloadWithAppliedScope);
+		$scope.$on('$destroy', function () {
+			$window.removeEventListener('focus', reloadWithAppliedScope);
+		});
 
 		$scope.openCommitWindow = function () {
 			chrome.app.window.create('windowCommit.html', {
