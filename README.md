@@ -4,6 +4,9 @@ Chrome app for sweetp.
 
 ## Install
 
+*   `npm install`
+*   `bower install`
+*   `grunt compass`
 *   open chrome
 *   go to extension managment
 *   enable debug mode
