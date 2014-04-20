@@ -1,13 +1,11 @@
 <sp-widget class="sp-git-recent-commits-widget">
 	Last {{maxCommitCount}} commits in branch:
-	<span ng-switch on="state.errors">
-		<ul ng-switch-when="null">
+	<sp-error-list error-message="Unable to show commit list, an error occured:">
+		<ul class="commit-list">
 			<li ng-repeat="entry in state.log">
 				<code>{{entry.shortName}}</code> {{entry.shortMessage}}
 			</li>
 		</ul>
-		<div ng-switch-default class="error-text">Unable to show, an error occured:</div>
-	</span>
-	<sp-error-list errors="state.errors"></sp-error-list>
+	</sp-error-list>
 </sp-widget>
 
