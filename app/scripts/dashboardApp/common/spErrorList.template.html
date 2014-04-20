@@ -1,0 +1,13 @@
+<span>
+	<span ng-if="!state.errors">
+		<!-- show transcluded html when no error occured -->
+		<span ng-transclude></span>
+	</span>
+	<div ng-if="state.errors" class="error-text">
+		<!-- show error list -->
+		<div>{{errorMessage}}</div>
+		<ul class="sp-error-list">
+			<li ng-repeat="error in state.errors" class="error-list-item">{{error}}</li>
+		</ul>
+	</div>
+</span>
