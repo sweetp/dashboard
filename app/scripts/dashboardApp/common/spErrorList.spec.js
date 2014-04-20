@@ -17,6 +17,7 @@ describe('Directive: spErrorList', function () {
 	}));
 
 	it('should show content when no error is in state model.', function () {
+		expect(el).toContainText('content');
 	});
 });
 
