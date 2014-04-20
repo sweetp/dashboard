@@ -27,6 +27,8 @@ module.exports = function(config) {
       'scripts/**/*.service.js':'coverage',
 	  // keyboard shortcuts module is very stable, test all
       'scripts/keyboardShortcuts/*.directive.js':'coverage',
+	  // common directives should be stable, test all
+      'scripts/dashboardApp/common/*.directive.js':'coverage',
       'scripts/keyboardShortcuts/*.crtl.js':'coverage',
 	  'scripts/**/*.template.html':'ng-html2js'
 	},
