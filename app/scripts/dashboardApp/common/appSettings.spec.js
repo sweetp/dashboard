@@ -51,25 +51,16 @@ describe('Service: AppSettings', function () {
 		})();
 	});
 
-	it('loads saved or default settings.', function () {
-		var loadedData, saveSpy;
+	iit('loads saved or default settings.', function (done) {
+		var saveSpy;
 
         // loads default
-        s.load(function (data) {
-            loadedData = data;
-        });
-
-        waitsFor(function () {
-            return loadedData !== undefined;
-        });
-
-        runs(function () {
+        s.load(function (loadedData) {
             expect(loadedData).toEqual({
                 serverUrl:"http://localhost:7777/",
 				standardNotificationDismissDelay:3000,
 				keyboardShortcuts:{}
             });
-            loadedData = undefined;
 
             // save something
 			saveSpy = sinon.spy();
@@ -77,27 +68,18 @@ describe('Service: AppSettings', function () {
                 serverUrl:"foo"
             }, saveSpy);
 
-        });
-
-        runs(function () {
             // callback of 'save' call was called
-            expect(saveSpy).toHaveBeenCalledOnce();
+            expect(saveSpy.calledOnce).toBe(true);
 
             // loads changed settings
-            s.load(function (data) {
-                loadedData = data;
-            });
-        });
+            s.load(function (loadedData) {
+				expect(loadedData).toEqual({
+					serverUrl:"foo",
+					standardNotificationDismissDelay:3000,
+					keyboardShortcuts:{}
+				});
 
-        waitsFor(function () {
-            return loadedData !== undefined;
-        });
-
-        runs(function () {
-            expect(loadedData).toEqual({
-                serverUrl:"foo",
-				standardNotificationDismissDelay:3000,
-				keyboardShortcuts:{}
+				done();
             });
         });
 	});
