@@ -23,10 +23,10 @@ module.exports = function(config) {
 
 	preprocessors:{
 	  // only test services, controllers and directives are under heavy development
-      'scripts/**/*.service.js':'coverage',
+      //'scripts/**/*.service.js':'coverage',
 	  // keyboard shortcuts module is very stable, test all
-      'scripts/keyboardShortcuts/*.directive.js':'coverage',
-      'scripts/keyboardShortcuts/*.crtl.js':'coverage',
+      //'scripts/keyboardShortcuts/*.directive.js':'coverage',
+      //'scripts/keyboardShortcuts/*.crtl.js':'coverage',
 	  'scripts/**/*.template.html':'ng-html2js'
 	},
 

@@ -51,7 +51,7 @@ describe('Service: AppSettings', function () {
 		})();
 	});
 
-	iit('loads saved or default settings.', function (done) {
+	it('loads saved or default settings.', function (done) {
 		var saveSpy;
 
         // loads default

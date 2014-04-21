@@ -36,23 +36,13 @@ describe('Service: AsyncConfig', function () {
 	});
 
 	it('loads config on "get" when config not loaded already.', function () {
-		var spy;
 		expect(s.config).toEqual(null);
 
-		spy = sinon.spy();
-		s.getConfig(spy);
-
-		waitsFor(function () {
-			return s.config !== null;
-		});
-
-		runs(function() {
+		s.getConfig(function () {
 			expect(s.config).toEqual({
 				bar:'bar'
 			});
-			expect(spy).toHaveBeenCalledOnce();
 		});
-
 	});
 
 	it('resets config when settings are saved.', function () {

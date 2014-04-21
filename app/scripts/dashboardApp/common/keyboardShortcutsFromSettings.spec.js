@@ -38,40 +38,31 @@ describe('Service: KeyboardShortcutsFromSettings', function () {
 	it('can get combos with porperties overriden by app settings.', function () {
 		var saveCombo, quitCombo, combos;
 
-		runs(function () {
-			// create test combos
-			saveCombo = {
-				keys:'ctrl s',
-				is_sequence:true
-			};
+		// create test combos
+		saveCombo = {
+			keys:'ctrl s',
+			is_sequence:true
+		};
 
-			quitCombo = {
-				is_exclusive:true
-			};
+		quitCombo = {
+			is_exclusive:true
+		};
 
-			// override config from directives
-			s.configuredCombos = {
-				mySection:{
-					save:saveCombo,
-					quit:quitCombo
-				}
-			};
+		// override config from directives
+		s.configuredCombos = {
+			mySection:{
+				save:saveCombo,
+				quit:quitCombo
+			}
+		};
 
-			// existing section with only configured listeners
-			s.getConfiguredCombosFromSettings('mySection', {
-				save:{
-					on_keyup:sinon.stub()
-				}
-			}, function (c) {
-				combos = c;
-			});
-		});
-
-		waitsFor(function () {
-			return combos !== undefined;
-		});
-
-		runs(function () {
+		// existing section with only configured listeners
+		s.getConfiguredCombosFromSettings('mySection', {
+			save:{
+				on_keyup:sinon.stub()
+			}
+		}, function (c) {
+			combos = c;
 			// it only contains 'save' not 'quit'
 			expect(combos.length).toBe(1);
 			expect(combos[0].keys).toEqual('s');
