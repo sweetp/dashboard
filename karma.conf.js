@@ -17,6 +17,7 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/sinonjs/sinon.js',
+      'bower_components/jasmine-jquery/lib/jasmine-jquery.js',
       'scripts/**/*.js',
       'scripts/**/*.template.html'
     ],
@@ -25,8 +26,10 @@ module.exports = function(config) {
 	  // only test services, controllers and directives are under heavy development
       //'scripts/**/*.service.js':'coverage',
 	  // keyboard shortcuts module is very stable, test all
-      //'scripts/keyboardShortcuts/*.directive.js':'coverage',
-      //'scripts/keyboardShortcuts/*.crtl.js':'coverage',
+      'scripts/keyboardShortcuts/*.directive.js':'coverage',
+	  // common directives should be stable, test all
+      'scripts/dashboardApp/common/*.directive.js':'coverage',
+      'scripts/keyboardShortcuts/*.crtl.js':'coverage',
 	  'scripts/**/*.template.html':'ng-html2js'
 	},
 

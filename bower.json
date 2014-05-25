@@ -16,7 +16,8 @@
     "angular-mocks": "~1.2.0",
     "angular-scenario": "~1.2.0",
     "sinon": "~1.7.3",
-    "jasmine": "2.0.0"
+    "jasmine": "2.0.0",
+    "jasmine-jquery": "~2.0.3"
   },
   "resolutions": {
     "jasmine": "2.0.0"
