@@ -4,6 +4,9 @@ Chrome app for sweetp.
 
 ## Install
 
+*   `npm install`
+*   `bower install`
+*   `grunt compass`
 *   open chrome
 *   go to extension managment
 *   enable debug mode
@@ -16,3 +19,8 @@ Chrome app for sweetp.
     *   `grunt compass` or
     *   `grunt server` or
     *   `grunt watch`
+*   run tests → see 'karma' tasks of gruntfile
+
+# Mentions
+
+* [Knob Icons by iTweek](http://itweek.deviantart.com/art/Knob-Buttons-Toolbar-icons-73463960 )

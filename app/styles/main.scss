@@ -3,17 +3,100 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import "bootstrap-sass/lib/bootstrap";
 
-/* Put your CSS here */
-html, body {
-	margin: 20px;
+// colors
+$dark-gray:$gray-dark !default;
+$white:#fff;
+
+// directives
+.sp-error-list {
+	.error-list-item {
+		color:$state-danger-text;
+	}
 }
 
-h1 {
-	color:red;
+.sp-git-recent-commits-widget {
+	ul {
+		list-style-type:none;
+		padding-left:0;
+	}
+}
+
+.sp-commit-widget {
+	textarea.msg {
+		margin: 10px 0px;
+		// 3 lines
+		height: 75px;
+	}
+}
+
+// app wide reusable classes
+.label-branch {
+	@include label-variant($label-primary-bg);
+
+	// force size where needed
+	&.size-normal {
+		font-size:12px;
+	}
+}
+
+// widgets
+.sp-widget {
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+	.error-text {
+		color:$state-danger-text;
+	}
+}
+
+@mixin light-on-dark() {
+	background-color:$dark-gray;
+	color:$white;
+}
+
+.view.overview {
+	.jumbotron {
+		margin-top:30px;
+
+		h1 {
+			text-align:center;
+			margin:0;
+		}
+	}
+
+	h2 {
+		.refresh {
+			float:right;
+		}
+	}
+}
+
+.view.project {
+	.header {
+		@include light-on-dark();
+		padding:3px 0px;
+		margin-bottom:10px;
+	}
+}
+
+pre.inline {
+	display:inline-block;
+	padding:0px 2px;
+	margin:0;
+	border-radius:2px;
+}
+
+a {
+	// needed because we use click handlers for navigation instead of href
+	cursor:pointer
 }
 
 body {
 	background: #fafafa;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #333;
+}
+
+html {
+	overflow-y: auto;
 }

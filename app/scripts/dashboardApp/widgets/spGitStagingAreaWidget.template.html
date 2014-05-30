@@ -1,0 +1,8 @@
+<sp-widget class="sp-git-staging-area-widget">
+	<span ng-switch on="state.errors">
+		<span ng-switch-when="null"><pre>{{state.stagingText}}</pre></span>
+		<span ng-switch-default class="error-text">Unable to show, an error occured:</span>
+	</span>
+	<sp-error-list errors="state.errors"></sp-error-list>
+</sp-widget>
+

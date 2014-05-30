@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Sweetp Dashboard App (Stable)</title>
+    <title>Sweetp Dashboard: Commit Window</title>
     <meta name="description" content="Sweetp Dashboard">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -11,9 +11,14 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-controller="MainCtrl" ng-app="dashboardApp" ng-csp>
-    <!-- Add your site or application content here -->
-    <div ng-view=""></div>
+<body ng-controller="WindowCommitCtrl" ng-app="dashboardApp" ng-csp>
+	<div class="container">
+		<sp-git-status-widget project="project"></sp-git-status-widget>
+		<sp-git-staging-area-widget project="project"></sp-git-staging-area-widget>
+		<sp-scm-commit-widget project="project" on-success="onSuccess(data)"></sp-scm-commit-widget>
+		<sp-git-recent-commits-widget max-commit-count="5" project="project"></sp-git-recent-commits-widget>
+	</div>
+
     <script src="./bower_components/lodash/dist/lodash.js"></script>
     <script src="./bower_components/stampit/dist/stampit.js"></script>
     <script src="./bower_components/jquery/jquery.js"></script>
@@ -29,7 +34,6 @@
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="./scripts/keyboardShortcuts/keyboardShortcuts.service.js"></script>
-    <script src="./scripts/keyboardShortcuts/spKeyboardShortcutsSettings.directive.js"></script>
     <script src="./scripts/dashboardApp/app.js"></script>
     <script src="./scripts/dashboardApp/common/observable.service.js"></script>
     <script src="./scripts/dashboardApp/common/appSettings.service.js"></script>
@@ -42,13 +46,11 @@
     <script src="./scripts/dashboardApp/widgets/spGitStatusWidget.directive.js"></script>
     <script src="./scripts/dashboardApp/widgets/spGitStagingAreaWidget.directive.js"></script>
     <script src="./scripts/dashboardApp/widgets/spGitRecentCommitsWidget.directive.js"></script>
-	<!-- load these directives because they configure app settings -->
-    <script src="./scripts/dashboardApp/widgets/spScmCommitWidget.directive.js"></script>
     <!-- endbuild -->
-    <!-- build:js({.tmp,app}) scripts/windowMainCtrls.js -->
-    <script src="./scripts/dashboardApp/views/main/main.ctrl.js"></script>
-    <script src="./scripts/dashboardApp/views/overview/overview.ctrl.js"></script>
-    <script src="./scripts/dashboardApp/views/project/projectMain.ctrl.js"></script>
+    <!-- build:js({.tmp,app}) scripts/windowCommit.js -->
+    <script src="./scripts/dashboardApp/widgets/spScmCommitWidget.directive.js"></script>
+    <script src="./scripts/dashboardApp/windows/commitWindow.ctrl.js"></script>
     <!-- endbuild -->
 </body>
 </html>
+

@@ -1,0 +1,96 @@
+<div class="view overview">
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Sweetp Dashboard</h1>
+		</div>
+	</div>
+
+	<div class="projects.list container">
+		<h2>
+			<span>Projects</span>
+			<button type="button" class="refresh btn btn-sm btn-default" ng-disabled="!projects.loaded" ng-click="reloadProjects()">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
+		</h2>
+
+		<div ng-cloak ng-show="projects.loaded">
+			<div ng-repeat="project in projects.list" class="project">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<a ng-click="go('project/' + project.name)">{{project.name}}</a>
+						</h3>
+					</div>
+					<div class="panel-body">
+						Location: <pre class="inline">{{project.dir}}</pre>
+					</div>
+				</div>
+			</div>
+			<div ng-hide="projects.list" class="alert alert-danger">
+				Tried to load project configs from sweetp server, but an error occured.
+			</div>
+		</div>
+
+	</div>
+
+	<div class="container">
+		<h2>Settings</h2>
+		<form name="settingsForm" class="form-horizontal" role="form" novalidate>
+			<h3>Keyboard Shortcuts</h3>
+			<div class="alert alert-info">
+				Restart to apply changes.
+			</div>
+			<sp-keyboard-shortcuts-settings settings="settings.keyboardShortcuts">
+				<h4>{{sections[sectionKey]}}</h4>
+				<div ng-repeat="(key, combo) in section"class="form-group">
+					<label class="col-sm-3 control-label">{{combo.description}}</label>
+					<div class="col-sm-9">
+						<div class="row">
+							<div class="col-sm-9">
+								<input ng-model="combo.keys" class="form-control">
+							</div>
+							<div class="col-sm-3">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="combo.is_exclusive">Is Exclusive</input>
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="combo.is_sequence">Is Sequence</input>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</sp-keyboard-shortcuts-settings>
+
+			<h3>App</h3>
+			<div class="alert alert-info">
+				Changes only appy to new windows, except this one.
+			</div>
+			<div class="form-group" ng-class="{ 'has-error' : settingsForm.serverUrl.$invalid && !settingsForm.serverUrl.$pristine }">
+				<label class="col-sm-3 control-label">Sweetp Server URL</label>
+				<div class="col-sm-9">
+					<input ng-model="settings.serverUrl" name="serverUrl" class="form-control" type="url" placeholder="Enter url with trailing slash" required>
+					<p ng-show="settingsForm.serverUrl.$invalid && !settingsForm.serverUrl.$pristine" class="help-block">Enter valid url.</p>
+				</div>
+			</div>
+
+			<div class="form-group" ng-class="{ 'has-error' : settingsForm.standardNotificationDismissDelay.$invalid && !settingsForm.standardNotificationDismissDelay.$pristine }">
+				<label class="col-sm-3 control-label">Notification Dismiss Delay (in ms)</label>
+				<div class="col-sm-9">
+					<input ng-model="settings.standardNotificationDismissDelay" name="standardNotificationDismissDelay" class="form-control" type="number" required>
+					<p ng-show="settingsForm.standardNotificationDismissDelay.$invalid && !settingsForm.standardNotificationDismissDelay.$pristine" class="help-block">Enter valid number.</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<button class="btn btn-default" ng-disabled="settingsForm.$invalid" ng-click="saveSettings()">Save All Settings</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -116,6 +116,7 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
+            '<%= yeoman.app %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*'
           ]
@@ -129,7 +130,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%= yeoman.app %>/scripts/**/*.js',
       ]
     },
     coffee: {
@@ -275,6 +276,7 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
+            'bower_components/bootstrap-sass/fonts/*.*',
             'background.js',
             'manifest.json'
           ]
@@ -317,7 +319,17 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'karma.conf.js',
+		browsers: ['PhantomJS'],
         singleRun: true
+      },
+      'unit.w': {
+        configFile: 'karma.conf.js',
+		autoWatch:true
+      },
+      'unit.w.p': {
+        configFile: 'karma.conf.js',
+		browsers: ['PhantomJS'],
+		autoWatch:true
       }
     },
     cdnify: {
