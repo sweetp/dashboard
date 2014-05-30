@@ -23,4 +23,4 @@ Chrome app for sweetp.
 
 # Mentions
 
-* [Knob Icons by iTweek](http://itweek.deviantart.com/art/Knob-Buttons-Toolbar-icons-73463960 )
+* [Modern UI Icons](https://github.com/Templarian/WindowsIcons)
