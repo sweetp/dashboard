@@ -172,6 +172,10 @@ angular.module('dashboardApp')
 
 				KeyboardShortcutsFromSettings.applyScopeTo($scope, combos);
 				listener.register_many(combos);
+
+				$scope.$on('$destroy', function () {
+					listener.reset();
+				});
 			});
 		},
         templateUrl: 'scripts/dashboardApp/widgets/spScmCommitWidget.template.html'
