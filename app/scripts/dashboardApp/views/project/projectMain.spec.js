@@ -27,27 +27,19 @@ describe('Controller: ProjectMain', function () {
 	it('saves alread loaded project config in scope after creation.', function () {
 		var c;
 
-		runs(function () {
-			sinon.stub(sweetpService, 'isProjectLoaded').returns(true);
-			sinon.stub(sweetpService, 'getProjectConfig').returns({
-				name:'foo'
-			});
-
-			keys.getConfiguredCombosFromSettings = sinon.stub();
-			c = createController();
+		sinon.stub(sweetpService, 'isProjectLoaded').returns(true);
+		sinon.stub(sweetpService, 'getProjectConfig').returns({
+			name:'foo'
 		});
 
-		waitsFor(function () {
-			return $scope.project;
-		});
+		keys.getConfiguredCombosFromSettings = sinon.stub();
+		c = createController();
 
-		runs(function () {
-			expect($scope.project.name).toBe('foo');
+		expect($scope.project.name).toBe('foo');
 
-			// reset
-			sweetpService.isProjectLoaded.restore();
-			sweetpService.getProjectConfig.restore();
-		});
+		// reset
+		sweetpService.isProjectLoaded.restore();
+		sweetpService.getProjectConfig.restore();
 	});
 
 	it('adds keyboard shortcuts.', function () {

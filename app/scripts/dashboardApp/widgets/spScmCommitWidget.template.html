@@ -15,5 +15,5 @@
 
 	<button class="btn" ng-class="{'btn-primary':!commitParams.message, 'btn-warning':commitParams.message}" ng-click="fixupCommit()" title="A fixup commit has a generated message and doesn't use your message.">Fixup</button>
 
-	<sp-error-list errors="state.errors"></sp-error-list>
+	<sp-error-list error-message="Errors:"></sp-error-list>
 </sp-widget>

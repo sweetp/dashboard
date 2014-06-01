@@ -116,6 +116,7 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
+            'sweetp-dashboard.zip',
             '<%= yeoman.app %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*'
@@ -123,6 +124,13 @@ module.exports = function (grunt) {
         }]
       },
       server: '.tmp'
+    },
+    zip: {
+      dist: {
+		  cwd: '<%= yeoman.dist %>',
+		  src: [ '<%= yeoman.dist %>/**/*' ],
+		  dest: 'sweetp-dashboard.zip'
+      }
     },
     jshint: {
       options: {
@@ -257,7 +265,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html', 'scripts/**/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -276,6 +284,7 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
+            'fonts/*',
             'bower_components/bootstrap-sass/fonts/*.*',
             'background.js',
             'manifest.json'
@@ -309,7 +318,6 @@ module.exports = function (grunt) {
       ],
       dist: [
         'coffee',
-        'compass:dist',
         'copy:styles',
         'imagemin',
         'svgmin',
@@ -378,27 +386,29 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma:unit'
   ]);
 
   grunt.registerTask('build', [
     'clean:dist',
     'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
-    'concat',
-    'copy:dist',
-    'cdnify',
-    'ngmin',
-    'cssmin',
-    'uglify',
-    'rev',
-    'usemin'
+    'compass:dist',
+	'concurrent:dist',
+	'autoprefixer',
+	'concat',
+	'copy:dist',
+	'cdnify',
+	'ngmin',
+	'cssmin',
+	'uglify',
+	//'rev',
+	'usemin',
+	//'zip:dist'
   ]);
 
   grunt.registerTask('default', [
     'jshint',
     'test',
-    'build'
+    //'build'
   ]);
 };

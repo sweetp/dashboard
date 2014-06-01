@@ -52,13 +52,7 @@ describe('Service: Notifications', function () {
 	it('uses settings to build its config from.', function () {
 		expect(s.config).toEqual(null);
 
-		s.withConfig(sinon.spy());
-
-		waitsFor(function () {
-			return s.config !== null;
-		});
-
-		runs(function () {
+		s.withConfig(function () {
 			expect(s.config).toEqual({
 				standardDismissDelay:1234
 			});
@@ -66,7 +60,7 @@ describe('Service: Notifications', function () {
 	});
 
 	it('can create basic notifications.', function () {
-		var args, cbId;
+		var args;
 
 		chrome.notifications.create = function (id, options, cb) {
 			args = arguments;
@@ -80,14 +74,6 @@ describe('Service: Notifications', function () {
 			message:'message text',
 			dismissDelay:-1
 		}, function (err, id) {
-			cbId = id;
-		});
-
-		waitsFor(function () {
-			return args !== undefined && cbId !== undefined;
-		});
-
-		runs(function () {
 			expect(args[0]).toEqual('0');
 			expect(args[1]).toEqual({
 				title:'my title',
@@ -101,58 +87,29 @@ describe('Service: Notifications', function () {
 			});
 
 			// id of create arg should be the same as id passed to callback
-			expect(cbId).toEqual(args[0]);
-
-			args = undefined;
-			cbId = undefined;
+			expect(id).toEqual(args[0]);
 		});
 
 		// test with standard icon
-		runs(function () {
-			s.createBasicNotification({
-				title:'my title',
-				message:'message text',
-				dismissDelay:-1,
-				iconUrl:s.icons.danger
-			}, function (err, id) {
-				cbId = id;
-			});
-		});
-
-		waitsFor(function () {
-			return args !== undefined && cbId !== undefined;
-		});
-
-		runs(function () {
+		s.createBasicNotification({
+			title:'my title',
+			message:'message text',
+			dismissDelay:-1,
+			iconUrl:s.icons.danger
+		}, function () {
 			expect(args[0]).toEqual('1');
 			expect(args[1].iconUrl).toEqual(s.icons.danger);
-
-			args = undefined;
-			cbId = undefined;
 		});
 
 		// test with custom icon
-		runs(function () {
-			s.createBasicNotification({
-				title:'my title',
-				message:'message text',
-				dismissDelay:-1,
-				iconUrl:'foo/bar'
-			}, function (err, id) {
-				cbId = id;
-			});
-		});
-
-		waitsFor(function () {
-			return args !== undefined && cbId !== undefined;
-		});
-
-		runs(function () {
+		s.createBasicNotification({
+			title:'my title',
+			message:'message text',
+			dismissDelay:-1,
+			iconUrl:'foo/bar'
+		}, function () {
 			expect(args[0]).toEqual('2');
 			expect(args[1].iconUrl).toEqual('foo/bar');
-
-			// reset mock
-			chrome.notifications.create = function () {};
 		});
 	});
 

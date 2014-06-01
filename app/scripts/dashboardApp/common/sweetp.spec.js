@@ -57,104 +57,60 @@ describe('Service: Sweetp', function () {
 	});
 
 	it("loads project configs from sweetp server, when config isn't set and after config was build from settings.", function () {
-		var loadedConfigs;
-
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err, configs) {
+		s.loadProjects(function(err, loadedConfigs) {
 			expect(err).toEqual(null);
-			loadedConfigs = configs;
+			expect(loadedConfigs).toEqual(fakeConfigs);
 		});
 
 		// mark XHR call as fullfilled
 		$httpBackend.flush();
 
-		// wait for configs loaded
-		waitsFor(function () {
-			return loadedConfigs !== undefined;
-		});
+		// try the same again when config was already loaded
+		expect(s.config).not.toEqual(null);
 
-		runs(function() {
-			expect(loadedConfigs).toEqual(fakeConfigs);
-			loadedConfigs = undefined;
+		$httpBackend.expectGET('http://localhost/configs');
 
-			// try the same again when config was already loaded
-			expect(s.config).not.toEqual(null);
-
-			$httpBackend.expectGET('http://localhost/configs');
-
-			// call method under test
-			s.loadProjects(function(err, configs) {
-				expect(err).toEqual(null);
-				loadedConfigs = configs;
-			});
-
-			// mark XHR call as fullfilled
-			$httpBackend.flush();
-
-		});
-
-		// wait for configs loaded
-		waitsFor(function () {
-			return loadedConfigs !== undefined;
-		});
-
-		runs(function() {
+		// call method under test
+		s.loadProjects(function(err, loadedConfigs) {
+			expect(err).toEqual(null);
 			expect(loadedConfigs).toEqual(fakeConfigs);
 		});
+
+		// mark XHR call as fullfilled
+		$httpBackend.flush();
 	});
 
 	it("has a method to check whether projects are loaded already.", function () {
-		var loadedConfigs;
-
 		expect(s.areProjectsLoaded()).toBe(false);
 
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err, configs) {
+		s.loadProjects(function(err) {
 			expect(err).toEqual(null);
-			loadedConfigs = configs;
+			expect(s.areProjectsLoaded()).toBe(true);
 		});
 
 		// mark XHR call as fullfilled
 		$httpBackend.flush();
-
-		// wait for configs loaded
-		waitsFor(function () {
-			return loadedConfigs !== undefined;
-		});
-
-		runs(function() {
-			expect(s.areProjectsLoaded()).toBe(true);
-		});
 	});
 
 	it('has a method to check whether a project is loaded already.', function () {
-		var loadedConfigs;
-
 		expect(s.isProjectLoaded('foo')).toBe(false);
 
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err, configs) {
+		s.loadProjects(function(err) {
 			expect(err).toEqual(null);
-			loadedConfigs = configs;
+			expect(s.isProjectLoaded('foo')).toBe(true);
 		});
 
 		// mark XHR call as fullfilled
 		$httpBackend.flush();
-
-		// wait for configs loaded
-		waitsFor(function () {
-			return loadedConfigs !== undefined;
-		});
-
-		runs(function() {
-			expect(s.isProjectLoaded('foo')).toBe(true);
-		});
 	});
 
 	it('can give project config for project name.', function () {
@@ -168,36 +124,17 @@ describe('Service: Sweetp', function () {
 		s.loadProjects(function(err, configs) {
 			expect(err).toEqual(null);
 			loadedConfigs = configs;
+
+			expect(s.getProjectConfig('foo')).not.toBe(null);
+			expect(s.getProjectConfig('foo').dir).toBe('bar');
 		});
 
 		// mark XHR call as fullfilled
 		$httpBackend.flush();
-
-		// wait for configs loaded
-		waitsFor(function () {
-			return loadedConfigs !== undefined;
-		});
-
-		runs(function() {
-			expect(s.getProjectConfig('foo')).not.toBe(null);
-			expect(s.getProjectConfig('foo').dir).toBe('bar');
-		});
 	});
 
 	it("can call a service, but not without project name.", function () {
-		var error, data, status;
-
-		s.callService(null, null, null, function (err, d, s) {
-			error = err;
-			data = d;
-			status = s;
-		});
-
-		waitsFor(function () {
-			return error !== undefined;
-		});
-
-		runs(function () {
+		s.callService(null, null, null, function (error, data, status) {
 			expect(error).toContain("project name");
 			expect(data).toBeUndefined();
 			expect(status).toBeUndefined();
@@ -205,19 +142,7 @@ describe('Service: Sweetp', function () {
 	});
 
 	it("can call a service, but not without path to service.", function () {
-		var error, data, status;
-
-		s.callService('projectName', null, null, function (err, d, s) {
-			error = err;
-			data = d;
-			status = s;
-		});
-
-		waitsFor(function () {
-			return error !== undefined;
-		});
-
-		runs(function () {
+		s.callService('projectName', null, null, function (error, data, status) {
 			expect(error).toContain("path");
 			expect(data).toBeUndefined();
 			expect(status).toBeUndefined();
@@ -225,7 +150,7 @@ describe('Service: Sweetp', function () {
 	});
 
 	it("handles server errors during service call.", function () {
-		var data, status, fakeData;
+		var fakeData;
 
 		fakeData = {
 			target:'/services/projectName/service/path',
@@ -237,28 +162,18 @@ describe('Service: Sweetp', function () {
 			.respond(500, fakeData);
 
 		// call method under test
-		s.callService('projectName', 'service/path', null, function(err, d, s) {
-			data = d;
-			status = s;
-			expect(err).contains("error occured");
+		s.callService('projectName', 'service/path', null, function(error, data, status) {
+			expect(error).contains("error occured");
+			expect(data).toEqual(fakeData);
+			expect(status).toEqual(500);
 		});
 
 		// mark XHR call as fullfilled
 		$httpBackend.flush();
-
-		// wait for configs loaded
-		waitsFor(function () {
-			return data !== undefined;
-		});
-
-		runs(function() {
-			expect(data).toEqual(fakeData);
-			expect(status).toEqual(500);
-		});
 	});
 
 	it("can call a service.", function () {
-		var data, status, fakeData;
+		var fakeData;
 
 		fakeData = {
 			target:'/services/projectName/service/path',
@@ -270,24 +185,14 @@ describe('Service: Sweetp', function () {
 			.respond(200, fakeData);
 
 		// call method under test
-		s.callService('projectName', 'service/path', null, function(err, d, s) {
-			expect(err).toEqual(null);
-			data = d;
-			status = s;
+		s.callService('projectName', 'service/path', null, function(error, data, status) {
+			expect(error).toEqual(null);
+			expect(data).toEqual(fakeData);
+			expect(status).toEqual(200);
 		});
 
 		// mark XHR call as fullfilled
 		$httpBackend.flush();
-
-		// wait for configs loaded
-		waitsFor(function () {
-			return data !== undefined;
-		});
-
-		runs(function() {
-			expect(data).toEqual(fakeData);
-			expect(status).toEqual(200);
-		});
 	});
 });
 

@@ -16,15 +16,15 @@ describe('Service: Observable', function () {
 		sinon.spy(log, 'error');
 
 		s.fireEvent('foo');
-		expect(log.error).toHaveBeenCalledOnce();
+		expect(log.error.calledOnce).toBe(true);
 		log.error.reset();
 
 		s.on('foo', sinon.spy());
-		expect(log.error).toHaveBeenCalledOnce();
+		expect(log.error.calledOnce).toBe(true);
 		log.error.reset();
 
 		s.un('foo', sinon.spy());
-		expect(log.error).toHaveBeenCalledOnce();
+		expect(log.error.calledOnce).toBe(true);
 		log.error.reset();
 
 		log.error.restore();
@@ -43,7 +43,7 @@ describe('Service: Observable', function () {
 		expect(handler.callCount).toBe(0);
 
 		s.fireEvent('foo');
-		expect(handler).toHaveBeenCalledOnce();
+		expect(handler.calledOnce).toBe(true);
 		handler.reset();
 
 		s.un('foo', handler);

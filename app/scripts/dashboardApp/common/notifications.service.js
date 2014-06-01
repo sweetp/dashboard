@@ -76,10 +76,10 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 
 	icons = {};
 	_.forOwn({
-		info:'images/knobInfo.png',
-		success:'images/knobValidGreen.png',
-		warning:'images/knobAttention.png',
-		danger:'images/knobCancel.png'
+		info:'images/modern-ui-icons/appbar.information.svg',
+		success:'images/modern-ui-icons/appbar.check.svg',
+		warning:'images/modern-ui-icons/appbar.lightning.svg',
+		danger:'images/modern-ui-icons/appbar.warning.svg'
 	}, function (value, key) {
 		icons[key] = chrome.runtime.getURL(value);
 	});

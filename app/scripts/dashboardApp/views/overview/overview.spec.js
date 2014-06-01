@@ -29,161 +29,124 @@ describe('Controller: Overview', function () {
 		};
 	}));
 
-	it('can load/reload projects from Sweetp server.', function () {
+	it('can load/reload projects from Sweetp server.', function (done) {
 		var c;
 
-		runs(function () {
-			sinon.stub(sweetpService, 'loadProjects', function (cb) {
-				// scope variables not set yet, test initial values
-				expect($scope.projects.loaded).toBe(false);
-				expect($scope.projects.list).toBe(null);
+		sinon.stub(sweetpService, 'loadProjects', function (cb) {
+			// scope variables not set yet, test initial values
+			expect($scope.projects.loaded).toBe(false);
+			expect($scope.projects.list).toBe(null);
 
-				// call callback to set properties
-				cb(null, [{
-					name:"fooproject"
-				}]);
-			});
+			// call callback to set properties
+			cb(null, [{
+				name:"fooproject"
+			}]);
 
-			c = createController();
-		});
-
-		waitsFor(function () {
-			return $scope.projects.loaded === true;
-		});
-
-		runs(function () {
+			// now projects are loaded
 			expect($scope.projects.list.length).toBe(1);
 
 			// reset
 			sweetpService.loadProjects.restore();
+
+			done();
 		});
+
+		c = createController();
 	});
 
-	it('can handle errors during loading of projects.', function () {
+	it('can handle errors during loading of projects.', function (done) {
 		var c;
 
-		runs(function () {
-			sinon.stub(sweetpService, 'loadProjects', function (cb) {
-				var msg;
+		sinon.stub(sweetpService, 'loadProjects', function (cb) {
+			var msg;
 
-				// scope variables not set yet, test initial values
-				expect($scope.projects.loaded).toBe(false);
-				expect($scope.projects.list).toBe(null);
+			// scope variables not set yet, test initial values
+			expect($scope.projects.loaded).toBe(false);
+			expect($scope.projects.list).toBe(null);
 
-				// call callback with error
-				msg = 'uh oh';
-				expect(function () {
-					cb(msg);
-				}).toThrow(new Error(msg));
-			});
+			// call callback with error
+			msg = 'uh oh';
+			expect(function () {
+				cb(msg);
+			}).toThrow(new Error(msg));
 
-			c = createController();
-		});
-
-		waitsFor(function () {
-			return $scope.projects.loaded === true;
-		});
-
-		runs(function () {
 			expect($scope.projects.list).toBe(null);
 
 			// reset
 			sweetpService.loadProjects.restore();
+
+			done();
 		});
+
+		c = createController();
 	});
 
-	it('reloads projects when app settings saved.', function () {
+	it('reloads projects when app settings saved.', function (done) {
 		var c;
 
-		runs(function () {
-			sinon.stub(sweetpService, 'loadProjects', function (cb) {
-				// call callback to set properties
-				cb(null, [{
-					name:"fooproject"
-				}]);
-			});
+		sinon.stub(sweetpService, 'loadProjects', function (cb) {
+			// call callback to set properties
+			cb(null, [{
+				name:"fooproject"
+			}]);
 
-			c = createController();
-		});
-
-		waitsFor(function () {
-			return $scope.projects.loaded === true;
-		});
-
-		runs(function () {
 			// initial projects loaded
 			expect($scope.projects.list[0].name).toBe("fooproject");
-
-			// change project name
-			sweetpService.loadProjects.restore();
-			sinon.stub(sweetpService, 'loadProjects', function (cb) {
-				cb(null, [{
-					name:"barproject"
-				}, {
-					name:"bazproject"
-				}]);
-			});
-
-			// fire save event
-			appSettingsService.fireEvent('save');
 		});
 
-		waitsFor(function () {
-			return $scope.projects.list &&
-				$scope.projects.list.length > 1;
-		});
+		c = createController();
 
-		runs(function () {
+		// now projects stubbed above are loaded into scope and controller
+		// listens to app settings changes
+
+		sweetpService.loadProjects.restore();
+		sinon.stub(sweetpService, 'loadProjects', function (cb) {
+			// return other projects
+			cb(null, [{
+				name:"barproject"
+			}, {
+				name:"bazproject"
+			}]);
+
 			// new project loaded
 			expect($scope.projects.list[0].name).toBe("barproject");
 
 			sweetpService.loadProjects.restore();
+
+			done();
 		});
+
+		// fire save event
+		appSettingsService.fireEvent('save');
 	});
 
 	it('loads settings on startup.', function () {
 		var c;
 
-		runs(function () {
-			c = createController();
-		});
+		c = createController();
 
-		waitsFor(function () {
-			return $scope.settings;
-		});
-
-		runs(function () {
-			expect($scope.settings.foo).toBe('bar');
-		});
+		expect($scope.settings.foo).toBe('bar');
 	});
 
 	it('save settings when form is valid.', function () {
 		var c;
 
-		runs(function () {
-			c = createController();
-		});
+		c = createController();
 
-		waitsFor(function () {
-			return $scope.settings;
-		});
+		$scope.settingsForm = {
+			$valid: false
+		};
+		sinon.stub(appSettingsService, 'save');
 
-		runs(function () {
-			$scope.settingsForm = {
-				$valid: false
-			};
-			sinon.stub(appSettingsService, 'save');
+		// save method not called when form isn't valid
+		$scope.saveSettings();
+		expect(appSettingsService.save.callCount).toBe(0);
 
-			// save method not called when form isn't valid
-			$scope.saveSettings();
-			expect(appSettingsService.save.callCount).toBe(0);
+		// check happy case
+		$scope.settingsForm.$valid = true;
 
-			// check happy case
-			$scope.settingsForm.$valid = true;
-
-			$scope.saveSettings();
-			expect(appSettingsService.save).toHaveBeenCalledOnce();
-		});
+		$scope.saveSettings();
+		expect(appSettingsService.save.calledOnce).toBe(true);
 	});
 });
 

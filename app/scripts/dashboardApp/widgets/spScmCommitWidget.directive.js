@@ -54,32 +54,9 @@ angular.module('dashboardApp')
 			};
 
 			this.createSuccessNotification = function (data, callback) {
-				var message, icon, problems;
-
-				icon = Notifications.icons.success;
-				problems = [];
-
-				if (data.service.match(/nothing to commit/) ||
-					data.service.match(/nothing added to commit but/)) {
-					problems.push("Nothing to commit.");
-					icon = Notifications.icons.info;
-				}
-
-				if (data.service.match(/untracked files/)) {
-					problems.push("Untracked files.");
-					icon = Notifications.icons.warning;
-				}
-
-				if (problems.length) {
-					message = problems.join(' ');
-				} else {
-					message = "Sucessfull commitet your changes.";
-				}
-
 				Notifications.createBasicNotification({
 					title:'Commit',
-					message:message,
-					iconUrl:icon
+					message:data.service
 				}, callback);
 			};
 
@@ -195,6 +172,10 @@ angular.module('dashboardApp')
 
 				KeyboardShortcutsFromSettings.applyScopeTo($scope, combos);
 				listener.register_many(combos);
+
+				$scope.$on('$destroy', function () {
+					listener.reset();
+				});
 			});
 		},
         templateUrl: 'scripts/dashboardApp/widgets/spScmCommitWidget.template.html'

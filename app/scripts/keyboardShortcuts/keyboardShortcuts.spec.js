@@ -37,11 +37,11 @@ describe('Service: KeyboardShortcuts', function () {
 
 		combos[0].on_keydown();
 		expect(o.foo).toEqual('bar');
-		expect($scope.$apply).toHaveBeenCalledOnce();
+		expect($scope.$apply.calledOnce).toBe(true);
 
 		combos[1].on_keyup();
 		expect(o.foo).toEqual('baz');
-		expect($scope.$apply).toHaveBeenCalledTwice();
+		expect($scope.$apply.calledTwice).toBe(true);
 	});
 
 	it('is able to add combos add configuration time.', inject(function ($window) {
@@ -117,7 +117,7 @@ describe('Service: KeyboardShortcuts', function () {
 				on_keydown:sinon.stub()
 			}
 		});
-		expect($log.error).toHaveBeenCalledOnce();
+		expect($log.error.calledOnce).toBe(true);
 		expect(combos).toEqual([]);
 		$log.error.reset();
 
@@ -126,7 +126,7 @@ describe('Service: KeyboardShortcuts', function () {
 				on_keydown:sinon.stub()
 			}
 		});
-		expect($log.error).toHaveBeenCalledOnce();
+		expect($log.error.calledOnce).toBe(true);
 		expect(combos).toEqual([]);
 		$log.error.reset();
 
@@ -137,7 +137,7 @@ describe('Service: KeyboardShortcuts', function () {
 			},
 			load:loadCombo
 		});
-		expect($log.error).toHaveBeenCalledOnce();
+		expect($log.error.calledOnce).toBe(true);
 		expect(combos.length).toBe(1);
 		expect(combos[0].keys).toEqual('ctrl s');
 		expect(combos[0].on_keydown).toBeDefined();
@@ -156,5 +156,4 @@ describe('Service: KeyboardShortcuts', function () {
 		$log.error.reset();
 	}));
 });
-
 
