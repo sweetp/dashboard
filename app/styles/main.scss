@@ -76,6 +76,13 @@ $white:#fff;
 		@include light-on-dark();
 		padding:3px 0px;
 		margin-bottom:10px;
+		.container-fluid {
+			padding:0px 30px;
+		}
+	}
+
+	.widgets {
+		padding:0px 30px;
 	}
 }
 
