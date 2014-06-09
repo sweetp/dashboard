@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/sweetp/dashboard.png)](https://codeclimate.com/github/sweetp/dashboard)
+
 # Sweetp Dashboard
 
 Chrome app for sweetp.
