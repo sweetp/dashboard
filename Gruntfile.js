@@ -127,9 +127,9 @@ module.exports = function (grunt) {
     },
     zip: {
       dist: {
-		  cwd: '<%= yeoman.dist %>',
-		  src: [ '<%= yeoman.dist %>/**/*' ],
-		  dest: 'sweetp-dashboard.zip'
+      cwd: '<%= yeoman.dist %>',
+      src: [ '<%= yeoman.dist %>/**/*' ],
+      dest: 'sweetp-dashboard.zip'
       }
     },
     jshint: {
