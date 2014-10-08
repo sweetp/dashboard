@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSettings, Sweetp, $log) {
+angular.module('dashboardApp').controller('OverviewCtrl', function ($scope, AppSettings, Sweetp, $log) {
 	var onSettingsSaved;
 
 	// init scope properties
 	$scope.projects = {
-		list:null,
-		loaded:false
+		list: null,
+		loaded: false
 	};
 	$scope.settings = null;
 
@@ -30,11 +30,11 @@ angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSe
 
 	// Settings
 
-    // load saved settings or default values
-    AppSettings.load(function (settings) {
-        $scope.settings = settings;
-        $scope.$apply();
-    });
+	// load saved settings or default values
+	AppSettings.load(function (settings) {
+		$scope.settings = settings;
+		$scope.$apply();
+	});
 
 	// save to local storage
 	$scope.saveSettings = function () {
@@ -42,10 +42,10 @@ angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSe
 			return;
 		}
 
-        $log.info('try to save app settings ...');
-        AppSettings.save($scope.settings, function () {
-            $log.info('... succeeded!');
-        });
+		$log.info('try to save app settings ...');
+		AppSettings.save($scope.settings, function () {
+			$log.info('... succeeded!');
+		});
 	};
 
 	// reload projects when settings change
@@ -58,4 +58,3 @@ angular.module('dashboardApp').controller('OverviewCtrl', function($scope, AppSe
 		AppSettings.un('save', onSettingsSaved);
 	});
 });
-

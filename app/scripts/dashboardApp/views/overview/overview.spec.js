@@ -14,7 +14,7 @@ describe('Controller: Overview', function () {
 		sweetpService = Sweetp;
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
-				foo:'bar'
+				foo: 'bar'
 			});
 		});
 
@@ -39,7 +39,7 @@ describe('Controller: Overview', function () {
 
 			// call callback to set properties
 			cb(null, [{
-				name:"fooproject"
+				name: "fooproject"
 			}]);
 
 			// now projects are loaded
@@ -87,7 +87,7 @@ describe('Controller: Overview', function () {
 		sinon.stub(sweetpService, 'loadProjects', function (cb) {
 			// call callback to set properties
 			cb(null, [{
-				name:"fooproject"
+				name: "fooproject"
 			}]);
 
 			// initial projects loaded
@@ -103,9 +103,9 @@ describe('Controller: Overview', function () {
 		sinon.stub(sweetpService, 'loadProjects', function (cb) {
 			// return other projects
 			cb(null, [{
-				name:"barproject"
-			}, {
-				name:"bazproject"
+				name: "barproject"
+				}, {
+				name: "bazproject"
 			}]);
 
 			// new project loaded
@@ -149,4 +149,3 @@ describe('Controller: Overview', function () {
 		expect(appSettingsService.save.calledOnce).toBe(true);
 	});
 });
-

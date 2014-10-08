@@ -10,14 +10,14 @@ angular.module('dashboardApp')
 			 *    "is_exclusive"  : true
 			 *},
 			 */
-			reload:{
-				"description":"Reload",
-				"keys"          : "ctrl r",
-				"is_exclusive"  : true
+			reload: {
+				"description": "Reload",
+				"keys": "ctrl r",
+				"is_exclusive": true
 			}
 		});
 	})
-    .controller('ProjectMainCtrl', function($scope, $route, $routeParams, Sweetp, KeyboardShortcutsFromSettings, $window) {
+	.controller('ProjectMainCtrl', function ($scope, $route, $routeParams, Sweetp, KeyboardShortcutsFromSettings, $window) {
 		var projectName, widgetCount, counter, reloadWithAppliedScope;
 
 		projectName = $routeParams.name;
@@ -26,7 +26,7 @@ angular.module('dashboardApp')
 
 		// init scope properties
 		$scope.widgets = {
-			loaded:false
+			loaded: false
 		};
 
 		$scope.project = Sweetp.getProjectConfig(projectName);
@@ -61,21 +61,21 @@ angular.module('dashboardApp')
 
 		$scope.openCommitWindow = function () {
 			chrome.app.window.create('windowCommit.html', {
-				id:'commit',
+				id: 'commit',
 				bounds: {
 					width: 400,
 					height: 600
 				}
 			}, function (appWindow) {
-				// reload widgets when window disappear
-				appWindow.onClosed.addListener($scope.reload);
+					// reload widgets when window disappear
+					appWindow.onClosed.addListener($scope.reload);
 
-				// give window access to this project
-				if (!appWindow.contentWindow.sweetpWindowCommunication) {
-					appWindow.contentWindow.sweetpWindowCommunication = {};
-				}
-				appWindow.contentWindow.sweetpWindowCommunication.project = $scope.project;
-			});
+					// give window access to this project
+					if (!appWindow.contentWindow.sweetpWindowCommunication) {
+						appWindow.contentWindow.sweetpWindowCommunication = {};
+					}
+					appWindow.contentWindow.sweetpWindowCommunication.project = $scope.project;
+				});
 		};
 
 		KeyboardShortcutsFromSettings.getConfiguredCombosFromSettings('viewProject', {
@@ -84,15 +84,15 @@ angular.module('dashboardApp')
 			 *    "on_keydown"    : $scope.openCommitWindow
 			 *},
 			 */
-			reload:{
-				"on_keydown"    : $scope.reload
+			reload: {
+				"on_keydown": $scope.reload
 			}
 		}, function (combos) {
-			var listener;
+				var listener;
 
-			listener = KeyboardShortcutsFromSettings.createListener();
+				listener = KeyboardShortcutsFromSettings.createListener();
 
-			KeyboardShortcutsFromSettings.applyScopeTo($scope, combos);
-			listener.register_many(combos);
-		});
-});
+				KeyboardShortcutsFromSettings.applyScopeTo($scope, combos);
+				listener.register_many(combos);
+			});
+	});

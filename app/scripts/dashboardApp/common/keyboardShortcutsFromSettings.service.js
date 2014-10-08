@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('dashboardApp').factory('KeyboardShortcutsFromSettings', function(KeyboardShortcuts, AppSettings) {
+angular.module('dashboardApp').factory('KeyboardShortcutsFromSettings', function (KeyboardShortcuts, AppSettings) {
 	var instance, FromSettings;
 
 	FromSettings = stampit().methods({
-		getConfiguredCombosFromSettings:function (sectionKey, listeners, callback) {
+		getConfiguredCombosFromSettings: function (sectionKey, listeners, callback) {
 			// load settings
 			AppSettings.load(_.bind(function (settings) {
 				// override defaults with shortcuts configs from settings
@@ -20,6 +20,3 @@ angular.module('dashboardApp').factory('KeyboardShortcutsFromSettings', function
 
 	return instance;
 });
-
-
-

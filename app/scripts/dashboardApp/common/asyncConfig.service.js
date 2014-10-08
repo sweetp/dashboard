@@ -6,7 +6,7 @@ angular.module('dashboardApp').factory('AsyncConfig', function (AppSettings) {
 	// Usage:
 	// provide a method called 'updateConfig' to update config by settings.
 	AsyncConfig = stampit({
-		getConfig:function (cb) {
+		getConfig: function (cb) {
 			if (this.config) {
 				return cb(null, this.config);
 			}
@@ -17,7 +17,7 @@ angular.module('dashboardApp').factory('AsyncConfig', function (AppSettings) {
 			}, this));
 		},
 
-		withConfig:function (cb) {
+		withConfig: function (cb) {
 			this.getConfig(_.bind(cb, this));
 		}
 	});
@@ -30,10 +30,8 @@ angular.module('dashboardApp').factory('AsyncConfig', function (AppSettings) {
 	});
 
 	AsyncConfig.state({
-		config:null
+		config: null
 	});
 
 	return AsyncConfig;
 });
-
-

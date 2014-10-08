@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('dashboardApp').factory('Observable', function($log) {
+angular.module('dashboardApp').factory('Observable', function ($log) {
 	return stampit().enclose(function () {
 		var events;
 
 		events = {};
 
 		this.addEvents = function (names) {
-			names.forEach(function(name) {
+			names.forEach(function (name) {
 				events[name] = [];
 			}, this);
 		};
@@ -18,7 +18,7 @@ angular.module('dashboardApp').factory('Observable', function($log) {
 				return;
 			}
 
-			events[name].forEach(function(handler) {
+			events[name].forEach(function (handler) {
 				handler();
 			});
 		};
@@ -52,6 +52,3 @@ angular.module('dashboardApp').factory('Observable', function($log) {
 		};
 	});
 });
-
-
-

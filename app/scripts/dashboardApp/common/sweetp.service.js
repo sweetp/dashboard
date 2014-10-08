@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings, AsyncConfig) {
-    var Sweetp, instance;
+	var Sweetp, instance;
 
 	Sweetp = stampit({
-		updateConfig:function (settings) {
+		updateConfig: function (settings) {
 			this.config = {
-				urls:{
-					projectConfigs:settings.serverUrl + 'configs',
-					services:settings.serverUrl + 'services/'
+				urls: {
+					projectConfigs: settings.serverUrl + 'configs',
+					services: settings.serverUrl + 'services/'
 				}
 			};
 		},
 
-        loadProjects:function (callback) {
+		loadProjects: function (callback) {
 			this.withConfig(function (err, config) {
 				if (err) {
 					return callback(err);
@@ -28,19 +28,19 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings, A
 					})
 				;
 			});
-        },
+		},
 
-		areProjectsLoaded:function () {
+		areProjectsLoaded: function () {
 			return this.projectConfigs !== null;
 		},
 
-		isProjectLoaded:function (name) {
+		isProjectLoaded: function (name) {
 			return this.areProjectsLoaded() &&
 				this.projectConfigs[name] !== null &&
 				this.projectConfigs[name] !== undefined;
 		},
 
-		getProjectConfig:function (name) {
+		getProjectConfig: function (name) {
 			if (!this.isProjectLoaded(name)) {
 				return null;
 			}
@@ -48,7 +48,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings, A
 			return this.projectConfigs[name];
 		},
 
-		callService:function (projectName, path, params, callback) {
+		callService: function (projectName, path, params, callback) {
 			var url, httpConfig;
 
 			if (!projectName) {
@@ -68,7 +68,7 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings, A
 
 				url = config.urls.services + projectName + '/' + path;
 				httpConfig = {
-					params:params
+					params: params
 				};
 
 				$http.get(url, httpConfig)
@@ -81,14 +81,13 @@ angular.module('dashboardApp').factory('Sweetp', function ($http, AppSettings, A
 				;
 			}, this));
 		}
-    });
+	});
 
 	Sweetp.state({
-		projectConfigs:null
+		projectConfigs: null
 	});
 
 	instance = stampit.compose(AsyncConfig, Sweetp).create();
 
 	return instance;
 });
-

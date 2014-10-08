@@ -15,11 +15,11 @@ angular.module('dashboardApp', ['ngRoute', 'keyboardShortcuts'])
 				redirectTo: '/overview'
 			});
 	})
-    .provider('$exceptionHandler', {
-        $get:function ($log) {
-            return function(exception, cause) {
-                $log.error(exception, cause);
-            };
-        }
-    })
+	.provider('$exceptionHandler', {
+		$get: function ($log) {
+			return function (exception, cause) {
+				$log.error(exception, cause);
+			};
+		}
+	})
 ;

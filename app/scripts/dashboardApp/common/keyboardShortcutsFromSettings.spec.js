@@ -9,18 +9,18 @@ describe('Service: KeyboardShortcutsFromSettings', function () {
 	beforeEach(inject(function ($injector, AppSettings) {
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
-				keyboardShortcuts:{
-					mySection:{
-						save:{
-							keys:'s'
+				keyboardShortcuts: {
+					mySection: {
+						save: {
+							keys: 's'
 						},
-						load:{
-							keys:'l'
+						load: {
+							keys: 'l'
 						}
 					},
-					otherSection:{
-						quit:{
-							keys:'q'
+					otherSection: {
+						quit: {
+							keys: 'q'
 						}
 					}
 				}
@@ -30,7 +30,7 @@ describe('Service: KeyboardShortcutsFromSettings', function () {
 		s = $injector.get('KeyboardShortcutsFromSettings');
 	}));
 
-	afterEach(inject(function(AppSettings) {
+	afterEach(inject(function (AppSettings) {
 		// remove mocked api
 		AppSettings.load.restore();
 	}));
@@ -40,38 +40,36 @@ describe('Service: KeyboardShortcutsFromSettings', function () {
 
 		// create test combos
 		saveCombo = {
-			keys:'ctrl s',
-			is_sequence:true
+			keys: 'ctrl s',
+			is_sequence: true
 		};
 
 		quitCombo = {
-			is_exclusive:true
+			is_exclusive: true
 		};
 
 		// override config from directives
 		s.configuredCombos = {
-			mySection:{
-				save:saveCombo,
-				quit:quitCombo
+			mySection: {
+				save: saveCombo,
+				quit: quitCombo
 			}
 		};
 
 		// existing section with only configured listeners
 		s.getConfiguredCombosFromSettings('mySection', {
-			save:{
-				on_keyup:sinon.stub()
+			save: {
+				on_keyup: sinon.stub()
 			}
 		}, function (c) {
-			combos = c;
-			// it only contains 'save' not 'quit'
-			expect(combos.length).toBe(1);
-			expect(combos[0].keys).toEqual('s');
-			expect(combos[0].on_keyup).toBeDefined();
-			// it persists properties which are not defined by settings
-			expect(combos[0].is_sequence).toBeTruthy();
-		});
+				combos = c;
+				// it only contains 'save' not 'quit'
+				expect(combos.length).toBe(1);
+				expect(combos[0].keys).toEqual('s');
+				expect(combos[0].on_keyup).toBeDefined();
+				// it persists properties which are not defined by settings
+				expect(combos[0].is_sequence).toBeTruthy();
+			});
 	});
 
 });
-
-

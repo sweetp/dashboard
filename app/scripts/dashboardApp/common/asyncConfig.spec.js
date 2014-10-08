@@ -11,22 +11,22 @@ describe('Service: AsyncConfig', function () {
 		appSettingsService = AppSettings;
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
-				foo:'bar'
+				foo: 'bar'
 			});
 		});
 
 		AsyncConfig = $injector.get('AsyncConfig');
 		MyClass = stampit().methods({
-			updateConfig:function (settings) {
+			updateConfig: function (settings) {
 				this.config = {
-					bar:settings.foo
+					bar: settings.foo
 				};
 			}
 		});
 		s = stampit.compose(AsyncConfig, MyClass).create();
 	}));
 
-	afterEach(inject(function(AppSettings) {
+	afterEach(inject(function (AppSettings) {
 		s.config = null;
 		AppSettings.load.restore();
 	}));
@@ -40,7 +40,7 @@ describe('Service: AsyncConfig', function () {
 
 		s.getConfig(function () {
 			expect(s.config).toEqual({
-				bar:'bar'
+				bar: 'bar'
 			});
 		});
 	});
@@ -50,11 +50,11 @@ describe('Service: AsyncConfig', function () {
 
 		// init by hand
 		s.updateConfig({
-			foo:'baz'
+			foo: 'baz'
 		});
 
 		expect(s.config).toEqual({
-			bar:'baz'
+			bar: 'baz'
 		});
 
 		appSettingsService.fireEvent('save');
@@ -63,4 +63,3 @@ describe('Service: AsyncConfig', function () {
 	});
 
 });
-

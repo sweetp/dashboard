@@ -9,7 +9,7 @@ describe('Service: Observable', function () {
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function (Observable, $log) {
 		log = $log;
-        s = Observable.create();
+		s = Observable.create();
 	}));
 
 	it("fails when methods invoked and event not exists.", function () {
@@ -53,6 +53,3 @@ describe('Service: Observable', function () {
 	});
 
 });
-
-
-

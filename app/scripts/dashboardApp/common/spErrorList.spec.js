@@ -20,5 +20,3 @@ describe('Directive: spErrorList', function () {
 		expect(el).toContainText('content');
 	});
 });
-
-

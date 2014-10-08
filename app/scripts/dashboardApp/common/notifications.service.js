@@ -4,9 +4,9 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 	var Notifications, instance, icons;
 
 	Notifications = stampit({
-		updateConfig:function (settings) {
+		updateConfig: function (settings) {
 			this.config = {
-				standardDismissDelay:settings.standardNotificationDismissDelay
+				standardDismissDelay: settings.standardNotificationDismissDelay
 			};
 		},
 
@@ -25,7 +25,7 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 		 * @param {Object} cb.err
 		 * @param {String} cb.id of the created notification
 		 */
-		createBasicNotification:function (optionsParam, cb) {
+		createBasicNotification: function (optionsParam, cb) {
 			this.withConfig(function (err, config) {
 				var options, dismissDelay;
 				if (err) {
@@ -55,15 +55,15 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 					if (dismissDelay > 0) {
 						// register dismiss handler
 						chrome.runtime.sendMessage({
-							name:'notification-dismiss',
-							delay:dismissDelay,
-							notificationId:id
+							name: 'notification-dismiss',
+							delay: dismissDelay,
+							notificationId: id
 						}, function () {
-							// call callbacke when handler was registered
-							if (cb) {
-								cb(null, id);
-							}
-						});
+								// call callbacke when handler was registered
+								if (cb) {
+									cb(null, id);
+								}
+							});
 					} else if (cb) {
 						// just call callback when it was provided now, after
 						// notification was created
@@ -72,20 +72,20 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 				});
 			});
 		}
-    });
+	});
 
 	icons = {};
 	_.forOwn({
-		info:'images/modern-ui-icons/appbar.information.svg',
-		success:'images/modern-ui-icons/appbar.check.svg',
-		warning:'images/modern-ui-icons/appbar.lightning.svg',
-		danger:'images/modern-ui-icons/appbar.warning.svg'
+		info: 'images/modern-ui-icons/appbar.information.svg',
+		success: 'images/modern-ui-icons/appbar.check.svg',
+		warning: 'images/modern-ui-icons/appbar.lightning.svg',
+		danger: 'images/modern-ui-icons/appbar.warning.svg'
 	}, function (value, key) {
-		icons[key] = chrome.runtime.getURL(value);
-	});
+			icons[key] = chrome.runtime.getURL(value);
+		});
 
 	Notifications.state({
-		icons:icons
+		icons: icons
 	});
 
 	// ensure unique id for notifications
@@ -103,5 +103,3 @@ angular.module('dashboardApp').factory('Notifications', function (AsyncConfig, $
 
 	return instance;
 });
-
-

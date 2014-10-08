@@ -11,19 +11,19 @@ describe('Service: AppSettings', function () {
 
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function (AppSettings) {
-        s = AppSettings;
+		s = AppSettings;
 
 		// mock chrome storage API
 		(function () {
 			/* jshint -W020 */
 			chrome = {
-				runtime:{
-					lastError:null
+				runtime: {
+					lastError: null
 				},
-				storage:{
-					local:{
-						store:{},
-						get:function (key, cb) {
+				storage: {
+					local: {
+						store: {},
+						get: function (key, cb) {
 							var data;
 
 							data = {};
@@ -32,7 +32,7 @@ describe('Service: AppSettings', function () {
 							}
 							cb(data);
 						},
-						set:function (store, cb) {
+						set: function (store, cb) {
 							this.store = store;
 							cb();
 						}
@@ -43,7 +43,7 @@ describe('Service: AppSettings', function () {
 
 	}));
 
-	afterEach(function() {
+	afterEach(function () {
 		// remove mocked api
 		(function () {
 			/* jshint -W020 */
@@ -54,34 +54,33 @@ describe('Service: AppSettings', function () {
 	it('loads saved or default settings.', function (done) {
 		var saveSpy;
 
-        // loads default
-        s.load(function (loadedData) {
-            expect(loadedData).toEqual({
-                serverUrl:"http://localhost:7777/",
-				standardNotificationDismissDelay:3000,
-				keyboardShortcuts:{}
-            });
+		// loads default
+		s.load(function (loadedData) {
+			expect(loadedData).toEqual({
+				serverUrl: "http://localhost:7777/",
+				standardNotificationDismissDelay: 3000,
+				keyboardShortcuts: {}
+			});
 
-            // save something
+			// save something
 			saveSpy = sinon.spy();
-            s.save({
-                serverUrl:"foo"
-            }, saveSpy);
+			s.save({
+				serverUrl: "foo"
+			}, saveSpy);
 
-            // callback of 'save' call was called
-            expect(saveSpy.calledOnce).toBe(true);
+			// callback of 'save' call was called
+			expect(saveSpy.calledOnce).toBe(true);
 
-            // loads changed settings
-            s.load(function (loadedData) {
+			// loads changed settings
+			s.load(function (loadedData) {
 				expect(loadedData).toEqual({
-					serverUrl:"foo",
-					standardNotificationDismissDelay:3000,
-					keyboardShortcuts:{}
+					serverUrl: "foo",
+					standardNotificationDismissDelay: 3000,
+					keyboardShortcuts: {}
 				});
 
 				done();
-            });
-        });
+			});
+		});
 	});
 });
-

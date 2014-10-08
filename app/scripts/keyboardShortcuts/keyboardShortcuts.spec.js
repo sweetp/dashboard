@@ -9,28 +9,28 @@ describe('Service: KeyboardShortcuts', function () {
 	}));
 
 	beforeEach(inject(function (KeyboardShortcuts) {
-        s = KeyboardShortcuts.create();
+		s = KeyboardShortcuts.create();
 	}));
 
 	it('can apply scope after event listener was called.', function () {
 		var combos, o, $scope;
 
 		o = {
-			foo:null
+			foo: null
 		};
 
 		combos = [{
-			on_keydown:function () {
+			on_keydown: function () {
 				o.foo = 'bar';
 			}
-		}, {
-			on_keyup:function () {
+			}, {
+			on_keyup: function () {
 				o.foo = 'baz';
 			}
 		}];
 
 		$scope = {
-			$apply:sinon.stub()
+			$apply: sinon.stub()
 		};
 
 		s.applyScopeTo($scope, combos);
@@ -49,19 +49,19 @@ describe('Service: KeyboardShortcuts', function () {
 
 		// create test combos
 		saveCombo = {
-			keys:"ctrl s",
-			is_sequence:true
+			keys: "ctrl s",
+			is_sequence: true
 		};
 
 		quitCombo = {
-			keys:"ctrl q",
-			is_exclusive:true
+			keys: "ctrl q",
+			is_exclusive: true
 		};
 
 		// add combos to provider at configuration time
 		p.addCombos('mySection', 'description', {
-			save:_.clone(saveCombo),
-			quit:_.clone(quitCombo)
+			save: _.clone(saveCombo),
+			quit: _.clone(quitCombo)
 		});
 
 		// instantiate service by provider
@@ -77,29 +77,29 @@ describe('Service: KeyboardShortcuts', function () {
 
 		// stub log
 		$log = {
-			error:sinon.stub()
+			error: sinon.stub()
 		};
 
 		// create test combos
 		saveCombo = {
-			keys:"ctrl s",
-			is_sequence:true
+			keys: "ctrl s",
+			is_sequence: true
 		};
 
 		quitCombo = {
-			keys:"ctrl q",
-			is_exclusive:true
+			keys: "ctrl q",
+			is_exclusive: true
 		};
 
 		loadCombo = {
-			keys:'ctrl l',
-			on_keydown:sinon.stub()
+			keys: 'ctrl l',
+			on_keydown: sinon.stub()
 		};
 
 		// add combos to provider at configuration time
 		p.addCombos('mySection', 'description', {
-			save:saveCombo,
-			quit:quitCombo
+			save: saveCombo,
+			quit: quitCombo
 		});
 
 		// instantiate service by provider
@@ -113,8 +113,8 @@ describe('Service: KeyboardShortcuts', function () {
 
 		// not existing section logs error
 		combos = s.getConfiguredCombos(null, {
-			save:{
-				on_keydown:sinon.stub()
+			save: {
+				on_keydown: sinon.stub()
 			}
 		});
 		expect($log.error.calledOnce).toBe(true);
@@ -122,8 +122,8 @@ describe('Service: KeyboardShortcuts', function () {
 		$log.error.reset();
 
 		combos = s.getConfiguredCombos('string but still not existing', {
-			save:{
-				on_keydown:sinon.stub()
+			save: {
+				on_keydown: sinon.stub()
 			}
 		});
 		expect($log.error.calledOnce).toBe(true);
@@ -132,10 +132,10 @@ describe('Service: KeyboardShortcuts', function () {
 
 		// existing section with some configured and some not configured listeners
 		combos = s.getConfiguredCombos('mySection', {
-			save:{
-				on_keydown:sinon.stub()
+			save: {
+				on_keydown: sinon.stub()
 			},
-			load:loadCombo
+			load: loadCombo
 		});
 		expect($log.error.calledOnce).toBe(true);
 		expect(combos.length).toBe(1);
@@ -145,8 +145,8 @@ describe('Service: KeyboardShortcuts', function () {
 
 		// existing section with only configured listeners
 		combos = s.getConfiguredCombos('mySection', {
-			save:{
-				on_keyup:sinon.stub()
+			save: {
+				on_keyup: sinon.stub()
 			}
 		});
 		expect($log.error.callCount).toEqual(0);
@@ -156,4 +156,3 @@ describe('Service: KeyboardShortcuts', function () {
 		$log.error.reset();
 	}));
 });
-

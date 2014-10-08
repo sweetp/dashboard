@@ -29,7 +29,7 @@ describe('Controller: ProjectMain', function () {
 
 		sinon.stub(sweetpService, 'isProjectLoaded').returns(true);
 		sinon.stub(sweetpService, 'getProjectConfig').returns({
-			name:'foo'
+			name: 'foo'
 		});
 
 		keys.getConfiguredCombosFromSettings = sinon.stub();
@@ -55,4 +55,3 @@ describe('Controller: ProjectMain', function () {
 		createController();
 	});
 });
-

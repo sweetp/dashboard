@@ -15,13 +15,13 @@ describe('Service: Notifications', function () {
 		(function () {
 			/* jshint -W020 */
 			chrome = {
-				runtime:{
-					getURL:function (value) {
+				runtime: {
+					getURL: function (value) {
 						return value;
 					}
 				},
-				notifications:{
-					create:function () {}
+				notifications: {
+					create: function () {}
 				}
 			};
 		})();
@@ -29,14 +29,14 @@ describe('Service: Notifications', function () {
 		appSettingsService = AppSettings;
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
-				standardNotificationDismissDelay:1234
+				standardNotificationDismissDelay: 1234
 			});
 		});
 
 		s = $injector.get('Notifications');
 	}));
 
-	afterEach(inject(function(AppSettings) {
+	afterEach(inject(function (AppSettings) {
 		// remove mocked api
 		(function () {
 			/* jshint -W020 */
@@ -54,7 +54,7 @@ describe('Service: Notifications', function () {
 
 		s.withConfig(function () {
 			expect(s.config).toEqual({
-				standardDismissDelay:1234
+				standardDismissDelay: 1234
 			});
 		});
 	});
@@ -70,49 +70,47 @@ describe('Service: Notifications', function () {
 
 		// test without icon
 		s.createBasicNotification({
-			title:'my title',
-			message:'message text',
-			dismissDelay:-1
+			title: 'my title',
+			message: 'message text',
+			dismissDelay: -1
 		}, function (err, id) {
-			expect(args[0]).toEqual('0');
-			expect(args[1]).toEqual({
-				title:'my title',
-				message:'message text',
-				// icon url is set, this is required for chrome
-				iconUrl:s.icons.info,
-				// html5 notification, not chrome rich notification (isn't
-				// supported under Linux *shakes fists*)
-				type:'basic'
-				// dismiss delay gots removed because it is not a chrome option
-			});
+				expect(args[0]).toEqual('0');
+				expect(args[1]).toEqual({
+					title: 'my title',
+					message: 'message text',
+					// icon url is set, this is required for chrome
+					iconUrl: s.icons.info,
+					// html5 notification, not chrome rich notification (isn't
+					// supported under Linux *shakes fists*)
+					type: 'basic'
+					// dismiss delay gots removed because it is not a chrome option
+				});
 
-			// id of create arg should be the same as id passed to callback
-			expect(id).toEqual(args[0]);
-		});
+				// id of create arg should be the same as id passed to callback
+				expect(id).toEqual(args[0]);
+			});
 
 		// test with standard icon
 		s.createBasicNotification({
-			title:'my title',
-			message:'message text',
-			dismissDelay:-1,
-			iconUrl:s.icons.danger
+			title: 'my title',
+			message: 'message text',
+			dismissDelay: -1,
+			iconUrl: s.icons.danger
 		}, function () {
-			expect(args[0]).toEqual('1');
-			expect(args[1].iconUrl).toEqual(s.icons.danger);
-		});
+				expect(args[0]).toEqual('1');
+				expect(args[1].iconUrl).toEqual(s.icons.danger);
+			});
 
 		// test with custom icon
 		s.createBasicNotification({
-			title:'my title',
-			message:'message text',
-			dismissDelay:-1,
-			iconUrl:'foo/bar'
+			title: 'my title',
+			message: 'message text',
+			dismissDelay: -1,
+			iconUrl: 'foo/bar'
 		}, function () {
-			expect(args[0]).toEqual('2');
-			expect(args[1].iconUrl).toEqual('foo/bar');
-		});
+				expect(args[0]).toEqual('2');
+				expect(args[1].iconUrl).toEqual('foo/bar');
+			});
 	});
 
 });
-
-

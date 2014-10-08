@@ -12,7 +12,7 @@ describe('Service: Sweetp', function () {
 		appSettingsService = AppSettings;
 		sinon.stub(AppSettings, 'load', function (cb) {
 			cb({
-				serverUrl:"http://localhost/"
+				serverUrl: "http://localhost/"
 			});
 		});
 
@@ -21,15 +21,15 @@ describe('Service: Sweetp', function () {
 
 		// setup fake backend to respond with example configs
 		fakeConfigs = {
-			foo:{
-				name:'foo',
-				dir:'bar'
+			foo: {
+				name: 'foo',
+				dir: 'bar'
 			}
 		};
 		$httpBackend.when('GET', 'http://localhost/configs').respond(fakeConfigs, {});
 	}));
 
-	afterEach(inject(function(AppSettings) {
+	afterEach(inject(function (AppSettings) {
 		s.config = null;
 		AppSettings.load.restore();
 		$httpBackend.verifyNoOutstandingExpectation();
@@ -44,14 +44,14 @@ describe('Service: Sweetp', function () {
 		expect(s.config).toEqual(null);
 
 		s.updateConfig({
-			serverUrl:'foo/',
-			bar:'fooooo'
+			serverUrl: 'foo/',
+			bar: 'fooooo'
 		});
 
 		expect(s.config).toEqual({
-			urls:{
-				projectConfigs:'foo/configs',
-				services:'foo/services/'
+			urls: {
+				projectConfigs: 'foo/configs',
+				services: 'foo/services/'
 			}
 		});
 	});
@@ -60,7 +60,7 @@ describe('Service: Sweetp', function () {
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err, loadedConfigs) {
+		s.loadProjects(function (err, loadedConfigs) {
 			expect(err).toEqual(null);
 			expect(loadedConfigs).toEqual(fakeConfigs);
 		});
@@ -74,7 +74,7 @@ describe('Service: Sweetp', function () {
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err, loadedConfigs) {
+		s.loadProjects(function (err, loadedConfigs) {
 			expect(err).toEqual(null);
 			expect(loadedConfigs).toEqual(fakeConfigs);
 		});
@@ -89,7 +89,7 @@ describe('Service: Sweetp', function () {
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err) {
+		s.loadProjects(function (err) {
 			expect(err).toEqual(null);
 			expect(s.areProjectsLoaded()).toBe(true);
 		});
@@ -104,7 +104,7 @@ describe('Service: Sweetp', function () {
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err) {
+		s.loadProjects(function (err) {
 			expect(err).toEqual(null);
 			expect(s.isProjectLoaded('foo')).toBe(true);
 		});
@@ -121,7 +121,7 @@ describe('Service: Sweetp', function () {
 		$httpBackend.expectGET('http://localhost/configs');
 
 		// call method under test
-		s.loadProjects(function(err, configs) {
+		s.loadProjects(function (err, configs) {
 			expect(err).toEqual(null);
 			loadedConfigs = configs;
 
@@ -153,7 +153,7 @@ describe('Service: Sweetp', function () {
 		var fakeData;
 
 		fakeData = {
-			target:'/services/projectName/service/path',
+			target: '/services/projectName/service/path',
 			query: null,
 			service: 'error message from service'
 		};
@@ -162,7 +162,7 @@ describe('Service: Sweetp', function () {
 			.respond(500, fakeData);
 
 		// call method under test
-		s.callService('projectName', 'service/path', null, function(error, data, status) {
+		s.callService('projectName', 'service/path', null, function (error, data, status) {
 			expect(error).contains("error occured");
 			expect(data).toEqual(fakeData);
 			expect(status).toEqual(500);
@@ -176,7 +176,7 @@ describe('Service: Sweetp', function () {
 		var fakeData;
 
 		fakeData = {
-			target:'/services/projectName/service/path',
+			target: '/services/projectName/service/path',
 			query: null,
 			service: 'output'
 		};
@@ -185,7 +185,7 @@ describe('Service: Sweetp', function () {
 			.respond(200, fakeData);
 
 		// call method under test
-		s.callService('projectName', 'service/path', null, function(error, data, status) {
+		s.callService('projectName', 'service/path', null, function (error, data, status) {
 			expect(error).toEqual(null);
 			expect(data).toEqual(fakeData);
 			expect(status).toEqual(200);
@@ -195,4 +195,3 @@ describe('Service: Sweetp', function () {
 		$httpBackend.flush();
 	});
 });
-

@@ -23,22 +23,22 @@ angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function (
 		_.assign(providedCombosConfig[key], map);
 	};
 
-	this.$get = function($window, $log) {
+	this.$get = function ($window, $log) {
 		var KeyboardShortcuts, lib;
 
 		lib = $window.keypress;
 
 		KeyboardShortcuts = stampit().state({
-			lib:lib,
-			configuredCombos:providedCombosConfig,
-			sectionDescriptions:sectionDescriptions
+			lib: lib,
+			configuredCombos: providedCombosConfig,
+			sectionDescriptions: sectionDescriptions
 		});
 
 		KeyboardShortcuts.methods({
-			createListener:function () {
+			createListener: function () {
 				return new lib.Listener();
 			},
-			getConfiguredCombos:function (sectionKey, listener) {
+			getConfiguredCombos: function (sectionKey, listener) {
 				return _(listener)
 					.map(function (configOverride, key) {
 						var config;
@@ -54,10 +54,10 @@ angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function (
 					}, this)
 					.compact()
 					.value()
-					;
+				;
 			},
-			applyScopeTo:function (scope, combos) {
-				combos.forEach(function(combo) {
+			applyScopeTo: function (scope, combos) {
+				combos.forEach(function (combo) {
 					var onKeyDown, onKeyUp;
 
 					if (combo.on_keydown) {
@@ -83,4 +83,3 @@ angular.module('keyboardShortcuts', []).provider('KeyboardShortcuts', function (
 		return KeyboardShortcuts;
 	};
 });
-

@@ -10,19 +10,19 @@ describe('Directive: spKeyboardShortcutsSettings', function () {
 
 		// create test combos
 		saveCombo = {
-			keys:"ctrl s",
-			is_sequence:true
+			keys: "ctrl s",
+			is_sequence: true
 		};
 
 		quitCombo = {
-			keys:"ctrl q",
-			is_exclusive:true
+			keys: "ctrl q",
+			is_exclusive: true
 		};
 
 		// add combos to provider at configuration time
 		p.addCombos('mySection', 'description', {
-			save:_.clone(saveCombo),
-			quit:_.clone(quitCombo)
+			save: _.clone(saveCombo),
+			quit: _.clone(quitCombo)
 		});
 	}));
 
@@ -34,8 +34,8 @@ describe('Directive: spKeyboardShortcutsSettings', function () {
 		scope = $rootScope;
 		scope.foo = {
 			mySection: {
-				load:{
-					keys:'l'
+				load: {
+					keys: 'l'
 				}
 			}
 		};
@@ -50,25 +50,24 @@ describe('Directive: spKeyboardShortcutsSettings', function () {
 	});
 
 	it('should apply configured combo settings as defaults to provided settings.', function () {
-			expect(directiveScope.settings.mySection.save.keys).toBe('ctrl s');
-			expect(directiveScope.settings.mySection.quit.keys).toBe('ctrl q');
-			expect(directiveScope.settings.mySection.load.keys).toBe('l');
+		expect(directiveScope.settings.mySection.save.keys).toBe('ctrl s');
+		expect(directiveScope.settings.mySection.quit.keys).toBe('ctrl q');
+		expect(directiveScope.settings.mySection.load.keys).toBe('l');
 
-			// change provided settings, e.g. user changed this
-			scope.foo.mySection.save.keys = 's';
-			scope.$digest();
+		// change provided settings, e.g. user changed this
+		scope.foo.mySection.save.keys = 's';
+		scope.$digest();
 
-			expect(directiveScope.settings.mySection.save.keys).toBe('s');
-			expect(directiveScope.settings.mySection.load.keys).toBe('l');
-			expect(directiveScope.settings.mySection.quit.keys).toBe('ctrl q');
+		expect(directiveScope.settings.mySection.save.keys).toBe('s');
+		expect(directiveScope.settings.mySection.load.keys).toBe('l');
+		expect(directiveScope.settings.mySection.quit.keys).toBe('ctrl q');
 
-			// delete a setting
-			delete scope.foo.mySection.load;
-			scope.$digest();
+		// delete a setting
+		delete scope.foo.mySection.load;
+		scope.$digest();
 
-			expect(directiveScope.settings.mySection.save.keys).toBe('s');
-			expect(directiveScope.settings.mySection.load).toBeUndefined();
-			expect(directiveScope.settings.mySection.quit.keys).toBe('ctrl q');
+		expect(directiveScope.settings.mySection.save.keys).toBe('s');
+		expect(directiveScope.settings.mySection.load).toBeUndefined();
+		expect(directiveScope.settings.mySection.quit.keys).toBe('ctrl q');
 	});
 });
-
